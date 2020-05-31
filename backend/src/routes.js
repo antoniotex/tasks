@@ -15,6 +15,7 @@ routes.post('/register', AuthController.register)
 routes.post('/authenticate', AuthController.authenticate)
 
 routes.get('/posters', PosterController.index)
+routes.get('/posters/search', PosterController.search)
 routes.get('/posters/:id', PosterController.indexById)
 routes.post('/:user_id/posters', authMiddleware, PosterController.store)
 routes.put('/posters/:id', authMiddleware, PosterController.update)

@@ -1,3 +1,4 @@
+const { Op, QueryTypes } = require('sequelize')
 const Poster = require('../models/Poster')
 const User = require('../models/User')
 
@@ -9,6 +10,31 @@ module.exports = {
         } catch (error) {
             return res.status(400).json({ success: false })
         }
+    },
+
+    async search(req, res) {
+        const { query } = req.body
+
+        const arrQuery = []
+
+        for (let i = 0; i < query.split(' ').length; i++) {
+            arrQuery.push(
+                {
+                    [Op.or]: [
+                        { title: { [Op.substring]: query.split(' ')[i] } },
+                        { description: { [Op.substring]: query.split(' ')[i] } }
+                    ]
+                }
+            )
+        }
+
+        const poster = await Poster.findAll({
+            where: {
+                [Op.and]: arrQuery
+            }
+        })
+
+        return res.json(poster)
     },
 
     async indexById(req, res) {
