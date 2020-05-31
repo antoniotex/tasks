@@ -4,7 +4,8 @@ module.exports = {
     async update(req, res) {
         const { user_id } = req.params
         try {
-            await User.findByPk(user_id).then(u => { u.update(req.body) })
+            await User.findByPk(user_id)
+                .then(u => { u.update(req.body) })
 
             return res.json({ success: true })
         } catch (error) {
