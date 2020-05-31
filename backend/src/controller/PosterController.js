@@ -1,11 +1,15 @@
 const { Op, QueryTypes } = require('sequelize')
 const Poster = require('../models/Poster')
 const User = require('../models/User')
+const Image = require('../models/Image')
+const stream = require('stream')
 
 module.exports = {
     async index(req, res) {
         try {
-            const posters = await Poster.findAll()
+            const posters = await Poster.findAll({
+                include: { association: 'images' }
+            })
             return res.json(posters)
         } catch (error) {
             return res.status(400).json({ success: false })
@@ -31,7 +35,8 @@ module.exports = {
         const poster = await Poster.findAll({
             where: {
                 [Op.and]: arrQuery
-            }
+            },
+            include: { association: 'images' }
         })
 
         return res.json(poster)
@@ -40,7 +45,9 @@ module.exports = {
     async indexById(req, res) {
         const { id } = req.params
         try {
-            const poster = await Poster.findByPk(id)
+            const poster = await Poster.findByPk(id, {
+                include: { association: 'images' }
+            })
 
             if (!poster) return res.status(400).json({ error: 'Anúncio não encontrado' })
 
@@ -59,7 +66,15 @@ module.exports = {
 
             const poster = await Poster.create({ ...req.body, user_id })
 
-            return res.json(poster)
+            const images = await req.files.map(image => {
+                return {
+                    location: image.location,
+                    poster_id: poster.id
+                }
+            });
+            const teste = await Image.bulkCreate(images)
+
+            return res.json({ ...poster, teste })
         } catch (error) {
             return res.status(400).json({ success: false })
         }

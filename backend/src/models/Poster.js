@@ -19,6 +19,7 @@ class Poster extends Model {
 
     static associate(models) {
         this.belongsTo(models.User, { foreignKey: 'user_id', as: 'user' })
+        this.hasMany(models.Image, { foreignKey: 'poster_id', as: 'images' })
     }
 }
 
