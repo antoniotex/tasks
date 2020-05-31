@@ -72,9 +72,12 @@ module.exports = {
                     poster_id: poster.id
                 }
             });
-            const teste = await Image.bulkCreate(images)
 
-            return res.json({ ...poster, teste })
+            if (images.length > 0) {
+                await Image.bulkCreate(images)
+            }
+
+            return res.json(poster)
         } catch (error) {
             return res.status(400).json({ success: false })
         }
