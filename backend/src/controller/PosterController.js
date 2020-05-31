@@ -54,7 +54,7 @@ module.exports = {
         }
     },
 
-    async update(req, res) {
+    async delete(req, res) {
         const { id } = req.params
         try {
             const poster = await Poster.findByPk(id)
