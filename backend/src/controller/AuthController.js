@@ -4,7 +4,6 @@ const authConfig = require('../config/auth.json')
 const bcrypt = require('bcryptjs')
 
 async function gerarToken(params = {}) {
-    console.log('Params: ', typeof params.id)
     return jwt.sign(params, authConfig.secret, {
         expiresIn: 86400
     })

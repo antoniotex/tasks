@@ -5,8 +5,8 @@ const AuthController = require('./controller/AuthController')
 
 const routes = express.Router()
 
-routes.get('/users', UserController.index)
-routes.post('/users', UserController.store)
+routes.put('/users/:user_id', UserController.update)
+routes.delete('/users/:user_id', UserController.delete)
 
 routes.post('/register', AuthController.register)
 routes.post('/authenticate', AuthController.authenticate)

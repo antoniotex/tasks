@@ -1,23 +1,29 @@
 const User = require('../models/User')
 
 module.exports = {
-    async index(req, res) {
-        const users = await User.findAll()
-        return res.json(users)
+    async update(req, res) {
+        const { user_id } = req.params
+        try {
+            await User.findByPk(user_id).then(u => { u.update(req.body) })
+
+            return res.json({ success: true })
+        } catch (error) {
+            return res.status(400).json({ success: false })
+        }
     },
 
-    async store(req, res) {
-        const { name, username, email, password, cellphone, phone } = req.body
+    async delete(req, res) {
+        const { user_id } = req.params
 
-        const user = await User.create({
-            name,
-            username,
-            email,
-            password,
-            cellphone,
-            phone
-        })
+        try {
+            await User.findByPk(user_id)
 
-        return res.json(user)
+            user.destroy()
+
+            return res.json({ success: true })
+        } catch (error) {
+            return res.status(400).json({ success: false })
+        }
+
     }
 }
