@@ -7,16 +7,13 @@ module.exports = {
     dialectModulePath: "tedious",
     dialectOptions: {
         driver: "SQL Server Native Client 11.0",
-        trustedConnection: false,
-        trustServerCertificate: false
+        trustedConnection: true
     },
     host: "localhost",
     port: 1433,
     logging: false,
     options: {
-        encrypt: true,
-        trustedConnection: false,
-        trustServerCertificate: false
+        encrypt: true
     },
     define: {
         timestamps: true,
