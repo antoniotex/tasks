@@ -3,11 +3,12 @@ const aws = require('aws-sdk')
 const multer = require('multer')
 const multers3 = require('multer-s3')
 const path = require('path')
+require('dotenv/config')
 
 aws.config.update({
-  secretAccessKey: '4Dc6DMxxze00G1RZQrGrlGaJ25JzHU2PIayKUy43',
-  accessKeyId: 'AKIAJWTB3TW6E6WASFEA',
-  region: 'us-east-2'
+  secretAccessKey: process.env.AWS_SECRET_KEY,
+  accessKeyId: process.env.AWS_ACCESS_ID,
+  region: process.env.AWS_REGION
 })
 
 var s3 = new aws.S3()
@@ -15,7 +16,7 @@ var s3 = new aws.S3()
 const uploadS3 = multer({
   storage: multers3({
     s3: s3,
-    bucket: 'tasks-pornase',
+    bucket: process.env.AWS_BUCKET,
     acl: 'public-read',
     fileFilter: this.fileFilter,
     metadata: function (res, res, cb) {

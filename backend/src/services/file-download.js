@@ -1,15 +1,16 @@
 
 const aws = require('aws-sdk')
+require('dotenv/config')
 
 aws.config.update({
-  secretAccessKey: '4Dc6DMxxze00G1RZQrGrlGaJ25JzHU2PIayKUy43',
-  accessKeyId: 'AKIAJWTB3TW6E6WASFEA',
-  region: 'us-east-2'
+  secretAccessKey: process.env.AWS_SECRET_KEY,
+  accessKeyId: process.env.AWS_ACCESS_ID,
+  region: process.env.AWS_REGION
 })
 
 var s3Client = new aws.S3()
 const downloadParams = {
-  Bucket: 'tasks-pornase',
+  bucket: process.env.AWS_BUCKET,
   Key: ''
 }
 const downloads3 = {};

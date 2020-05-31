@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-const authConfig = require('../config/auth.json')
+require('dotenv/config')
 
 // Next é chamado caso o usuario tenha permissão para acessar o controller
 module.exports = (req, res, next) => {
@@ -22,7 +22,7 @@ module.exports = (req, res, next) => {
     return res.status(401).send({ error: 'Token não está formatado' })
   }
 
-  jwt.verify(token, authConfig.secret, (error, decoded) => {
+  jwt.verify(token, process.env.JWT_SECRET, (error, decoded) => {
     if (error) return res.status(401).send({ error: 'Token inválido' })
 
     req.userId = decoded.id

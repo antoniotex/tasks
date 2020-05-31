@@ -3,9 +3,11 @@ const Poster = require('../models/Poster')
 const User = require('../models/User')
 const Image = require('../models/Image')
 const stream = require('stream')
+require('dotenv/config')
 
 module.exports = {
     async index(req, res) {
+        console.log(process.env.AWS_SECRET_KEY)
         try {
             const posters = await Poster.findAll({
                 include: { association: 'images' }

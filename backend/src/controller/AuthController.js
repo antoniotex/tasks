@@ -1,10 +1,10 @@
 const User = require('../models/User')
 const jwt = require('jsonwebtoken')
-const authConfig = require('../config/auth.json')
 const bcrypt = require('bcryptjs')
+require('dotenv/config')
 
 async function gerarToken(params = {}) {
-    return jwt.sign(params, authConfig.secret, {
+    return jwt.sign(params, process.env.JWT_SECRET, {
         expiresIn: 86400
     })
 }
