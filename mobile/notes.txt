@@ -1,0 +1,6 @@
+Pages
+Home
+Detail
+
+Components
+
