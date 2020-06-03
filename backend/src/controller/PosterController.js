@@ -19,8 +19,8 @@ module.exports = {
     },
 
     async search(req, res) {
-        const { query } = req.body
-
+        const { query } = req.query
+        console.log(query)
         const arrQuery = []
 
         for (let i = 0; i < query.split(' ').length; i++) {
@@ -38,6 +38,7 @@ module.exports = {
             where: {
                 [Op.and]: arrQuery
             },
+            order: [['id', 'DESC']],
             include: { association: 'images' }
         })
 

@@ -4,17 +4,7 @@ import styles from './styles';
 import Card from '../../components/Card'
 import api from '../../services/api'
 
-export default function Home() {
-    const [posters, setPosters] = useState([])
-
-    useEffect(() => {
-        loadPosters();
-    }, []);
-
-    async function loadPosters() {
-        const response = await api.get('/posters')
-        await setPosters(response.data)
-    }
+export default function Home({ posters }) {
     return (
         <View style={styles.container}>
             <Text style={styles.listTitle}>Anúncios Recentes</Text>
@@ -24,8 +14,8 @@ export default function Home() {
                 data={posters}
                 keyExtractor={item => String(item.id)}
                 renderItem={({ item }) => <Card poster={item} />}
-                refreshing={false}
-                onRefresh={loadPosters}
+                refreshing={true}
+            // onRefresh={loadPosters}
             />
         </View>
     )

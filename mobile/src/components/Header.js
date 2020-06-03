@@ -2,14 +2,14 @@ import React, { useState } from 'react'
 import { View, TouchableOpacity, TextInput, Text, StyleSheet } from 'react-native'
 import { AntDesign } from '@expo/vector-icons';
 
-export default function Header() {
+export default function Header({ loadPosters }) {
     const [query, setQuery] = useState('')
     return (
         <View style={styles.header}>
             <TextInput style={styles.search} placeholder="Pesquisar" onChangeText={text => setQuery(text)}>
             </TextInput>
             <TouchableOpacity style={styles.searchButton}>
-                <AntDesign name="search1" size={25} color="#E02041" />
+                <AntDesign name="search1" size={25} color="#E02041" onPress={() => loadPosters(query)} />
             </TouchableOpacity>
         </View>
     )
