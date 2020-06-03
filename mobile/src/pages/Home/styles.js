@@ -6,7 +6,10 @@ export default StyleSheet.create({
         flex: 1,
         width: '100%',
         paddingTop: Constants.statusBarHeight,
-        alignItems: 'center'
+    },
+    list: {
+        borderWidth: 2,
+        borderColor: 'red'
     },
     listTitle: {
         fontSize: 20,
