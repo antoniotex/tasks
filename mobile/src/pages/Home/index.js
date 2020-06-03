@@ -13,7 +13,6 @@ export default function Home() {
 
     async function loadPosters() {
         const response = await api.get('/posters')
-        console.log(response.data)
         await setPosters(response.data)
     }
     return (

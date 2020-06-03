@@ -7,9 +7,9 @@ require('dotenv/config')
 
 module.exports = {
     async index(req, res) {
-        console.log(process.env.AWS_SECRET_KEY)
         try {
             const posters = await Poster.findAll({
+                order: [['id', 'DESC']],
                 include: { association: 'images' }
             })
             return res.json(posters)

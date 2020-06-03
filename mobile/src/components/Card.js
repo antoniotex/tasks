@@ -1,33 +1,46 @@
 import React from 'react'
-import { StyleSheet, View, FlatList, Text, TouchableOpacity, TextInput, Image } from 'react-native'
+import { StyleSheet, View, Text, Image } from 'react-native'
+import moment from 'moment'
 
 export default function Card({ poster }) {
-    console.log('card: ', poster)
     return (
-        <View style={styles.card}>
-            <Image style={styles.cardImage} source={{ uri: poster.images[0].location }} />
-            <View style={styles.cardInfo}>
-                <Text>{poster.title}</Text>
-                <Text>Categoria: {poster.category}</Text>
-                <Text>{poster.createdAt}</Text>
+        <View style={styles.poster}>
+            <Image style={styles.posterImage} source={{ uri: poster.images[0].location }} />
+            <View style={styles.posterInfo}>
+                <Text style={styles.posterTitle}>{poster.title}</Text>
+                <Text style={styles.posterCategory}>Categoria: {poster.category}</Text>
+                <Text style={styles.posterData}>{moment(poster.createdAt).fromNow()} - {poster.city}, {poster.state}</Text>
             </View>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
-    card: {
+    poster: {
         borderWidth: 1,
         borderColor: '#ccc',
         flexDirection: 'row',
         marginVertical: 5,
+        marginHorizontal: 4
     },
-    cardImage: {
+    posterImage: {
         width: 120,
         height: 120
     },
-    cardInfo: {
-        padding: 4
+    posterInfo: {
+        padding: 4,
+        justifyContent: 'space-between'
+    },
+    posterTitle: {
+        fontSize: 16,
+        fontWeight: '700'
+    },
+    posterCategory: {
+        fontSize: 15
+    },
+    posterData: {
+        fontSize: 12,
+        color: '#aaa'
     }
 });
 
