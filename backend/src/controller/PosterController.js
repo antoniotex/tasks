@@ -2,15 +2,20 @@ const { Op, QueryTypes } = require('sequelize')
 const Poster = require('../models/Poster')
 const User = require('../models/User')
 const Image = require('../models/Image')
-const stream = require('stream')
+const Category = require('../models/Category')
 require('dotenv/config')
 
 module.exports = {
     async index(req, res) {
         try {
             const posters = await Poster.findAll({
+                attributes: { exclude: ['category_id', 'user_id', 'updatedAt'] },
                 order: [['id', 'DESC']],
-                include: { association: 'images' }
+                include: [
+                    { association: 'images', attributes: ['id', 'location'] },
+                    { model: Category, as: 'category', attributes: ['name'] },
+                    { model: User, as: 'user', attributes: ['id', 'name'] }
+                ]
             })
             return res.json(posters)
         } catch (error) {
@@ -35,11 +40,16 @@ module.exports = {
         }
 
         const poster = await Poster.findAll({
+            attributes: { exclude: ['category_id', 'user_id', 'updatedAt'] },
             where: {
                 [Op.and]: arrQuery
             },
             order: [['id', 'DESC']],
-            include: { association: 'images' }
+            include: [
+                { association: 'images', attributes: ['id', 'location'] },
+                { model: Category, as: 'category', attributes: ['name'] },
+                { model: User, as: 'user', attributes: ['id', 'name'] }
+            ]
         })
 
         return res.json(poster)
@@ -49,7 +59,12 @@ module.exports = {
         const { id } = req.params
         try {
             const poster = await Poster.findByPk(id, {
-                include: { association: 'images' }
+                attributes: { exclude: ['category_id', 'user_id', 'updatedAt'] },
+                include: [
+                    { association: 'images', attributes: ['id', 'location'] },
+                    { model: Category, as: 'category', attributes: ['name'] },
+                    { model: User, as: 'user', attributes: ['id', 'name'] }
+                ]
             })
 
             if (!poster) return res.status(400).json({ error: 'Anúncio não encontrado' })
