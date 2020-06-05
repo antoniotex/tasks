@@ -25,9 +25,11 @@ export const PosterProvider = ({ children }) => {
         loadStorageData();
     }, [])
 
-    async function loadPosters() {
-        const response = await api.get('/posters')
-        setPosters(response.data)
+    async function loadPosters(query) {
+        console.log(query)
+        const search = query ? `search?query=${query}` : ''
+        const response = await api.get(`/posters/${search}`)
+        await setPosters(response.data)
     }
 
     return (

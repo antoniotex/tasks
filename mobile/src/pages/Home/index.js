@@ -16,29 +16,26 @@ export default function Home() {
         loadPoster()
     }, [])
 
-    console.log('Home', posters.length)
-
     function handleSignout() {
         signOut();
     }
 
     function loadPoster() {
-        console.log('entreiloadposters')
         loadPosters()
     }
 
     return (
         <View style={styles.container}>
-            <Text style={styles.listTitle}>Anúncios Recentes</Text>
             {signed && <Button onPress={handleSignout} title="Sair"></Button>}
+            {posters.length == 0 && <Text>Nenhum anúncio encontrado para esta pesquisa</Text>}
             <FlatList
                 style={styles.list}
-                contentContainerStyle={{}}
                 data={posters}
                 keyExtractor={item => String(item.id)}
                 renderItem={({ item }) => <Card poster={item} />}
-                refreshing={true}
-            // onRefresh={loadPosters}
+                refreshing={false}
+                onRefresh={loadPosters}
+                ListHeaderComponent={<Text style={styles.listTitle}>Anúncios Recentes</Text>}
             />
         </View>
     )
