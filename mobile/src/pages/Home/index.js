@@ -9,6 +9,7 @@ import PosterContext from '../../contexts/posters';
 
 export default function Home() {
     const { posters, loadPosters } = useContext(PosterContext);
+    const { signOut, signed } = useContext(AuthContext)
     const navigation = useNavigation();
 
     useEffect(() => {
@@ -29,6 +30,7 @@ export default function Home() {
     return (
         <View style={styles.container}>
             <Text style={styles.listTitle}>Anúncios Recentes</Text>
+            {signed && <Button onPress={handleSignout} title="Sair"></Button>}
             <FlatList
                 style={styles.list}
                 contentContainerStyle={{}}
