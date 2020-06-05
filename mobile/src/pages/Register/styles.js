@@ -16,7 +16,8 @@ const styles = StyleSheet.create({
         width: '93%',
         backgroundColor: '#fff',
         paddingHorizontal: 10,
-        paddingVertical: 40
+        paddingVertical: 40,
+        marginBottom: 60
     },
     inputBox: {
         flexDirection: 'row',

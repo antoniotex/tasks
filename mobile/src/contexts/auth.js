@@ -26,6 +26,16 @@ export const AuthProvider = ({ children }) => {
         loadStorageData();
     }, [])
 
+    async function register(register) {
+        console.log(register)
+        const response = await api.post('/register', register)
+        api.defaults.headers['Authorization'] = `Bearer ${response.data.token}`
+        setUser(response.data.user)
+
+        await AsyncStorage.setItem('@RNAuth:user', JSON.stringify(response.data.user));
+        await AsyncStorage.setItem('@RNAuth:token', response.data.token);
+    }
+
     async function signIn(login) {
         const response = await api.post('/authenticate', login)
         api.defaults.headers['Authorization'] = `Bearer ${response.data.token}`
@@ -42,7 +52,7 @@ export const AuthProvider = ({ children }) => {
     }
 
     return (
-        <AuthContext.Provider value={{ signed: !!user, user, signIn, signOut, loading }} >
+        <AuthContext.Provider value={{ signed: !!user, user, signIn, signOut, loading, register }} >
             {children}
         </AuthContext.Provider>
     )
