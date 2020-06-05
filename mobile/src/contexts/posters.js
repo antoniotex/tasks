@@ -15,7 +15,7 @@ export const PosterProvider = ({ children }) => {
             const storageToken = await AsyncStorage.getItem('@RNAuth:token');
 
             if (storageUser && storageToken) {
-                setUser(JSON.parse(storageUser));
+                // setUser(JSON.parse(storageUser));
                 setLoading(false);
             } else if (!storageUser && !storageToken) {
                 setLoading(false);

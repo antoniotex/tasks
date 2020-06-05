@@ -8,10 +8,6 @@ import Register from '../pages/Register';
 
 const AuthStack = createDrawerNavigator();
 
-const SignInOptions = {
-    headerTransparent: true
-}
-
 const AuthRoutes = () => {
     return (
         <AuthStack.Navigator initialRouteName="Home">
@@ -22,7 +18,7 @@ const AuthRoutes = () => {
                 title: 'Entrar'
             }} />
             <AuthStack.Screen name="Register" component={Register} options={{
-                title: 'Fazer cadastro'
+                title: 'Criar conta'
             }} />
         </AuthStack.Navigator>
     )
