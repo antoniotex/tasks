@@ -5,6 +5,7 @@ import api, * as auth from '../services/api';
 const AuthContext = createContext({ signed: false, user: {} });
 
 export const AuthProvider = ({ children }) => {
+    console.log('authcontext')
 
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
@@ -25,8 +26,8 @@ export const AuthProvider = ({ children }) => {
         loadStorageData();
     }, [])
 
-    async function signIn() {
-        const response = await api.post('/authenticate', { email: 'ronaldo@gmail.com', password: 'ronaldo' })
+    async function signIn(login) {
+        const response = await api.post('/authenticate', login)
         api.defaults.headers['Authorization'] = `Bearer ${response.data.token}`
         setUser(response.data.user)
 

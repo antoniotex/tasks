@@ -4,18 +4,23 @@ import styles from './styles';
 import Card from '../../components/Card'
 import api from '../../services/api'
 import AuthContext from '../../contexts/auth';
+import { useNavigation } from '@react-navigation/native';
 
 export default function Home() {
+    console.log('home')
 
     const { signed, user, signOut } = useContext(AuthContext);
+    const navigation = useNavigation();
+
+    console.log(signed)
 
     function handleSignout() {
         signOut();
     }
     return (
         <View style={styles.container}>
-            {/* <Text>Olá {user.name}!</Text> */}
-            <Button onPress={handleSignout} title='Sign out' />
+            <Text>{signed ? 'Logado' : 'Deslogado'}</Text>
+            {signed ? <Button onPress={handleSignout} title="Sair"></Button> : <View />}
         </View>
     );
 

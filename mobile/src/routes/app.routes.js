@@ -1,9 +1,10 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 
 import Home from '../pages/Home';
 
-const AppStack = createStackNavigator();
+const AppStack = createDrawerNavigator();
 
 const AppRoutes = () => {
     return (
