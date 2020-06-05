@@ -5,37 +5,39 @@ import Card from '../../components/Card'
 import api from '../../services/api'
 import AuthContext from '../../contexts/auth';
 import { useNavigation } from '@react-navigation/native';
+import PosterContext from '../../contexts/posters';
 
 export default function Home() {
-    console.log('home')
-
-    const { signed, user, signOut } = useContext(AuthContext);
+    const { posters, loadPosters } = useContext(PosterContext);
     const navigation = useNavigation();
 
-    console.log(signed)
+    useEffect(() => {
+        loadPoster()
+    }, [])
+
+    console.log('Home', posters.length)
 
     function handleSignout() {
         signOut();
     }
+
+    function loadPoster() {
+        console.log('entreiloadposters')
+        loadPosters()
+    }
+
     return (
         <View style={styles.container}>
-            <Text>{signed ? 'Logado' : 'Deslogado'}</Text>
-            {signed ? <Button onPress={handleSignout} title="Sair"></Button> : <View />}
+            <Text style={styles.listTitle}>Anúncios Recentes</Text>
+            <FlatList
+                style={styles.list}
+                contentContainerStyle={{}}
+                data={posters}
+                keyExtractor={item => String(item.id)}
+                renderItem={({ item }) => <Card poster={item} />}
+                refreshing={true}
+            // onRefresh={loadPosters}
+            />
         </View>
-    );
-
-    // return (
-    //     <View style={styles.container}>
-    //         <Text style={styles.listTitle}>Anúncios Recentes</Text>
-    //         <FlatList
-    //             style={styles.list}
-    //             contentContainerStyle={{}}
-    //             data={posters}
-    //             keyExtractor={item => String(item.id)}
-    //             renderItem={({ item }) => <Card poster={item} />}
-    //             refreshing={true}
-    //         // onRefresh={loadPosters}
-    //         />
-    //     </View>
-    // )
+    )
 }

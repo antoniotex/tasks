@@ -27,7 +27,6 @@ export const AuthProvider = ({ children }) => {
     }, [])
 
     async function register(register) {
-        console.log(register)
         const response = await api.post('/register', register)
         api.defaults.headers['Authorization'] = `Bearer ${response.data.token}`
         setUser(response.data.user)

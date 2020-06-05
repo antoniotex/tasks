@@ -8,14 +8,17 @@ import 'react-native-gesture-handler';
 import { NavigationContainer } from '@react-navigation/native';
 
 import { AuthProvider } from './src/contexts/auth'
+import { PosterProvider } from './src/contexts/posters'
 import Routes from './src/routes';
 
 export default function App() {
   return (
     <NavigationContainer>
-      <AuthProvider>
-        <Routes />
-      </AuthProvider>
+      <PosterProvider>
+        <AuthProvider>
+          <Routes />
+        </AuthProvider>
+      </PosterProvider>
     </NavigationContainer>
   );
 }
