@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { AsyncStorage } from 'react-native';
+import { AsyncStorage, ToastAndroid } from 'react-native';
 import api, * as auth from '../services/api';
 
 const AuthContext = createContext({ signed: false, user: {} });
@@ -27,21 +27,30 @@ export const AuthProvider = ({ children }) => {
     }, [])
 
     async function register(register) {
-        const response = await api.post('/register', register)
-        api.defaults.headers['Authorization'] = `Bearer ${response.data.token}`
-        setUser(response.data.user)
+        try {
+            const response = await api.post('/register', register)
 
-        await AsyncStorage.setItem('@RNAuth:user', JSON.stringify(response.data.user));
-        await AsyncStorage.setItem('@RNAuth:token', response.data.token);
+            api.defaults.headers['Authorization'] = `Bearer ${response.data.token}`
+            setUser(response.data.user)
+
+            await AsyncStorage.setItem('@RNAuth:user', JSON.stringify(response.data.user));
+            await AsyncStorage.setItem('@RNAuth:token', response.data.token);
+        } catch (error) {
+            ToastAndroid.showWithGravity(error.response.data.error, ToastAndroid.SHORT, ToastAndroid.CENTER)
+        }
     }
 
     async function signIn(login) {
-        const response = await api.post('/authenticate', login)
-        api.defaults.headers['Authorization'] = `Bearer ${response.data.token}`
-        setUser(response.data.user)
+        try {
+            const response = await api.post('/authenticate', login)
+            api.defaults.headers['Authorization'] = `Bearer ${response.data.token}`
+            setUser(response.data.user)
 
-        await AsyncStorage.setItem('@RNAuth:user', JSON.stringify(response.data.user));
-        await AsyncStorage.setItem('@RNAuth:token', response.data.token);
+            await AsyncStorage.setItem('@RNAuth:user', JSON.stringify(response.data.user));
+            await AsyncStorage.setItem('@RNAuth:token', response.data.token);
+        } catch (error) {
+            ToastAndroid.showWithGravity(error.response.data.error, ToastAndroid.SHORT, ToastAndroid.CENTER)
+        }
     }
 
     function signOut() {

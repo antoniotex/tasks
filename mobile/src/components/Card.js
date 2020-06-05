@@ -8,7 +8,7 @@ export default function Card({ poster }) {
             <Image style={styles.posterImage} source={{ uri: poster.images[0].location }} />
             <View style={styles.posterInfo}>
                 <Text style={styles.posterTitle}>{poster.title}</Text>
-                <Text style={styles.posterCategory}>Categoria: {poster.category}</Text>
+                <Text style={styles.posterCategory}>Categoria: {poster.category.name}</Text>
                 <Text style={styles.posterData}>{moment(poster.createdAt).fromNow()} - {poster.city}, {poster.state}</Text>
             </View>
         </View>

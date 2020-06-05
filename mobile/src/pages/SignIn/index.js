@@ -22,7 +22,7 @@ export default function SignIn() {
     }
 
     return (
-        <View style={styles.container}>
+        <KeyboardAvoidingView style={styles.container}>
             <Image style={styles.logo} source={logoImg} />
             <KeyboardAvoidingView style={styles.login}>
                 <Text style={{ textAlign: 'center' }}>Entre com sua conta</Text>
@@ -57,6 +57,6 @@ export default function SignIn() {
             <TouchableOpacity style={styles.signup} onPress={() => navigation.navigate('Register')}>
                 <Text>Não tem cadastro? Crie sua conta!</Text>
             </TouchableOpacity>
-        </View>
+        </KeyboardAvoidingView>
     );
 }

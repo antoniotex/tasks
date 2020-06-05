@@ -14,7 +14,7 @@ module.exports = {
         const { email } = req.body
         try {
             if (await User.findOne({ where: { email } })) {
-                return res.status(400).json({ error: 'Já existe um usuário com este endereço de e-mail cadastrado' })
+                return res.status(400).send({ error: 'Já existe um usuário com este endereço de e-mail cadastrado' })
             }
 
             const user = await User.create(req.body)
