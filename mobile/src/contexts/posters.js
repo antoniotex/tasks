@@ -7,6 +7,7 @@ const PosterContext = createContext({ posters: [] });
 export const PosterProvider = ({ children }) => {
     console.log('entrei postercontex')
     const [posters, setPosters] = useState([]);
+    const [categories, setCategories] = useState([])
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
@@ -22,18 +23,22 @@ export const PosterProvider = ({ children }) => {
             }
         }
 
-        loadStorageData();
+        loadStorageData()
     }, [])
 
     async function loadPosters(query) {
-        console.log(query)
         const search = query ? `search?query=${query}` : ''
         const response = await api.get(`/posters/${search}`)
         await setPosters(response.data)
     }
 
+    async function loadCategories() {
+        const response = await api.get('/categories')
+        setCategories(response.data)
+    }
+
     return (
-        <PosterContext.Provider value={{ posters, loadPosters }} >
+        <PosterContext.Provider value={{ posters, loadPosters, categories, loadCategories }} >
             {children}
         </PosterContext.Provider>
     )

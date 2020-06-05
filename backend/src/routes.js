@@ -1,5 +1,4 @@
 const express = require('express')
-const stream = require('stream')
 
 const authMiddleware = require('./middlewares/auth')
 const uploads3 = require('./services/file-upload')
@@ -24,5 +23,7 @@ routes.post('/:user_id/posters', uploads3.array('images', 4), PosterController.s
 
 routes.put('/posters/:id', authMiddleware, PosterController.update)
 routes.delete('/posters/:id', authMiddleware, PosterController.delete)
+
+routes.get('/categories', PosterController.getCategories)
 
 module.exports = routes

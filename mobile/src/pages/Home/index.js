@@ -6,6 +6,7 @@ import api from '../../services/api'
 import AuthContext from '../../contexts/auth';
 import { useNavigation } from '@react-navigation/native';
 import PosterContext from '../../contexts/posters';
+import Header from '../../components/Header'
 
 export default function Home() {
     const { posters, loadPosters } = useContext(PosterContext);
@@ -26,6 +27,7 @@ export default function Home() {
 
     return (
         <View style={styles.container}>
+            <Header />
             {signed && <Button onPress={handleSignout} title="Sair"></Button>}
             {posters.length == 0 && <Text>Nenhum anúncio encontrado para esta pesquisa</Text>}
             <FlatList

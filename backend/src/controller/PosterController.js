@@ -129,5 +129,13 @@ module.exports = {
         } catch (error) {
             return res.status(400).json({ success: false })
         }
+    },
+
+    async getCategories(req, res) {
+        const categories = await Category.findAll({
+            attributes: ['id', 'name'],
+            order: ['name'],
+        })
+        return res.json(categories)
     }
 }

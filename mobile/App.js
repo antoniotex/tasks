@@ -15,7 +15,6 @@ export default function App() {
     <NavigationContainer>
       <PosterProvider>
         <AuthProvider>
-          <Header />
           <Routes />
         </AuthProvider>
       </PosterProvider>
