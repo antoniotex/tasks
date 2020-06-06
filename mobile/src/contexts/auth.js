@@ -5,8 +5,6 @@ import api, * as auth from '../services/api';
 const AuthContext = createContext({ signed: false, user: {} });
 
 export const AuthProvider = ({ children }) => {
-    console.log('authcontext')
-
     const [user, setUser] = useState(null);
     const [loading, setLoading] = useState(true);
 

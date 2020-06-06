@@ -14,9 +14,6 @@ export default function SignIn() {
     const { signed, signIn } = useContext(AuthContext);
     const navigation = useNavigation();
 
-    console.log(signed)
-
-
     function handleSignIn() {
         signIn({ email, password });
     }

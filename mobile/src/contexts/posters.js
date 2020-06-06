@@ -5,7 +5,6 @@ import api, * as auth from '../services/api';
 const PosterContext = createContext({ posters: [] });
 
 export const PosterProvider = ({ children }) => {
-    console.log('entrei postercontex')
     const [posters, setPosters] = useState([]);
     const [categories, setCategories] = useState([])
     const [loading, setLoading] = useState(true);

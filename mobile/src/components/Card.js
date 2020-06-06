@@ -3,9 +3,10 @@ import { StyleSheet, View, Text, Image } from 'react-native'
 import moment from 'moment'
 
 export default function Card({ poster }) {
+    const imageDefault = 'https://assets.zoom.us/images/en-us/desktop/generic/video-not-working.PNG'
     return (
         <View style={styles.poster}>
-            <Image style={styles.posterImage} source={{ uri: poster.images[0].location }} />
+            <Image style={styles.posterImage} source={{ uri: poster.images.length > 0 ? poster.images[0].location : imageDefault }} />
             <View style={styles.posterInfo}>
                 <Text style={styles.posterTitle}>{poster.title}</Text>
                 <Text style={styles.posterCategory}>Categoria: {poster.category.name}</Text>
