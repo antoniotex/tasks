@@ -44,8 +44,8 @@ def flipper_post_install(installer)
   end
 end
 
-target 'mobile2' do
-  # Pods for mobile2
+target 'Tasks' do
+  # Pods for Tasks
   pod 'FBLazyVector', :path => "../node_modules/react-native/Libraries/FBLazyVector"
   pod 'FBReactNativeSpec', :path => "../node_modules/react-native/Libraries/FBReactNativeSpec"
   pod 'RCTRequired', :path => "../node_modules/react-native/Libraries/RCTRequired"
@@ -77,7 +77,7 @@ target 'mobile2' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
 
-  target 'mobile2Tests' do
+  target 'TasksTests' do
     inherit! :complete
     # Pods for testing
   end
@@ -94,10 +94,10 @@ target 'mobile2' do
   end
 end
 
-target 'mobile2-tvOS' do
-  # Pods for mobile2-tvOS
+target 'Tasks-tvOS' do
+  # Pods for Tasks-tvOS
 
-  target 'mobile2-tvOSTests' do
+  target 'Tasks-tvOSTests' do
     inherit! :search_paths
     # Pods for testing
   end

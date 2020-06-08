@@ -129,7 +129,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.mobile2"
+        applicationId "com.Tasks"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
