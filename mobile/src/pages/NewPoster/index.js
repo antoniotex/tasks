@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, TextInput, Image, KeyboardAvoidingView, Platform, ScrollView, AsyncStorage } from 'react-native';
+import { Dimensions, View, Text, TouchableOpacity, TextInput, Image, KeyboardAvoidingView, Platform, ScrollView, AsyncStorage, Button } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { AntDesign } from '@expo/vector-icons';
 import { Picker } from '@react-native-community/picker'
@@ -20,6 +20,8 @@ export default function NewPoster() {
     const [neighborhood, setNeighborhood] = useState('')
     const [category, setCategory] = useState(null)
     const [imagesUpload, setImagesUpload] = useState([])
+    const [imageIndex, setImageIndex] = useState(0)
+    const imageDefault = 'https://assets.zoom.us/images/en-us/desktop/generic/video-not-working.PNG'
 
     const { signed, register } = useContext(AuthContext);
     const { categories, loadCategories } = useContext(PosterContext)
@@ -65,25 +67,61 @@ export default function NewPoster() {
             multiple: true
         }
         const fileSelected = await DocumentPicker.getDocumentAsync(options)
+
+        if (fileSelected.type == 'cancel') return
+
         const file = {
             name: fileSelected.name,
             uri: fileSelected.uri,
             type: `image/${fileSelected.name.split('.').pop()}`
         }
+        console.log('fileselected: ', fileSelected)
 
         const teste = [...imagesUpload, file]
         await setImagesUpload(teste)
     }
 
+    const changeImage = ({ nativeEvent }) => {
+        const slide = Math.ceil(nativeEvent.contentOffset.x / nativeEvent.layoutMeasurement.width)
+        setImageIndex(slide + 1)
+    }
+
+    const { width } = Dimensions.get('window')
+    const height = width * 0.7 //60%
+
     return (
         <KeyboardAvoidingView style={{ height: '100%' }} behavior={Platform.Os == "ios" ? "padding" : "height"} enabled>
             <ScrollView contentContainerStyle={styles.container}>
-                <Image style={styles.logo} source={logoImg} />
-                <View style={styles.login}>
-                    <Text style={{ textAlign: 'center' }}>Novo anúncio</Text>
+                <Text style={{ textAlign: 'center' }}>Adicione até 4 imagens</Text>
 
+                <View style={{ width, height, alignSelf: 'flex-start' }}>
+                    <ScrollView pagingEnabled horizontal onScroll={changeImage} style={{ width, height }}>
+                        {
+                            imagesUpload.map((image, index) => (
+                                <Image
+                                    key={index}
+                                    source={{ uri: image.uri }}
+                                    style={{ width, height, resizeMode: 'cover' }}
+                                />
+                            ))
+                        }
+                        <TouchableOpacity style={styles.addFile} onPress={handlePicker}>
+                            <AntDesign name="addfile" size={70} color="#E02041" />
+                        </TouchableOpacity>
+                    </ScrollView>
+                    {imageIndex <= imagesUpload.length && <View style={{
+                        width: 50,
+                        borderColor: '#E02041', backgroundColor: '#E02041',
+                        position: 'absolute', bottom: 5, left: width * 0.5 - 25,
+                        padding: 10, borderRadius: 20
+                    }}>
+                        <Text style={{ textAlign: 'center', color: '#ffffff', fontSize: 16 }}>{imageIndex}/{imagesUpload.length}</Text>
+                    </View>}
+                </View>
+
+                <View style={styles.login}>
                     <View style={styles.inputBox}>
-                        <AntDesign name="pushpino" size={30} color="#ccc" />
+                        <AntDesign name="pushpino" size={20} color="#ccc" />
                         <TextInput
                             style={styles.input}
                             placeholder="Título" value={title}
@@ -93,7 +131,7 @@ export default function NewPoster() {
                     </View>
 
                     <View style={styles.inputBox}>
-                        <AntDesign name="filetext1" size={30} color="#ccc" />
+                        <AntDesign name="filetext1" size={20} color="#ccc" />
                         <TextInput
                             style={styles.input}
                             placeholder="Descrição" value={description}
@@ -102,7 +140,7 @@ export default function NewPoster() {
                     </View>
 
                     <View style={styles.inputBox}>
-                        <AntDesign name="home" size={30} color="#ccc" />
+                        <AntDesign name="home" size={20} color="#ccc" />
                         <TextInput
                             style={styles.input}
                             placeholder="CEP" value={cep} textContentType="postalCode"
@@ -111,7 +149,7 @@ export default function NewPoster() {
                     </View>
 
                     <View style={styles.inputBox}>
-                        <AntDesign name="lock1" size={30} color="#ccc" />
+                        <AntDesign name="lock1" size={20} color="#ccc" />
                         <TextInput
                             style={styles.input}
                             value={state}
@@ -121,7 +159,7 @@ export default function NewPoster() {
                     </View>
 
                     <View style={styles.inputBox}>
-                        <AntDesign name="lock1" size={30} color="#ccc" />
+                        <AntDesign name="lock1" size={20} color="#ccc" />
                         <TextInput
                             style={styles.input}
                             value={city}
@@ -130,7 +168,7 @@ export default function NewPoster() {
                     </View>
 
                     <View style={styles.inputBox}>
-                        <AntDesign name="lock1" size={30} color="#ccc" />
+                        <AntDesign name="lock1" size={20} color="#ccc" />
                         <TextInput
                             style={styles.input}
                             value={neighborhood}
@@ -139,7 +177,7 @@ export default function NewPoster() {
                     </View>
 
                     {/* <View style={styles.inputBox}>
-                        <AntDesign name="lock1" size={30} color="#ccc" />
+                        <AntDesign name="lock1" size={20} color="#ccc" />
                         <TextInput
                             style={styles.input}
                             value={category}
@@ -153,19 +191,17 @@ export default function NewPoster() {
                         onValueChange={(value, index) => { setCategory(value) }}
                         itemStyle={{ color: 'blue' }}
                     >
-                        <Picker.Item itemStyle={{ color: 'blue' }} label="Selecione uma categoria..." value="" />
+                        <Picker.Item itemStyle={{ color: 'blue' }} label="Selecione uma categoria..." color="#bbb" value="" />
                         {categories.map((item, index) => (
                             <Picker.Item key={index} label={item.name} value={item.id} />
                         ))}
                     </Picker>
-                    <TouchableOpacity style={styles.loginButton} onPress={handlePicker}>
-                        <Text style={styles.buttonText}>Abrir picker</Text>
-                    </TouchableOpacity>
+
                     <TouchableOpacity style={styles.loginButton} onPress={handleSubmit}>
                         <Text style={styles.textLoginButton}>Enviar</Text>
                     </TouchableOpacity>
                 </View>
             </ScrollView>
-        </KeyboardAvoidingView>
+        </KeyboardAvoidingView >
     )
 }

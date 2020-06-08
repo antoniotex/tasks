@@ -13,7 +13,9 @@ module.exports = {
     port: 1433,
     logging: false,
     options: {
-        encrypt: true
+        encrypt: false,
+        // enableArithAbort: true,
+        // trustServerCertificate: true
     },
     define: {
         timestamps: true,

@@ -4,7 +4,6 @@ import Constants from 'expo-constants';
 const styles = StyleSheet.create({
     container: {
         alignItems: 'center',
-        // backgroundColor: '#ddd',
         paddingTop: Constants.statusBarHeight + 7,
     },
     logo: {
@@ -28,7 +27,7 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     input: {
-        fontSize: 20,
+        fontSize: 15,
         width: '93%',
         padding: 10
     },
@@ -47,18 +46,18 @@ const styles = StyleSheet.create({
         fontSize: 20,
         fontWeight: 'bold'
     },
-    socialNetwork: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        marginVertical: 20
-    },
-    signup: {
-        marginTop: 40,
-        marginBottom: 80
-    },
     selectCategory: {
         fontSize: 20,
         borderBottomWidth: 2
+    },
+    addFile: {
+        width: 360,
+        borderWidth: 2,
+        flexDirection: 'row',
+        justifyContent: 'center',
+        // alignSelf: 'center',
+        alignItems: 'center',
+        borderColor: '#E02041'
     }
 })
 

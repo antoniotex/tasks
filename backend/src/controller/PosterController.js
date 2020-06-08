@@ -78,7 +78,6 @@ module.exports = {
     async store(req, res) {
         const { user_id } = req.params
         req.body = JSON.parse(JSON.stringify(req.body))
-        console.log(req.body)
 
         try {
             const user = await User.findByPk(user_id)
