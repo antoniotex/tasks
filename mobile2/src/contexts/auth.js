@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { AsyncStorage, ToastAndroid } from 'react-native';
+import { ToastAndroid } from 'react-native';
+import AsyncStorage from '@react-native-community/async-storage';
 import api, * as auth from '../services/api';
 
 const AuthContext = createContext({ signed: false, user: {} });
