@@ -3,7 +3,7 @@ import { Dimensions, View, Text, TouchableOpacity, TextInput, Image, KeyboardAvo
 import { useNavigation } from '@react-navigation/native';
 import { Picker } from '@react-native-community/picker'
 import Icon from 'react-native-vector-icons/AntDesign'
-// import * as DocumentPicker from 'expo-document-picker';
+import DocumentPicker from 'react-native-document-picker';
 
 import AuthContext from '../../contexts/auth';
 import logoImg from '../../assets/logo.png'
@@ -62,23 +62,25 @@ export default function NewPoster() {
 
     async function handlePicker() {
         const options = {
-            type: 'image/*',
-            copyToCacheDirectory: false,
-            multiple: true
+            type: 'image/*'
         }
-        const fileSelected = await DocumentPicker.getDocumentAsync(options)
+        try {
+            const fileSelected = await DocumentPicker.pickMultiple(options)
 
-        if (fileSelected.type == 'cancel') return
+            if (fileSelected.type == 'cancel') return
 
-        const file = {
-            name: fileSelected.name,
-            uri: fileSelected.uri,
-            type: `image/${fileSelected.name.split('.').pop()}`
+            if (imagesUpload.length == 0) {
+                setImageIndex(1)
+            }
+
+            const teste = [...imagesUpload, ...fileSelected]
+            await setImagesUpload(teste)
+        } catch (error) {
+            if (DocumentPicker.isCancel(error)) {
+            } else {
+                throw err;
+            }
         }
-        console.log('fileselected: ', fileSelected)
-
-        const teste = [...imagesUpload, file]
-        await setImagesUpload(teste)
     }
 
     const changeImage = ({ nativeEvent }) => {
@@ -95,7 +97,11 @@ export default function NewPoster() {
                 <Text style={{ textAlign: 'center' }}>Adicione até 4 imagens</Text>
 
                 <View style={{ width, height, alignSelf: 'flex-start' }}>
-                    <ScrollView pagingEnabled horizontal onScroll={changeImage} style={{ width, height }}>
+                    <ScrollView
+                        pagingEnabled
+                        horizontal
+                        onScroll={changeImage}
+                        style={{ width, height }}>
                         {
                             imagesUpload.map((image, index) => (
                                 <Image
