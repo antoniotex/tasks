@@ -17,6 +17,7 @@ module.exports = {
                     { model: User, as: 'user', attributes: ['id', 'name'] }
                 ]
             })
+            console.log(posters.length)
             return res.json(posters)
         } catch (error) {
             return res.status(400).json({ success: false })
