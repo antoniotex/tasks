@@ -1,1 +1,1 @@
-web: node src/sertver.js
+web: node src/server.js
