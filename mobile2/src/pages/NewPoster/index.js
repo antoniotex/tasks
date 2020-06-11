@@ -1,5 +1,5 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { Dimensions, View, Text, TouchableOpacity, TextInput, Image, KeyboardAvoidingView, Platform, ScrollView, AsyncStorage, Button } from 'react-native';
+import React, { useContext, useState, useEffect, createRef } from 'react';
+import { Dimensions, View, Text, TouchableOpacity, TextInput, Image, KeyboardAvoidingView, Platform, ScrollView, AsyncStorage, Button, FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Picker } from '@react-native-community/picker'
 import Icon from 'react-native-vector-icons/AntDesign'
@@ -23,13 +23,15 @@ export default function NewPoster() {
     const [imageIndex, setImageIndex] = useState(0)
     const imageDefault = 'https://assets.zoom.us/images/en-us/desktop/generic/video-not-working.PNG'
 
+
     const { signed, register } = useContext(AuthContext);
     const { categories, loadCategories } = useContext(PosterContext)
     const navigation = useNavigation();
 
-    useEffect(() => {
-        loadCategories()
-    }, [])
+    let scrollView = createRef < typeof ScrollView >
+        useEffect(() => {
+            loadCategories()
+        }, [])
 
     async function handleSubmit() {
         const images = new FormData()
@@ -87,6 +89,15 @@ export default function NewPoster() {
         const slide = Math.ceil(nativeEvent.contentOffset.x / nativeEvent.layoutMeasurement.width)
         setImageIndex(slide + 1)
     }
+    function deleteImage(index) {
+        let auxImages = imagesUpload
+        auxImages.splice(index, 1)
+        setImagesUpload(auxImages)
+        if (index > 1) {
+
+        }
+        scrollView.scrollTo({ x: 0, y: 0, animated: true })
+    }
 
     const { width } = Dimensions.get('window')
     const height = width * 0.7 //60%
@@ -100,15 +111,35 @@ export default function NewPoster() {
                     <ScrollView
                         pagingEnabled
                         horizontal
+                        ref={(ref) => scrollView = ref}
+                        onContentSizeChange={() => {
+                            if (imagesUpload.length == 0) {
+                                console.log('oncontent: ', imagesUpload.length)
+                                scrollView.scrollToEnd({ animated: true })
+                            }
+                        }}
                         onScroll={changeImage}
                         style={{ width, height }}>
                         {
                             imagesUpload.map((image, index) => (
-                                <Image
-                                    key={index}
-                                    source={{ uri: image.uri }}
-                                    style={{ width, height, resizeMode: 'cover' }}
-                                />
+                                <View key={index} style={{ width, height }}>
+                                    <TouchableOpacity onPress={() => deleteImage(index)} style={{
+                                        position: 'absolute',
+                                        zIndex: 9999, right: 10, top: 10,
+                                        backgroundColor: '#E02041',
+                                        borderRadius: 20,
+                                        width: 40,
+                                        height: 40,
+                                        justifyContent: 'center',
+                                        alignItems: 'center'
+                                    }}>
+                                        <Icon name="delete" size={30} color="#fff" />
+                                    </TouchableOpacity>
+                                    <Image
+                                        source={{ uri: image.uri }}
+                                        style={{ width, height, resizeMode: 'cover' }}
+                                    />
+                                </View>
                             ))
                         }
                         <TouchableOpacity style={styles.addFile} onPress={handlePicker}>

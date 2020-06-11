@@ -6,6 +6,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.addColumn('posters', 'category_id', { type: Sequelize.INTEGER })
+    return queryInterface.addColumn('posters', 'category_id', Sequelize.INTEGER)
   }
 };

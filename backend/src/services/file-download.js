@@ -10,7 +10,7 @@ aws.config.update({
 
 var s3Client = new aws.S3()
 const downloadParams = {
-  bucket: process.env.AWS_BUCKET,
+  bucket: process.env.AWS_BUCKET || 'tasks-pornase',
   Key: ''
 }
 const downloads3 = {};

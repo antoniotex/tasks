@@ -8,8 +8,6 @@ module.exports = {
       references: { model: 'categories', key: 'id' },
       onUpdate: 'CASCADE',
       onDelete: 'CASCADE'
-    }, {
-      after: 'description'
     })
   },
 

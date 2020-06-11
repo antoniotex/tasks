@@ -11,7 +11,6 @@ export const AuthProvider = ({ children }) => {
 
     useEffect(() => {
         async function loadStorageData() {
-            console.log('passei authContext')
             const storageUser = await AsyncStorage.getItem('@RNAuth:user');
             const storageToken = await AsyncStorage.getItem('@RNAuth:token');
 

@@ -11,7 +11,6 @@ export const PosterProvider = ({ children }) => {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        console.log('passei postercontext')
         async function loadStorageData() {
             const storageUser = await AsyncStorage.getItem('@RNAuth:user');
             const storageToken = await AsyncStorage.getItem('@RNAuth:token');
