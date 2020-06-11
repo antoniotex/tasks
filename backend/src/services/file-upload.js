@@ -30,7 +30,6 @@ const uploadS3 = multer({
 
 
 const fileFilter = function (req, file, cb) {
-  console.log('mimytype', file.mimetype)
   if (file.mimetype === 'image/jpeg' || file.mimetype === 'image/png' || file.mimetype === 'image/jpg') {
     cb(null, true)
   } else {

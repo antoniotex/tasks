@@ -26,7 +26,7 @@ export default function Header() {
 
 const styles = StyleSheet.create({
     header: {
-        // paddingTop: Constants.statusBarHeight + 7,
+        paddingTop: 7,
         width: '100%',
         flexDirection: 'row',
         justifyContent: 'space-between',

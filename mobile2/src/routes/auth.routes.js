@@ -1,27 +1,40 @@
-import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import React from 'react'
+import { createStackNavigator } from '@react-navigation/stack'
+import { createDrawerNavigator } from '@react-navigation/drawer'
 
-import SignIn from '../pages/SignIn';
-import Home from '../pages/Home';
-import Register from '../pages/Register';
+import SignIn from '../pages/SignIn'
+import Home from '../pages/Home'
+import Register from '../pages/Register'
+import Poster from '../pages/Poster'
 
-const AuthStack = createDrawerNavigator();
+const AuthDrawer = createDrawerNavigator()
+const PosterStack = createStackNavigator()
 
-const AuthRoutes = () => {
+const PosterRoutes = () => {
     return (
-        <AuthStack.Navigator initialRouteName="Home">
-            <AuthStack.Screen name="SignIn" component={SignIn} options={{
-                title: 'Entrar'
+        <PosterStack.Navigator initialRouteName="Home">
+            <AuthDrawer.Screen name="Home" component={Home} options={{ headerShown: false }} />
+            <AuthDrawer.Screen name="Poster" component={Poster} options={{
+                title: 'Anúncio'
             }} />
-            <AuthStack.Screen name="Home" component={Home} options={{
-                title: 'Início'
-            }} />
-            <AuthStack.Screen name="Register" component={Register} options={{
-                title: 'Criar conta'
-            }} />
-        </AuthStack.Navigator>
+        </PosterStack.Navigator>
     )
 }
 
-export default AuthRoutes;
+const AuthRoutes = () => {
+    return (
+        <AuthDrawer.Navigator initialRouteName="Home">
+            <AuthDrawer.Screen name="PosterRoutes" component={PosterRoutes} options={{
+                title: 'Início'
+            }} />
+            <AuthDrawer.Screen name="SignIn" component={SignIn} options={{
+                title: 'Entrar'
+            }} />
+            <AuthDrawer.Screen name="Register" component={Register} options={{
+                title: 'Criar conta'
+            }} />
+        </AuthDrawer.Navigator>
+    )
+}
+
+export default AuthRoutes

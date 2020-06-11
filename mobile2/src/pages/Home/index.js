@@ -1,8 +1,7 @@
-import React, { useState, useEffect, useContext, Children } from 'react';
-import { View, Button, FlatList, Text, TouchableOpacity, TextInput, Image } from 'react-native'
+import React, { useEffect, useContext } from 'react';
+import { View, Button, FlatList, Text } from 'react-native'
 import styles from './styles';
 import Card from '../../components/Card'
-import api from '../../services/api'
 import AuthContext from '../../contexts/auth';
 import { useNavigation } from '@react-navigation/native';
 import PosterContext from '../../contexts/posters';

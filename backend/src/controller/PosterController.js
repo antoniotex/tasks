@@ -17,7 +17,6 @@ module.exports = {
                     { model: User, as: 'user', attributes: ['id', 'name'] }
                 ]
             })
-            console.log(posters.length)
             return res.json(posters)
         } catch (error) {
             return res.status(400).json({ error: error })
@@ -26,7 +25,6 @@ module.exports = {
 
     async search(req, res) {
         const { query } = req.query
-        console.log(query)
         const arrQuery = []
 
         for (let i = 0; i < query.split(' ').length; i++) {

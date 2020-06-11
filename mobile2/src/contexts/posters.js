@@ -27,10 +27,8 @@ export const PosterProvider = ({ children }) => {
     }, [])
 
     async function loadPosters(query) {
-        console.log('passei loadposter function')
         const search = query ? `search?query=${query}` : ''
         const response = await api.get(`/posters/${search}`)
-        console.log('response', response.data.length)
         await setPosters(response.data)
     }
 

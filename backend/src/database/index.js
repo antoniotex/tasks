@@ -5,7 +5,6 @@ const Poster = require('../models/Poster')
 const Image = require('../models/Image')
 const Category = require('../models/Category')
 
-console.log('dbConfig', dbConfig)
 const connection = new Sequelize(dbConfig)
 
 User.init(connection)

@@ -10,8 +10,8 @@ const AppStack = createDrawerNavigator();
 const AppRoutes = () => {
     return (
         <AppStack.Navigator>
-            <AppStack.Screen name="NewPoster" component={NewPoster} />
             <AppStack.Screen name="Home" component={Home} />
+            <AppStack.Screen name="NewPoster" component={NewPoster} />
         </AppStack.Navigator>
     )
 }

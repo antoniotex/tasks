@@ -56,7 +56,6 @@ export default function NewPoster() {
                     'Authorization': `Bearer ${storageToken}`
                 }
             })
-            console.log('response.data', response.data)
         } catch (error) {
             console.log(error.response.data.success)
         }
@@ -114,7 +113,6 @@ export default function NewPoster() {
                         ref={(ref) => scrollView = ref}
                         onContentSizeChange={() => {
                             if (imagesUpload.length == 0) {
-                                console.log('oncontent: ', imagesUpload.length)
                                 scrollView.scrollToEnd({ animated: true })
                             }
                         }}
