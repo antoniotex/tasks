@@ -27,7 +27,6 @@ export default function Home() {
     return (
         <View style={styles.container}>
             <Header />
-            {signed && <Button onPress={handleSignout} title="Sair"></Button>}
             {posters.length == 0 && <Text>Nenhum anúncio encontrado para esta pesquisa</Text>}
             <FlatList
                 style={styles.list}
