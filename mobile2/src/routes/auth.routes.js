@@ -23,7 +23,7 @@ const PosterRoutes = () => {
 
 const AuthRoutes = () => {
     return (
-        <AuthDrawer.Navigator initialRouteName="Home">
+        <AuthDrawer.Navigator initialRouteName="PosterRoutes">
             <AuthDrawer.Screen name="PosterRoutes" component={PosterRoutes} options={{
                 title: 'Início'
             }} />

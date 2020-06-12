@@ -1,7 +1,8 @@
 import React from 'react'
 import { StyleSheet, View, Text, Image, TouchableOpacity } from 'react-native'
 import { useNavigation } from '@react-navigation/native';
-import moment from 'moment'
+import moment from 'moment';
+import 'moment/locale/pt-br';
 
 export default function Card({ poster }) {
     const navigation = useNavigation();
@@ -25,8 +26,8 @@ export default function Card({ poster }) {
 
 const styles = StyleSheet.create({
     poster: {
-        borderWidth: 0.5,
-        borderColor: '#ccc',
+        borderWidth: 0.2,
+        borderColor: '#E02041',
         flexDirection: 'row',
         marginVertical: 7,
         marginHorizontal: 8,
