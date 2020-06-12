@@ -56,6 +56,7 @@ export default function NewPoster() {
                     'Authorization': `Bearer ${storageToken}`
                 }
             })
+
         } catch (error) {
             console.log(error.response.data.success)
         }

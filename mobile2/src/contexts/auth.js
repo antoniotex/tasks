@@ -45,6 +45,8 @@ export const AuthProvider = ({ children }) => {
             api.defaults.headers['Authorization'] = `Bearer ${response.data.token}`
             setUser(response.data.user)
 
+            ToastAndroid.showWithGravity(`Conectado como ${response.data.user.username}`, ToastAndroid.SHORT, ToastAndroid.CENTER)
+
             await AsyncStorage.setItem('@RNAuth:user', JSON.stringify(response.data.user));
             await AsyncStorage.setItem('@RNAuth:token', response.data.token);
         } catch (error) {
@@ -54,6 +56,7 @@ export const AuthProvider = ({ children }) => {
 
     function signOut() {
         AsyncStorage.clear().then(() => {
+            ToastAndroid.showWithGravity(`Você foi desconectado`, ToastAndroid.SHORT, ToastAndroid.CENTER)
             setUser(null);
         });
     }

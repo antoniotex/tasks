@@ -5,6 +5,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import Home from '../pages/Home';
 import NewPoster from '../pages/NewPoster';
 import Poster from '../pages/Poster'
+import MyPosters from '../pages/MyPosters'
 
 const AppStack = createDrawerNavigator();
 const PosterStack = createStackNavigator()
@@ -26,7 +27,12 @@ const AppRoutes = () => {
             <AppStack.Screen name="PosterRoutes" component={PosterRoutes} options={{
                 title: 'Início'
             }} />
-            <AppStack.Screen name="NewPoster" component={NewPoster} />
+            <AppStack.Screen name="NewPoster" component={NewPoster} options={{
+                title: 'Anunciar'
+            }} />
+            <AppStack.Screen name="MyPosters" component={MyPosters} options={{
+                title: 'Meus anúncios'
+            }} />
         </AppStack.Navigator>
     )
 }
