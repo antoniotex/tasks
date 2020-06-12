@@ -9,7 +9,6 @@ import 'moment/locale/pt-br';
 import styles from './styles';
 
 export default function Poster() {
-    moment.locale('br')
     const [imageIndex, setImageIndex] = useState(0)
     const route = useRoute();
     const poster = route.params.poster

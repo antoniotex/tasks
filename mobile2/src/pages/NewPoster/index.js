@@ -36,7 +36,7 @@ export default function NewPoster() {
     async function handleSubmit() {
         const images = new FormData()
         for (let i = 0; i < imagesUpload.length; i++) {
-            await images.append(`images`, imagesUpload[0])
+            await images.append(`images`, imagesUpload[i])
         }
 
         images.append('title', title)
