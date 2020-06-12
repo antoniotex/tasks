@@ -56,6 +56,7 @@ export default function NewPoster() {
                     'Authorization': `Bearer ${storageToken}`
                 }
             })
+            navigation.navigate('MyPosters')
 
         } catch (error) {
             console.log(error.response.data.success)

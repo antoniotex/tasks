@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react'
-import { View, TouchableOpacity, TextInput, StyleSheet } from 'react-native'
+import { View, TextInput, StyleSheet, Alert } from 'react-native'
 import Icon from 'react-native-vector-icons/AntDesign'
 import PosterContext from '../contexts/posters';
 import AuthContext from '../contexts/auth';
@@ -14,7 +14,10 @@ export default function Header() {
     const [query, setQuery] = useState('')
 
     function handleSignout() {
-        signOut();
+        Alert.alert('Aviso', 'Você será desconectado, deseja continuar?', [
+            { text: 'Desconectar', onPress: () => signOut() },
+            { text: 'Cancelar' }
+        ])
     }
 
     return (
