@@ -24,6 +24,8 @@ routes.post('/:user_id/posters', uploads3.array('images', 4), PosterController.s
 routes.put('/posters/:id', authMiddleware, PosterController.update)
 routes.delete('/posters/:id', authMiddleware, PosterController.delete)
 
+routes.get('/posters/user/:user_id', authMiddleware, PosterController.indexByUser)
+
 routes.get('/categories', PosterController.getCategories)
 
 module.exports = routes

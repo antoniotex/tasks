@@ -74,6 +74,25 @@ module.exports = {
         }
     },
 
+    async indexByUser(req, res) {
+        const { user_id } = req.params
+
+        try {
+            const user = await User.findByPk(user_id)
+            if (!user) return res.status(400).json({ error: 'Usuário não encontrado' })
+
+            const posters = await Poster.findAll({
+                attributes: ['id', 'title', 'createdAt'],
+                where: {
+                    user_id
+                }
+            })
+            return res.json(posters)
+        } catch (error) {
+            return res.status(400).json({ error: error })
+        }
+    },
+
     async store(req, res) {
         const { user_id } = req.params
         req.body = JSON.parse(JSON.stringify(req.body))
