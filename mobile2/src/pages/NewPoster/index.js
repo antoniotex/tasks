@@ -1,9 +1,10 @@
 import React, { useContext, useState, useEffect, createRef } from 'react';
-import { Dimensions, View, Text, TouchableOpacity, TextInput, Image, KeyboardAvoidingView, Platform, ScrollView, AsyncStorage, Button, FlatList } from 'react-native';
+import { Dimensions, View, Text, TouchableOpacity, TextInput, Image, KeyboardAvoidingView, Platform, ScrollView, Button, FlatList } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Picker } from '@react-native-community/picker'
 import Icon from 'react-native-vector-icons/AntDesign'
 import DocumentPicker from 'react-native-document-picker';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import AuthContext from '../../contexts/auth';
 import logoImg from '../../assets/logo.png'
@@ -48,9 +49,10 @@ export default function NewPoster() {
         images.append('category_id', category)
 
         const storageToken = await AsyncStorage.getItem('@RNAuth:token');
+        const storageUser = await AsyncStorage.getItem('@RNAuth:user');
 
         try {
-            const response = await api.post('/2/posters', images, {
+            const response = await api.post(`/${JSON.parse(storageUser).id}/posters`, images, {
                 headers: {
                     'Content-Type': 'multipart/form-data;boundary=----WebKitFormBoundaryyrV7KO0BoCBuDbTL',
                     'Authorization': `Bearer ${storageToken}`

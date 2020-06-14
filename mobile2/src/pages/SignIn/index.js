@@ -9,8 +9,8 @@ import logoImg from '../../assets/logo.png'
 import styles from './styles';
 
 export default function SignIn() {
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+    const [email, setEmail] = useState('antoniotx.dev@gmail.com')
+    const [password, setPassword] = useState('antonio')
     const { signed, signIn } = useContext(AuthContext);
     const navigation = useNavigation();
 

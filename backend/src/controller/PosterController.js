@@ -85,7 +85,8 @@ module.exports = {
                 attributes: ['id', 'title', 'createdAt'],
                 where: {
                     user_id
-                }
+                },
+                order: [['id', 'DESC']],
             })
             return res.json(posters)
         } catch (error) {
