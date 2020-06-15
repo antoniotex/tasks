@@ -17,12 +17,10 @@ const styles = StyleSheet.create({
         borderColor: '#E02041',
         flexDirection: 'row',
         marginVertical: 10,
-        marginHorizontal: 5
-    },
-    cardBar: {
-        width: 7,
-        height: '100%',
-        backgroundColor: '#E02041',
+        marginHorizontal: 5,
+        borderRadius: 10,
+        paddingVertical: 10,
+        backgroundColor: 'rgba(224,32,65,.1)'
     },
     cardInfo: {
         flexDirection: 'row',

@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react'
 import { View, TextInput, StyleSheet, Alert } from 'react-native'
-import Icon from 'react-native-vector-icons/AntDesign'
+import Icon from 'react-native-vector-icons/MaterialIcons'
 import PosterContext from '../contexts/posters';
 import AuthContext from '../contexts/auth';
 import { useNavigation } from '@react-navigation/native';
@@ -22,8 +22,8 @@ export default function Header() {
 
     return (
         <View style={styles.header}>
+            <Icon name="menu" size={35} color="#E02041" onPress={navigation.toggleDrawer} />
             <View style={styles.searchArea}>
-                <Icon name="search1" size={30} color="#E02041" onPress={() => loadPosters(query)} />
                 <TextInput
                     style={styles.search}
                     placeholder="Pesquisar"
@@ -31,22 +31,21 @@ export default function Header() {
                     onSubmitEditing={() => loadPosters(query)}
                 >
                 </TextInput>
+                {/* <Icon name="search" size={30} color="#E02041" onPress={() => loadPosters(query)} /> */}
+                <Icon name="search" size={30} color="#E02041" onPress={handleSignout} />
             </View>
-            {signed && <Icon name="poweroff" size={25} color="#E02041" onPress={handleSignout} />}
-            {!signed && <Icon name="login" size={25} color="#E02041" onPress={() => navigation.navigate('SignIn')} />}
         </View>
     )
 }
 
 const styles = StyleSheet.create({
     header: {
-        paddingTop: 7,
         width: '100%',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        paddingHorizontal: 10,
-        marginBottom: 10,
+        paddingHorizontal: 5,
+        marginBottom: 10
     },
     searchArea: {
         flex: 1,
@@ -54,11 +53,12 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#f5f5f5',
         paddingLeft: 5,
-        marginRight: 10
+        marginLeft: 5,
+        borderRadius: 8
     },
     search: {
         flex: 1,
-        paddingLeft: 10,
+        paddingLeft: 4,
         fontSize: 16,
         color: '#000',
         backgroundColor: '#f5f5f5',
