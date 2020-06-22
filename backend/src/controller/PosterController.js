@@ -7,7 +7,6 @@ require('dotenv/config')
 
 module.exports = {
     async index(req, res) {
-        console.log('cheguei index')
         try {
             const posters = await Poster.findAll({
                 attributes: { exclude: ['category_id', 'user_id', 'updatedAt'] },
@@ -118,7 +117,7 @@ module.exports = {
 
             return res.json(poster)
         } catch (error) {
-            return res.status(400).json({ success: false })
+            return res.status(400).json({ error })
         }
     },
 

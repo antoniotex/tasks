@@ -35,6 +35,7 @@ export const PosterProvider = ({ children }) => {
         const search = query ? `search?query=${query}` : ''
         const response = await api.get(`/posters/${search}`)
         await setPosters(response.data)
+        setLoading(false)
     }
 
     async function loadCategories() {

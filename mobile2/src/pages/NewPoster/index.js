@@ -25,7 +25,7 @@ export default function NewPoster() {
     const imageDefault = 'https://assets.zoom.us/images/en-us/desktop/generic/video-not-working.PNG'
 
     const { signed, register } = useContext(AuthContext);
-    const { categories, loadCategories, posterEditId, loading, setLoading } = useContext(PosterContext)
+    const { categories, loadCategories, posterEditId, loading, setLoading, changePosterMode } = useContext(PosterContext)
 
     const navigation = useNavigation();
     const route = useRoute()
@@ -63,9 +63,8 @@ export default function NewPoster() {
         const storageUser = await AsyncStorage.getItem('@RNAuth:user');
 
         try {
-            if (isEdit) {
-                console.log('isEdit::: ', isEdit)
-                const response = await api.put(`/posters/${editPosterId}`, images, {
+            if (posterEditId) {
+                const response = await api.post(`/posters/${posterEditId}`, images, {
                     headers: {
                         'Content-Type': 'multipart/form-data;boundary=----WebKitFormBoundaryyrV7KO0BoCBuDbTL',
                         'Authorization': `Bearer ${storageToken}`
@@ -82,7 +81,7 @@ export default function NewPoster() {
             navigation.navigate('MyPosters')
 
         } catch (error) {
-            console.log(error.response.data.success)
+            console.log(error.response.data.error)
         }
     }
 
@@ -129,8 +128,8 @@ export default function NewPoster() {
     }
 
     async function editInputs() {
-        console.log('dentro editInputs', posterEditId)
         const response = await api.get(`/posters/${posterEditId}`)
+        changePosterMode(null)
         setTitle(response.data.title)
         await setCategory(response.data.category_id)
         setCep(response.data.cep)

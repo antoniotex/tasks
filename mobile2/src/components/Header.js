@@ -6,7 +6,7 @@ import AuthContext from '../contexts/auth';
 import { useNavigation } from '@react-navigation/native';
 
 export default function Header() {
-    const { loadPosters } = useContext(PosterContext);
+    const { loadPosters, setLoading } = useContext(PosterContext);
     const { signOut, signed } = useContext(AuthContext)
 
     const navigation = useNavigation();
@@ -20,6 +20,11 @@ export default function Header() {
         ])
     }
 
+    async function loadPostersHome(query) {
+        setLoading(true)
+        loadPosters(query)
+    }
+
     return (
         <View style={styles.header}>
             <Icon name="menu" size={35} color="#E02041" onPress={navigation.toggleDrawer} />
@@ -28,7 +33,7 @@ export default function Header() {
                     style={styles.search}
                     placeholder="Pesquisar"
                     onChangeText={text => setQuery(text)}
-                    onSubmitEditing={() => loadPosters(query)}
+                    onSubmitEditing={() => loadPostersHome(query)}
                 >
                 </TextInput>
                 {/* <Icon name="search" size={30} color="#E02041" onPress={() => loadPosters(query)} /> */}

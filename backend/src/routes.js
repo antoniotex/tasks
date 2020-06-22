@@ -21,7 +21,7 @@ routes.get('/posters/:id', PosterController.indexById)
 
 routes.post('/:user_id/posters', uploads3.array('images', 4), PosterController.store)
 
-routes.put('/posters/:id', uploads3.array('images', 4), PosterController.update)
+routes.post('/posters/:id', uploads3.array('images', 4), PosterController.update)
 routes.delete('/posters/:id', authMiddleware, PosterController.delete)
 
 routes.get('/posters/user/:user_id', authMiddleware, PosterController.indexByUser)
