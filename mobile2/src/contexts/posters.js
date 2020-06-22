@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect } from 'react';
 // import { AsyncStorage } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import api, * as auth from '../services/api';
+import api from '../services/api';
 
 const PosterContext = createContext({ posters: [] });
 
@@ -9,6 +9,7 @@ export const PosterProvider = ({ children }) => {
     const [posters, setPosters] = useState([]);
     const [categories, setCategories] = useState([])
     const [loading, setLoading] = useState(true);
+    const [posterEditId, setPosterEditId] = useState(null)
 
     useEffect(() => {
         async function loadStorageData() {
@@ -26,6 +27,10 @@ export const PosterProvider = ({ children }) => {
         loadStorageData()
     }, [])
 
+    async function changePosterMode(id) {
+        await setPosterEditId(id)
+    }
+
     async function loadPosters(query) {
         const search = query ? `search?query=${query}` : ''
         const response = await api.get(`/posters/${search}`)
@@ -38,7 +43,12 @@ export const PosterProvider = ({ children }) => {
     }
 
     return (
-        <PosterContext.Provider value={{ posters, loadPosters, categories, loadCategories }} >
+        <PosterContext.Provider value={{
+            posters, loadPosters,
+            categories, loadCategories,
+            posterEditId, changePosterMode,
+            loading, setLoading
+        }} >
             {children}
         </PosterContext.Provider>
     )

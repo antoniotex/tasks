@@ -28,7 +28,8 @@ const AppRoutes = () => {
                 title: 'Início'
             }} />
             <AppStack.Screen name="NewPoster" component={NewPoster} options={{
-                title: 'Anunciar'
+                title: 'Anunciar',
+                unmountOnBlur: true
             }} />
             <AppStack.Screen name="MyPosters" component={MyPosters} options={{
                 title: 'Meus anúncios'

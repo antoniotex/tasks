@@ -7,6 +7,7 @@ require('dotenv/config')
 
 module.exports = {
     async index(req, res) {
+        console.log('cheguei index')
         try {
             const posters = await Poster.findAll({
                 attributes: { exclude: ['category_id', 'user_id', 'updatedAt'] },
@@ -58,7 +59,7 @@ module.exports = {
         const { id } = req.params
         try {
             const poster = await Poster.findByPk(id, {
-                attributes: { exclude: ['category_id', 'user_id', 'updatedAt'] },
+                attributes: { exclude: ['user_id', 'updatedAt'] },
                 include: [
                     { association: 'images', attributes: ['id', 'location'] },
                     { model: Category, as: 'category', attributes: ['name'] },
@@ -123,12 +124,24 @@ module.exports = {
 
     async update(req, res) {
         const { id } = req.params
+        console.log(req.body)
         try {
             const poster = await Poster.findByPk(id)
 
             if (!poster) return res.status(400).json({ error: 'Anúncio não encontrado' })
 
             poster.update(req.body)
+
+            const images = await req.files.map(image => {
+                return {
+                    location: image.location,
+                    poster_id: poster.id
+                }
+            });
+
+            if (images.length > 0) {
+                await Image.bulkCreate(images)
+            }
 
             return res.json({ success: true })
         } catch (error) {
@@ -157,5 +170,17 @@ module.exports = {
             order: ['name'],
         })
         return res.json(categories)
+    },
+
+    async deleteImageById(req, res) {
+        try {
+            const { image_id } = req.params
+            const image = await Image.findByPk(image_id)
+            if (!image) return res.status(400).json({ error: 'Imagem não encontrado' })
+            image.destroy()
+            return res.json({ success: true })
+        } catch (error) {
+            return res.status(400).json({ success: false })
+        }
     }
 }
