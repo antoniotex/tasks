@@ -1,24 +1,15 @@
 import React, { useState, useContext } from 'react'
-import { View, TextInput, StyleSheet, Alert } from 'react-native'
+import { View, TextInput, StyleSheet } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import PosterContext from '../contexts/posters';
-import AuthContext from '../contexts/auth';
 import { useNavigation } from '@react-navigation/native';
 
 export default function Header() {
     const { loadPosters, setLoading } = useContext(PosterContext);
-    const { signOut, signed } = useContext(AuthContext)
 
     const navigation = useNavigation();
 
     const [query, setQuery] = useState('')
-
-    function handleSignout() {
-        Alert.alert('Aviso', 'Você será desconectado, deseja continuar?', [
-            { text: 'Desconectar', onPress: () => signOut() },
-            { text: 'Cancelar' }
-        ])
-    }
 
     async function loadPostersHome(query) {
         setLoading(true)
@@ -36,8 +27,7 @@ export default function Header() {
                     onSubmitEditing={() => loadPostersHome(query)}
                 >
                 </TextInput>
-                {/* <Icon name="search" size={30} color="#E02041" onPress={() => loadPosters(query)} /> */}
-                <Icon name="search" size={30} color="#E02041" onPress={handleSignout} />
+                <Icon name="search" size={30} color="#E02041" onPress={() => loadPosters(query)} />
             </View>
         </View>
     )

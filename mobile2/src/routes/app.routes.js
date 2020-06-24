@@ -6,6 +6,7 @@ import Home from '../pages/Home';
 import NewPoster from '../pages/NewPoster';
 import Poster from '../pages/Poster'
 import MyPosters from '../pages/MyPosters'
+import Settings from '../pages/Settings';
 
 const AppStack = createDrawerNavigator();
 const PosterStack = createStackNavigator()
@@ -33,6 +34,9 @@ const AppRoutes = () => {
             }} />
             <AppStack.Screen name="MyPosters" component={MyPosters} options={{
                 title: 'Meus anúncios'
+            }} />
+            <AppStack.Screen name="Settings" component={Settings} options={{
+                title: 'Configurações',
             }} />
         </AppStack.Navigator>
     )
