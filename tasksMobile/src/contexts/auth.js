@@ -1,7 +1,7 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { ToastAndroid } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-import api, * as auth from '../services/api';
+import Toast from 'react-native-tiny-toast'
+import api from '../services/api';
 
 const AuthContext = createContext({ signed: false, user: {} });
 
@@ -35,7 +35,7 @@ export const AuthProvider = ({ children }) => {
             await AsyncStorage.setItem('@RNAuth:user', JSON.stringify(response.data.user));
             await AsyncStorage.setItem('@RNAuth:token', response.data.token);
         } catch (error) {
-            ToastAndroid.showWithGravity(error.response.data.error, ToastAndroid.SHORT, ToastAndroid.CENTER)
+            Toast.show(error.response.data.error)
         }
     }
 
@@ -45,18 +45,18 @@ export const AuthProvider = ({ children }) => {
             api.defaults.headers['Authorization'] = `Bearer ${response.data.token}`
             setUser(response.data.user)
 
-            // ToastAndroid.showWithGravity(`Conectado como ${response.data.user.username}`, ToastAndroid.SHORT, ToastAndroid.CENTER)
+            Toast.show(`Conectado como ${response.data.user.username}`)
 
             await AsyncStorage.setItem('@RNAuth:user', JSON.stringify(response.data.user));
             await AsyncStorage.setItem('@RNAuth:token', response.data.token);
         } catch (error) {
-            ToastAndroid.showWithGravity(error.response.data.error, ToastAndroid.SHORT, ToastAndroid.CENTER)
+            Toast.show(error.response.data.error)
         }
     }
 
     function signOut() {
         AsyncStorage.clear().then(() => {
-            ToastAndroid.showWithGravity(`Você foi desconectado`, ToastAndroid.SHORT, ToastAndroid.CENTER)
+            Toast.show(`Você foi desconectado`)
             setUser(null);
         });
     }

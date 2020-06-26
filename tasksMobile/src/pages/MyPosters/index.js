@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { View, Text, ToastAndroid, Alert, ActivityIndicator } from 'react-native'
+import { View, Text, Alert, ActivityIndicator } from 'react-native'
+import Toast from 'react-native-tiny-toast'
 import api from '../../services/api';
 import AsyncStorage from '@react-native-community/async-storage';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -48,7 +49,7 @@ export default function MyPosters() {
             setPosters(response.data)
             setLoading(false)
         } catch (error) {
-            ToastAndroid.showWithGravity(error.response.data.error, ToastAndroid.SHORT, ToastAndroid.CENTER)
+            Toast.show(error.response.data.error)
         }
     }
 
