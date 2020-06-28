@@ -50,9 +50,9 @@ export default function SignIn() {
                 </TouchableOpacity>
                 <Text style={styles.defaultText}>Ou utilize sua rede social</Text>
                 <View style={styles.socialNetwork}>
-                    <Icon name="facebook-square" size={45} color="#4267B2" />
-                    <Icon style={{ marginHorizontal: 30 }} name="google" size={45} color="#DB4437" />
-                    <Icon name="twitter" size={45} color="#1DA1F2" />
+                    <Icon name="facebook-square" size={45} color="#4267B2" onPress={() => alert('Funcionalidade estará disponível em breve')} />
+                    <Icon style={{ marginHorizontal: 30 }} name="google" size={45} color="#DB4437" onPress={() => alert('Funcionalidade estará disponível em breve')} />
+                    <Icon name="twitter" size={45} color="#1DA1F2" onPress={() => alert('Funcionalidade estará disponível em breve')} />
                 </View>
             </KeyboardAvoidingView>
             <TouchableOpacity style={styles.signup} onPress={() => navigation.navigate('Register')}>

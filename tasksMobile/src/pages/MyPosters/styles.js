@@ -10,11 +10,11 @@ const styles = StyleSheet.create({
         textAlign:'center'
     },
     list: {
-        borderTopWidth: .2,
+        borderTopWidth: .7,
         paddingVertical: 10,
     },
     card: {
-        borderWidth: .4,
+        borderWidth: .7,
         borderColor: '#E02041',
         flexDirection: 'row',
         marginVertical: 10,

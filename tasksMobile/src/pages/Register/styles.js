@@ -2,59 +2,54 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-        backgroundColor: '#ddd'
+        flex: 1
     },
-    logo: {
-        width: 200,
-        height: 80,
-        marginBottom: 50
+    signupTitle:{
+        fontSize:35,
+        textAlign:'center',
+        color: '#f73859',
+        fontWeight:'bold',
+        marginTop:50,
+        marginBottom:40
     },
-    login: {
-        width: '93%',
-        backgroundColor: '#fff',
-        paddingHorizontal: 10,
-        paddingVertical: 40,
-        marginBottom: 60
+    inputBox:{
+        borderWidth:.7,
+        borderColor:'#f73859',
+        flexDirection:'row',
+        marginHorizontal:20,
+        marginVertical:10,
+        paddingVertical:10,
+        paddingLeft:5,
+        borderRadius:10,
+        alignItems:'center'
     },
-    inputBox: {
-        flexDirection: 'row',
-        borderBottomWidth: 2,
-        borderBottomColor: '#ccc',
-        marginVertical: 10,
-        alignItems: 'center'
+    input:{
+        color:'#000',
+        width:'90%',
+        fontSize:18,
+        padding:0,
+        paddingLeft:5
     },
-    input: {
-        fontSize: 20,
-        width: '100%',
-        padding: 10
+    loginButton:{
+        alignSelf:'center',
+        backgroundColor:'#f73859',
+        borderRadius:10,
+        marginVertical:30,
+        width:'90%',
+        marginHorizontal:20,
     },
-    loginButton: {
-        width: 200,
-        height: 50,
-        backgroundColor: '#E02041',
-        alignSelf: 'center',
-        borderRadius: 40,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginVertical: 20
+    textLoginButton:{
+        fontSize:25,
+        color:'#fff',
+        paddingVertical:20,
+        textAlign:'center'
     },
-    textLoginButton: {
-        color: '#fff',
-        fontSize: 20,
-        fontWeight: 'bold'
+    signupText:{
+        fontSize:17,
+        textAlign:'center',
+        marginTop:40,
+        color:'#f73859'
     },
-    socialNetwork: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        marginVertical: 20
-    },
-    signup: {
-        marginTop: 40,
-        marginBottom: 80
-    }
 })
 
 export default styles;

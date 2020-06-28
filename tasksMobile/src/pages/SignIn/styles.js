@@ -24,12 +24,14 @@ const styles = StyleSheet.create({
         marginVertical:10,
         paddingVertical:10,
         paddingLeft:5,
-        borderRadius:10
+        borderRadius:10,
+        alignItems:'center'
     },
     input:{
         color:'#000',
         width:'90%',
         fontSize:18,
+        padding:0,
         paddingLeft:5
     },
     loginButton:{
