@@ -1,7 +1,7 @@
 import 'react-native-gesture-handler';
 import React from 'react';
 import Routes from './src/routes'
-import { StatusBar, SafeAreaView, View, Text } from 'react-native'
+import { StatusBar } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native';
 
 import { AuthProvider } from './src/contexts/auth'
@@ -17,7 +17,6 @@ const App = () => {
         </AuthProvider>
       </PosterProvider>
     </NavigationContainer>
-    // <View><Text>Ola app.js</Text></View>
   );
 };
 

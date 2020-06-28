@@ -1,9 +1,9 @@
 import React, { useState, useContext } from 'react'
-import { View, TextInput, StyleSheet } from 'react-native'
+import { View, TextInput, StyleSheet, SafeAreaView } from 'react-native'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons'
 import PosterContext from '../contexts/posters';
 import { useNavigation } from '@react-navigation/native';
-import { SafeAreaView } from 'react-navigation';
+// import { SafeAreaView } from 'react-navigation';
 
 export default function Header() {
     const { loadPosters, setLoading } = useContext(PosterContext);
@@ -28,8 +28,8 @@ export default function Header() {
                     onSubmitEditing={() => loadPostersHome(query)}
                 >
                 </TextInput>
-            </View>
                 <MaterialCommunityIcons name="magnify" size={30} color="#E02041" onPress={() => loadPosters(query)} />
+            </View>
         </SafeAreaView>
     )
 }

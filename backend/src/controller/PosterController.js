@@ -123,7 +123,6 @@ module.exports = {
 
     async update(req, res) {
         const { id } = req.params
-        console.log(req.body)
         try {
             const poster = await Poster.findByPk(id)
 

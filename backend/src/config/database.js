@@ -3,13 +3,16 @@ require('dotenv/config')
 const config = {
     development: {
         dialect: "mssql",
-        server: "DESKTOP-EVHUFLE",
+        server: "localhost",
         username: "sa",
-        password: "861260",
+        password: "#Atex8612#",
         database: "tasks",
         dialectModulePath: "tedious",
         dialectOptions: {
-            driver: "SQL Server Native Client 11.0",
+            options: {
+                encrypt: true,
+                trustServerCertificate: true
+            },
             trustedConnection: true
         },
         host: "localhost",
@@ -44,5 +47,5 @@ const config = {
         }
     }
 }
-
-module.exports = config[process.env.NODE_ENV]
+console.log(process.env.NODE_ENV)
+module.exports = config[process.env.NODE_ENV || `development`]

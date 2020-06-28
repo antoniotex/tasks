@@ -14,7 +14,7 @@ export default function Card({ poster }) {
 
     return (
         <TouchableOpacity style={styles.poster} onPress={() => loadPoster(poster)}>
-            <Image style={styles.posterImage} source={{ uri: poster.images.length > 0 ? poster.images[0].location : imageDefault }} />
+            <Image style={styles.posterImage} resizeMode={'cover'} source={{ uri: !poster.images.length > 0 ? poster.images[0].location : imageDefault }} />
             <View style={styles.posterInfo}>
                 <Text style={styles.posterTitle}>{poster.title}</Text>
                 <Text style={styles.posterCategory}>Categoria: {poster.category.name}</Text>
@@ -36,6 +36,7 @@ const styles = StyleSheet.create({
     posterImage: {
         width: 120,
         height: 120,
+        resizeMode:'cover',
         borderTopLeftRadius: 20,
         borderBottomLeftRadius: 20
     },
