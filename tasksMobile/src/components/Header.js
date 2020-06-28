@@ -47,9 +47,9 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: '#f5f5f5',
+        backgroundColor: '#e5e5e5',
         paddingLeft: 5,
-        marginLeft: 5,
+        marginHorizontal: 5,
         borderRadius: 8
     },
     search: {
@@ -57,7 +57,7 @@ const styles = StyleSheet.create({
         paddingLeft: 4,
         fontSize: 16,
         color: '#000',
-        backgroundColor: '#f5f5f5',
+        backgroundColor: '#e5e5e5',
         paddingVertical: 5,
     }
 })

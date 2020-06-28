@@ -6,14 +6,15 @@ const styles = StyleSheet.create({
     },
     counter: {
         fontSize: 25,
-        marginVertical: 15
+        marginVertical: 10,
+        textAlign:'center'
     },
     list: {
         borderTopWidth: .2,
-        paddingVertical: 15,
+        paddingVertical: 10,
     },
     card: {
-        borderWidth: .2,
+        borderWidth: .4,
         borderColor: '#E02041',
         flexDirection: 'row',
         marginVertical: 10,

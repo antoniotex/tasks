@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, Image, ScrollView, Dimensions } from 'react-native'
 import { useRoute } from '@react-navigation/native';
-// import Icon from 'react-native-vector-icons/AntDesign'
+import Icon from 'react-native-vector-icons/AntDesign'
 
 import moment from 'moment';
 import 'moment/locale/pt-br';
@@ -32,7 +32,7 @@ export default function Poster() {
                     style={{ width, height, backgroundColor: '#ddd' }}>
                     {
                         poster.images.map((image, index) => (
-                            <Image key={index} style={{ width, height, resizeMode: 'contain' }} source={{ uri: image.location }} />
+                            <Image key={index} style={{ width, height, resizeMode:'contain' }} source={{ uri: image.location }} />
                         ))
                     }
 
@@ -41,11 +41,11 @@ export default function Poster() {
                     flexDirection: 'row', justifyContent: 'center', width,
                     position: 'absolute', bottom: -15
                 }}>
-                    {/* {
+                    {
                         poster.images.length > 1 && poster.images.map((image, index) => (
                             <Icon key={index} name="minus" size={50} color={index == imageIndex ? '#E02041' : '#888'} />
                         ))
-                    } */}
+                    }
                 </View>
             </View>
             <View style={styles.posterDetails}>

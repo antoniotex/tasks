@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { View, Text, Alert, ActivityIndicator } from 'react-native'
+import { View, Text, Alert, ActivityIndicator, SafeAreaView } from 'react-native'
 import Toast from 'react-native-tiny-toast'
 import api from '../../services/api';
 import AsyncStorage from '@react-native-community/async-storage';
 import { ScrollView } from 'react-native-gesture-handler';
-// import Icon from 'react-native-vector-icons/AntDesign'
+import Icon from 'react-native-vector-icons/AntDesign'
 import PosterContext from '../../contexts/posters';
 import { useNavigation } from '@react-navigation/native';
 import styles from './styles'
@@ -83,8 +83,8 @@ export default function MyPosters() {
         )
     else
         return (
-            <View style={styles.container}>
-                <Text style={styles.counter}>Anúncios: {posters.length}</Text>
+            <SafeAreaView style={styles.container}>
+                <Text style={styles.counter}>Meus anúncios</Text>
                 <ScrollView style={styles.list}>
                     {posters.map((poster, index) => (
                         <View key={index} style={styles.card}>
@@ -94,13 +94,13 @@ export default function MyPosters() {
                                     <Text style={styles.cardDate}>{moment(poster.createdAt).calendar()}</Text>
                                 </View>
                                 <View style={styles.cardActions}>
-                                    {/* <Icon name="delete" size={20} color="#E02041" onPress={() => deletePoster(poster.id)} />
-                                    <Icon name="edit" size={20} color="#E02041" onPress={() => editPoster(poster)} /> */}
+                                    <Icon name="delete" size={20} color="#E02041" onPress={() => deletePoster(poster.id)} />
+                                    <Icon name="edit" size={20} color="#E02041" onPress={() => editPoster(poster)} />
                                 </View>
                             </View>
                         </View>
                     ))}
                 </ScrollView>
-            </View>
+            </SafeAreaView>
         )
 }

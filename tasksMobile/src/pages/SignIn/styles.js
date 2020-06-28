@@ -3,56 +3,53 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-        backgroundColor: '#ddd'
+        backgroundColor:'#fff'
     },
-    logo: {
-        width: 200,
-        height: 80,
-        marginBottom: 50
+    defaultText:{
+        fontSize:17,
+        textAlign:'center',
+        marginTop:20
     },
-    login: {
-        width: '93%',
-        backgroundColor: '#fff',
-        paddingHorizontal: 10,
-        paddingVertical: 40
+    signupText:{
+        fontSize:17,
+        textAlign:'center',
+        marginTop:40,
+        color:'#f73859'
     },
-    inputBox: {
-        flexDirection: 'row',
-        borderBottomWidth: 2,
-        borderBottomColor: '#ccc',
-        marginVertical: 10,
-        alignItems: 'center'
+    inputBox:{
+        borderWidth:.7,
+        borderColor:'#f73859',
+        flexDirection:'row',
+        marginHorizontal:20,
+        marginVertical:10,
+        paddingVertical:10,
+        paddingLeft:5,
+        borderRadius:10
     },
-    input: {
-        fontSize: 20,
-        width: '100%',
-        padding: 10
+    input:{
+        color:'#000',
+        width:'90%',
+        fontSize:18,
+        paddingLeft:5
     },
-    loginButton: {
-        width: 200,
-        height: 50,
-        backgroundColor: '#E02041',
-        alignSelf: 'center',
-        borderRadius: 40,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginVertical: 20
+    loginButton:{
+        alignSelf:'center',
+        backgroundColor:'#f73859',
+        borderRadius:10,
+        marginVertical:30,
+        width:'90%',
+        marginHorizontal:20,
     },
-    textLoginButton: {
-        color: '#fff',
-        fontSize: 20,
-        fontWeight: 'bold'
+    textLoginButton:{
+        fontSize:25,
+        color:'#fff',
+        paddingVertical:20,
+        textAlign:'center'
     },
-    socialNetwork: {
-        flexDirection: 'row',
-        justifyContent: 'center',
-        marginVertical: 20
-    },
-    signup: {
-        marginTop: 40,
-        marginBottom: 80
+    socialNetwork:{
+        flexDirection:'row',
+        justifyContent:'center',
+        marginVertical:20
     }
 })
 
