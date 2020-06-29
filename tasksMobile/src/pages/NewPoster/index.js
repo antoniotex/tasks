@@ -150,7 +150,6 @@ export default function NewPoster() {
     }
 
     const { width } = Dimensions.get('window')
-    const height = width * 0.7 //60%
 
     if (loading)
         return (
