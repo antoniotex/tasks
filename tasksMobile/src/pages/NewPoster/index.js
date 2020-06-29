@@ -118,7 +118,6 @@ export default function NewPoster() {
         if (imagesUpload[index].id !== undefined) {
             await api.delete(`/posters/image/${imagesUpload[index].id}`)
         }
-
         let auxImages = imagesUpload
         auxImages.splice(index, 1)
         setImagesUpload(auxImages)
