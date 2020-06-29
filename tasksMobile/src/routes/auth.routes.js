@@ -31,7 +31,7 @@ const AuthRoutes = () => {
                 title: 'Entrar'
             }} />
             <AuthDrawer.Screen name="Register" component={Register} options={{
-                title: 'Criar conta'
+                title: 'Criar conta',
             }} />
         </AuthDrawer.Navigator>
     )

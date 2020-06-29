@@ -9,7 +9,7 @@ const styles = StyleSheet.create({
         textAlign:'center',
         color: '#f73859',
         fontWeight:'bold',
-        marginTop:50,
+        marginTop:40,
         marginBottom:40
     },
     inputBox:{

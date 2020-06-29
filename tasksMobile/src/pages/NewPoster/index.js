@@ -1,13 +1,12 @@
 import React, { useContext, useState, useEffect, createRef } from 'react';
-import { Dimensions, View, Text, TouchableOpacity, TextInput, Image, KeyboardAvoidingView, Platform, ScrollView, ActivityIndicator } from 'react-native';
+import { Dimensions, View, Text, TouchableOpacity, TextInput, Image, KeyboardAvoidingView, Platform, ScrollView, ActivityIndicator, SafeAreaView } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { Picker } from '@react-native-community/picker'
-// import Icon from 'react-native-vector-icons/AntDesign'
+import { PickerIOS } from '@react-native-community/picker'
+import Icon from 'react-native-vector-icons/AntDesign'
 import DocumentPicker from 'react-native-document-picker';
 import AsyncStorage from '@react-native-community/async-storage';
 
 import AuthContext from '../../contexts/auth';
-import logoImg from '../../assets/logo.png'
 import styles from './styles';
 import PosterContext from '../../contexts/posters';
 import api from '../../services/api';
@@ -159,9 +158,11 @@ export default function NewPoster() {
         )
     else
         return (
+            <SafeAreaView>
             <KeyboardAvoidingView style={{ height: '100%' }} behavior={Platform.Os == "ios" ? "padding" : "height"} enabled>
                 <ScrollView contentContainerStyle={styles.container}>
-                    <Text style={{ textAlign: 'center' }}>Adicione até 4 imagens</Text>
+                    <Text style={styles.NewPosterTitle}> Novo Anúncio</Text>
+                    {/* <Text style={{ textAlign: 'center' }}>Adicione até 4 imagens</Text>
 
                     <View style={{ width, height, alignSelf: 'flex-start' }}>
                         <ScrollView
@@ -198,7 +199,7 @@ export default function NewPoster() {
                                 ))
                             }
                             <TouchableOpacity style={styles.addFile} onPress={handlePicker}>
-                                {/* <Icon name="addfile" size={70} color="#E02041" /> */}
+                                <Icon name="addfile" size={70} color="#E02041" />
                             </TouchableOpacity>
                         </ScrollView>
                         {imageIndex <= imagesUpload.length && <View style={{
@@ -209,76 +210,91 @@ export default function NewPoster() {
                         }}>
                             <Text style={{ textAlign: 'center', color: '#ffffff', fontSize: 16 }}>{imageIndex}/{imagesUpload.length}</Text>
                         </View>}
-                    </View>
+                    </View> */}
 
                     <View style={styles.login}>
                         <View style={styles.inputBox}>
+                            <Text style={styles.label}>Título</Text>
                             <TextInput
                                 style={styles.input}
-                                placeholder="Título" value={title}
+                                placeholder="Ex.: Tesoureiro Sênior" value={title}
+                                placeholderTextColor="#c4edde"
                                 autoCapitalize="sentences"
                                 onChangeText={value => setTitle(value)}
                                 maxLength={60} />
                         </View>
 
                         <View style={styles.inputBox}>
+                            <Text style={styles.label}>Descrição</Text>
                             <TextInput
                                 style={styles.input}
-                                placeholder="Descrição" value={description}
+                                placeholder="Ex.: Ofereço meus serviços de tesouraria, tenho experiência em grandes empresas. Tenho ótimo raciocínio analítico na resolução de problemas" value={description}
                                 autoCapitalize="sentences"
+                                multiline={true}
+                                numberOfLines={4}
+                                placeholderTextColor="#c4edde"
                                 onChangeText={value => setDescription(value)} />
                         </View>
 
                         <View style={styles.inputBox}>
+                            <Text style={styles.label}>CEP</Text>
                             <TextInput
                                 style={styles.input}
-                                placeholder="CEP" value={cep} textContentType="postalCode"
+                                placeholder="Ex.: 04858-570" value={cep} textContentType="postalCode"
                                 keyboardType="number-pad"
+                                placeholderTextColor="#c4edde"
                                 onChangeText={value => setCep(value)} />
                         </View>
 
                         <View style={styles.inputBox}>
+                            <Text style={styles.label}>Estado</Text>
                             <TextInput
                                 style={styles.input}
                                 value={state}
-                                placeholder="Estado"
+                                placeholder="Ex.: SP"
                                 autoCapitalize="words"
+                                placeholderTextColor="#c4edde"
                                 onChangeText={value => setState(value)} />
                         </View>
 
                         <View style={styles.inputBox}>
+                            <Text style={styles.label}>Cidade</Text>
                             <TextInput
                                 style={styles.input}
                                 value={city}
-                                placeholder="Cidade"
+                                placeholder="Ex.: São Paulo"
+                                placeholderTextColor="#c4edde"
                                 onChangeText={value => setCity(value)} />
                         </View>
 
                         <View style={styles.inputBox}>
+                            <Text style={styles.label}>Bairro</Text>
                             <TextInput
                                 style={styles.input}
                                 value={neighborhood}
-                                placeholder="Bairro"
+                                placeholder="Ex.: Grajaú"
+                                placeholderTextColor="#c4edde"
                                 onChangeText={value => setNeighborhood(value)} />
                         </View>
 
-                        <Picker
-                            style={{ width: '100%', height: 100 }}
+                        <PickerIOS
+                            style={{ borderWidth:1 }}
                             selectedValue={category}
                             onValueChange={(value, index) => { setCategory(value) }}
-                            itemStyle={{ color: 'blue' }}
+                            itemStyle={{ color: '#f73859' }}
                         >
-                            <Picker.Item itemStyle={{ color: 'blue' }} label="Selecione uma categoria..." color="#bbb" value="" />
+                            <PickerIOS.Item itemStyle={{ color: '#f73859' }} label="Selecione uma categoria..." color="#bbb" value="" />
                             {categories.map((item, index) => (
-                                <Picker.Item key={index} label={item.name} value={item.id} />
+                                <PickerIOS.Item key={index} label={item.name} value={item.id} />
                             ))}
-                        </Picker>
+                        </PickerIOS>
 
                         <TouchableOpacity style={styles.loginButton} onPress={handleSubmit}>
                             <Text style={styles.textLoginButton}>Enviar</Text>
                         </TouchableOpacity>
                     </View>
                 </ScrollView>
-            </KeyboardAvoidingView >
+            </KeyboardAvoidingView>
+            </SafeAreaView>
         )
 }

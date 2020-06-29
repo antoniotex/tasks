@@ -12,7 +12,7 @@ const App = () => {
     <NavigationContainer>
       <PosterProvider>
         <AuthProvider>
-          <StatusBar barStyle="dark-content" backgroundColor="#000" />
+          <StatusBar barStyle="dark-content" backgroundColor="#fff" />
           <Routes />
         </AuthProvider>
       </PosterProvider>

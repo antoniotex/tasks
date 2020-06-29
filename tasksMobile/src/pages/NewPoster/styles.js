@@ -1,64 +1,53 @@
 import { StyleSheet } from 'react-native';
-// import Constants from 'expo-constants';
 
 const styles = StyleSheet.create({
     container: {
-        alignItems: 'center',
-        // paddingTop: Constants.statusBarHeight + 7,
+        // flex:1
+        backgroundColor:'#fff'
     },
-    logo: {
-        width: 200,
-        height: 80,
-        marginBottom: 20
+    NewPosterTitle:{
+        fontSize:35,
+        textAlign:'center',
+        color: '#f73859',
+        fontWeight:'bold',
+        marginTop:30,
+        marginBottom:20
     },
-    login: {
-        width: '93%',
-        backgroundColor: '#fff',
-        paddingVertical: 20,
-        paddingHorizontal: 10,
-        marginTop: 20,
-        marginBottom: 20,
+    label:{
+        fontSize:17,
+        paddingBottom:5
     },
-    inputBox: {
-        flexDirection: 'row',
-        borderBottomWidth: 2,
-        borderBottomColor: '#ccc',
-        marginVertical: 10,
-        alignItems: 'center'
+    inputBox:{
+        flexDirection:'column',
+        marginVertical:10,
+        alignItems:'flex-start',
+        marginHorizontal:15,
     },
-    input: {
-        fontSize: 15,
-        width: '93%',
-        padding: 10
+    input:{
+        borderWidth:.7,
+        borderColor:'#f73859',
+        borderRadius:10,
+        padding:0,
+        paddingVertical:10,
+        paddingLeft:5,
+        color:'#000',
+        width:'100%',
+        fontSize:18,
     },
-    loginButton: {
-        width: 200,
-        height: 50,
-        backgroundColor: '#E02041',
-        alignSelf: 'center',
-        borderRadius: 40,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginVertical: 20
+    loginButton:{
+        alignSelf:'center',
+        backgroundColor:'#f73859',
+        borderRadius:10,
+        marginVertical:30,
+        width:'90%',
+        marginHorizontal:20,
     },
-    textLoginButton: {
-        color: '#fff',
-        fontSize: 20,
-        fontWeight: 'bold'
+    textLoginButton:{
+        fontSize:25,
+        color:'#fff',
+        paddingVertical:20,
+        textAlign:'center'
     },
-    selectCategory: {
-        fontSize: 20,
-        borderBottomWidth: 2
-    },
-    addFile: {
-        width: 360,
-        borderWidth: 2,
-        flexDirection: 'row',
-        justifyContent: 'center',
-        // alignSelf: 'center',
-        alignItems: 'center',
-        borderColor: '#E02041'
-    }
 })
 
 export default styles;
