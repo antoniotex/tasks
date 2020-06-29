@@ -2,6 +2,8 @@ import React, { useContext, useState, useEffect, createRef } from 'react';
 import { Dimensions, View, Text, TouchableOpacity, TextInput, Image, KeyboardAvoidingView, Platform, ScrollView, ActivityIndicator, SafeAreaView } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { PickerIOS } from '@react-native-community/picker'
+import RNPickerSelect from 'react-native-picker-select';
+
 import Icon from 'react-native-vector-icons/AntDesign'
 import DocumentPicker from 'react-native-document-picker';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -276,6 +278,15 @@ export default function NewPoster() {
                                 placeholderTextColor="#c4edde"
                                 onChangeText={value => setNeighborhood(value)} />
                         </View>
+
+                        <RNPickerSelect
+                            onValueChange={(value) => console.log(value)}
+                            items={[
+                                { label: 'Football', value: 'football' },
+                                { label: 'Baseball', value: 'baseball' },
+                                { label: 'Hockey', value: 'hockey' },
+                            ]}
+                        />
 
                         <PickerIOS
                             style={{ borderWidth:1 }}
