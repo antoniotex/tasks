@@ -10,6 +10,19 @@ import Poster from '../pages/Poster'
 const AuthDrawer = createDrawerNavigator()
 const PosterStack = createStackNavigator()
 
+const LoginRoutes = () => {
+    return (
+        <PosterStack.Navigator initialRouteName="SignIn">
+            <AuthDrawer.Screen name="SignIn" component={SignIn} options={{
+                title: 'Entrar'
+            }} />
+            <AuthDrawer.Screen name="Register" component={Register} options={{
+                title: 'Criar conta',
+            }} />
+        </PosterStack.Navigator>
+    )
+}
+
 const PosterRoutes = () => {
     return (
         <PosterStack.Navigator initialRouteName="Home">
@@ -27,11 +40,8 @@ const AuthRoutes = () => {
             <AuthDrawer.Screen name="PosterRoutes" component={PosterRoutes} options={{
                 title: 'Início'
             }} />
-            <AuthDrawer.Screen name="SignIn" component={SignIn} options={{
-                title: 'Entrar'
-            }} />
-            <AuthDrawer.Screen name="Register" component={Register} options={{
-                title: 'Criar conta',
+            <AuthDrawer.Screen name="LoginRoutes" component={LoginRoutes} options={{
+                title: 'Login'
             }} />
         </AuthDrawer.Navigator>
     )
