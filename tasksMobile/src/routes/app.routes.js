@@ -7,6 +7,7 @@ import NewPoster from '../pages/NewPoster';
 import Poster from '../pages/Poster'
 import MyPosters from '../pages/MyPosters'
 import Settings from '../pages/Settings';
+import Categories from '../pages/Categories';
 
 const AppStack = createDrawerNavigator();
 const PosterStack = createStackNavigator()
@@ -22,14 +23,30 @@ const PosterRoutes = () => {
     )
 }
 
+const NewPosterRoutes = () => {
+    return (
+        <PosterStack.Navigator initialRouteName="NewPoster">
+            <AppStack.Screen name="NewPoster" component={NewPoster} options={{
+                headerShown:false,
+                title: 'Voltar',
+                unmountOnBlur: true
+            }} />
+            <AppStack.Screen name="Categories" component={Categories} options={{
+                title: 'Categorias',
+                unmountOnBlur: true
+            }} />
+        </PosterStack.Navigator>
+    )
+}
+
 const AppRoutes = () => {
     return (
         <AppStack.Navigator>
             <AppStack.Screen name="PosterRoutes" component={PosterRoutes} options={{
                 title: 'Início'
             }} />
-            <AppStack.Screen name="NewPoster" component={NewPoster} options={{
-                title: 'Anunciar',
+            <AppStack.Screen name="NewPosterRoutes" component={NewPosterRoutes} options={{
+                title:'Anunciar',
                 unmountOnBlur: true
             }} />
             <AppStack.Screen name="MyPosters" component={MyPosters} options={{

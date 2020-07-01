@@ -29,7 +29,6 @@ export default function NewPoster() {
     const { categories, loadCategories, posterEditId, loading, setLoading, changePosterMode } = useContext(PosterContext)
 
     const navigation = useNavigation();
-    const route = useRoute()
 
     let scrollView = createRef < typeof ScrollView >
 
@@ -276,7 +275,7 @@ export default function NewPoster() {
                                 placeholderTextColor="#c4edde"
                                 onChangeText={value => setNeighborhood(value)} />
                         </View>
-                        <TouchableOpacity style={styles.selectCategoryButton}>
+                        <TouchableOpacity style={styles.selectCategoryButton} onPress={() => navigation.navigate('Categories', { categories })}>
                             <Text style={styles.selectCategoryText}>Selecione uma categoria...</Text>
                         </TouchableOpacity>
 

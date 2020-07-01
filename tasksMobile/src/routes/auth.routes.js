@@ -14,10 +14,11 @@ const LoginRoutes = () => {
     return (
         <PosterStack.Navigator initialRouteName="SignIn">
             <AuthDrawer.Screen name="SignIn" component={SignIn} options={{
+                headerShown:false,
                 title: 'Entrar'
             }} />
             <AuthDrawer.Screen name="Register" component={Register} options={{
-                title: 'Criar conta',
+                title: 'Nova conta',
             }} />
         </PosterStack.Navigator>
     )
