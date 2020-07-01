@@ -47,6 +47,18 @@ const styles = StyleSheet.create({
         paddingVertical:20,
         textAlign:'center'
     },
+    selectCategoryButton:{
+        borderWidth:.7,
+        borderColor:'#f73859',
+        borderRadius:10,
+        marginHorizontal:15,
+        paddingVertical:10,
+        alignItems:'center',
+        marginVertical:20
+    },
+    selectCategoryText:{
+        fontSize: 19
+    }
 })
 
 export default styles;

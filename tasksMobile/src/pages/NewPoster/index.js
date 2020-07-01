@@ -276,27 +276,9 @@ export default function NewPoster() {
                                 placeholderTextColor="#c4edde"
                                 onChangeText={value => setNeighborhood(value)} />
                         </View>
-
-                        <RNPickerSelect
-                            onValueChange={(value) => console.log(value)}
-                            items={[
-                                { label: 'Football', value: 'football' },
-                                { label: 'Baseball', value: 'baseball' },
-                                { label: 'Hockey', value: 'hockey' },
-                            ]}
-                        />
-
-                        <PickerIOS
-                            style={{ borderWidth:1 }}
-                            selectedValue={category}
-                            onValueChange={(value, index) => { setCategory(value) }}
-                            itemStyle={{ color: '#f73859' }}
-                        >
-                            <PickerIOS.Item itemStyle={{ color: '#f73859' }} label="Selecione uma categoria..." color="#bbb" value="" />
-                            {categories.map((item, index) => (
-                                <PickerIOS.Item key={index} label={item.name} value={item.id} />
-                            ))}
-                        </PickerIOS>
+                        <TouchableOpacity style={styles.selectCategoryButton}>
+                            <Text style={styles.selectCategoryText}>Selecione uma categoria...</Text>
+                        </TouchableOpacity>
 
                         <TouchableOpacity style={styles.loginButton} onPress={handleSubmit}>
                             <Text style={styles.textLoginButton}>Enviar</Text>
