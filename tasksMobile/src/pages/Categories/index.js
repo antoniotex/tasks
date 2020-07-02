@@ -1,22 +1,25 @@
 import React, { useState, useEffect, useContext } from 'react'
-import { View, Text, SafeAreaView, TouchableOpacity } from 'react-native'
+import { View, Text, SafeAreaView, TouchableOpacity, ScrollView } from 'react-native'
 import { useNavigation, useRoute, useFocusEffect } from '@react-navigation/native';
+
+import styles from './styles';
 
 export default function Categories() {
     const route = useRoute()
     const navigation = useNavigation();
 
-    useEffect(() => {
-        console.log('Dentro categories', route.params)
-    }, [])
-
     return (
-        <SafeAreaView>
-            { route.params.categories.map((item, index) => (
-                <TouchableOpacity key={index}>
-                    <Text>{ item.name }</Text>
-                </TouchableOpacity>
-            )) }
+        <SafeAreaView style={{flex:1}}>
+            <ScrollView style={styles.container}>
+                { route.params.categories.map((item, index) => (
+                    <TouchableOpacity 
+                        style={styles.categoryItem} 
+                        key={index}
+                        onPress={() => navigation.navigate('NewPoster', { id: item.id, name: item.name })}>
+                        <Text style={styles.categoryText}>{ item.name }</Text>
+                    </TouchableOpacity>
+                )) }
+            </ScrollView>
         </SafeAreaView>
     )
 }

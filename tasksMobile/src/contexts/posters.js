@@ -40,7 +40,6 @@ export const PosterProvider = ({ children }) => {
 
     async function loadCategories() {
         const response = await api.get('/categories')
-        console.log(response.data)
         setCategories(response.data)
     }
 

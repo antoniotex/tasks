@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Platform } from 'react-native';
 
 const styles = StyleSheet.create({
     container: {
@@ -13,12 +13,13 @@ const styles = StyleSheet.create({
         marginBottom:20
     },
     label:{
-        fontSize:17,
-        paddingBottom:5
+        fontSize:15,
+        paddingBottom:5,
+        fontWeight:'bold'
     },
     inputBox:{
         flexDirection:'column',
-        marginVertical:10,
+        marginVertical:5,
         alignItems:'flex-start',
         marginHorizontal:15,
     },
@@ -27,11 +28,11 @@ const styles = StyleSheet.create({
         borderColor:'#f73859',
         borderRadius:10,
         padding:0,
-        paddingVertical:10,
-        paddingLeft:5,
+        paddingVertical: Platform.OS === 'ios' ? 10 : 4,
+        paddingHorizontal:4,
         color:'#000',
         width:'100%',
-        fontSize:18,
+        fontSize:16
     },
     loginButton:{
         alignSelf:'center',
@@ -47,17 +48,9 @@ const styles = StyleSheet.create({
         paddingVertical:20,
         textAlign:'center'
     },
-    selectCategoryButton:{
-        borderWidth:.7,
-        borderColor:'#f73859',
-        borderRadius:10,
-        marginHorizontal:15,
-        paddingVertical:10,
-        alignItems:'center',
-        marginVertical:20
-    },
     selectCategoryText:{
-        fontSize: 19
+        fontSize: 18,
+        textAlign:'center'
     }
 })
 

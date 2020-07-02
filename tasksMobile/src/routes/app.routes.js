@@ -32,7 +32,7 @@ const NewPosterRoutes = () => {
                 unmountOnBlur: true
             }} />
             <AppStack.Screen name="Categories" component={Categories} options={{
-                title: 'Categorias',
+                title: 'Selecione uma categoria',
                 unmountOnBlur: true
             }} />
         </PosterStack.Navigator>

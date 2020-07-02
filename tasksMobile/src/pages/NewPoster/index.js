@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, createRef } from 'react';
-import { Dimensions, View, Text, TouchableOpacity, TextInput, Image, KeyboardAvoidingView, Platform, ScrollView, ActivityIndicator, SafeAreaView } from 'react-native';
+import { Dimensions, View, Text, TouchableOpacity, TextInput, Image, KeyboardAvoidingView, Platform, ScrollView, ActivityIndicator, SafeAreaView, ClippingRectangle } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import { PickerIOS } from '@react-native-community/picker'
 import RNPickerSelect from 'react-native-picker-select';
@@ -29,6 +29,7 @@ export default function NewPoster() {
     const { categories, loadCategories, posterEditId, loading, setLoading, changePosterMode } = useContext(PosterContext)
 
     const navigation = useNavigation();
+    const route = useRoute()
 
     let scrollView = createRef < typeof ScrollView >
 
@@ -57,7 +58,7 @@ export default function NewPoster() {
         images.append('state', state)
         images.append('city', city)
         images.append('neighborhood', neighborhood)
-        images.append('category_id', category)
+        images.append('category_id', route.params.id)
 
         const storageToken = await AsyncStorage.getItem('@RNAuth:token');
         const storageUser = await AsyncStorage.getItem('@RNAuth:user');
@@ -157,8 +158,8 @@ export default function NewPoster() {
         )
     else
         return (
-            <SafeAreaView>
-            <KeyboardAvoidingView style={{ height: '100%' }} behavior={Platform.Os == "ios" ? "padding" : "height"} enabled>
+            <SafeAreaView style={{backgroundColor:'#fff'}}>
+            <KeyboardAvoidingView style={{ height: '100%'}} behavior={Platform.Os == "ios" ? "padding" : "height"} enabled>
                 <ScrollView contentContainerStyle={styles.container}>
                     <Text style={styles.NewPosterTitle}> Novo Anúncio</Text>
                     {/* <Text style={{ textAlign: 'center' }}>Adicione até 4 imagens</Text>
@@ -217,7 +218,7 @@ export default function NewPoster() {
                             <TextInput
                                 style={styles.input}
                                 placeholder="Ex.: Tesoureiro Sênior" value={title}
-                                placeholderTextColor="#c4edde"
+                                placeholderTextColor="#ccc"
                                 autoCapitalize="sentences"
                                 onChangeText={value => setTitle(value)}
                                 maxLength={60} />
@@ -226,12 +227,12 @@ export default function NewPoster() {
                         <View style={styles.inputBox}>
                             <Text style={styles.label}>Descrição</Text>
                             <TextInput
-                                style={styles.input}
+                                style={{ ...styles.input, textAlignVertical:'top', minHeight:100 }}
                                 placeholder="Ex.: Ofereço meus serviços de tesouraria, tenho experiência em grandes empresas. Tenho ótimo raciocínio analítico na resolução de problemas" value={description}
                                 autoCapitalize="sentences"
                                 multiline={true}
                                 numberOfLines={4}
-                                placeholderTextColor="#c4edde"
+                                placeholderTextColor="#ccc"
                                 onChangeText={value => setDescription(value)} />
                         </View>
 
@@ -241,7 +242,7 @@ export default function NewPoster() {
                                 style={styles.input}
                                 placeholder="Ex.: 04858-570" value={cep} textContentType="postalCode"
                                 keyboardType="number-pad"
-                                placeholderTextColor="#c4edde"
+                                placeholderTextColor="#ccc"
                                 onChangeText={value => setCep(value)} />
                         </View>
 
@@ -252,7 +253,7 @@ export default function NewPoster() {
                                 value={state}
                                 placeholder="Ex.: SP"
                                 autoCapitalize="words"
-                                placeholderTextColor="#c4edde"
+                                placeholderTextColor="#ccc"
                                 onChangeText={value => setState(value)} />
                         </View>
 
@@ -262,7 +263,7 @@ export default function NewPoster() {
                                 style={styles.input}
                                 value={city}
                                 placeholder="Ex.: São Paulo"
-                                placeholderTextColor="#c4edde"
+                                placeholderTextColor="#ccc"
                                 onChangeText={value => setCity(value)} />
                         </View>
 
@@ -272,15 +273,21 @@ export default function NewPoster() {
                                 style={styles.input}
                                 value={neighborhood}
                                 placeholder="Ex.: Grajaú"
-                                placeholderTextColor="#c4edde"
+                                placeholderTextColor="#ccc"
                                 onChangeText={value => setNeighborhood(value)} />
                         </View>
-                        <TouchableOpacity style={styles.selectCategoryButton} onPress={() => navigation.navigate('Categories', { categories })}>
-                            <Text style={styles.selectCategoryText}>Selecione uma categoria...</Text>
-                        </TouchableOpacity>
+                        
+                        <View style={styles.inputBox}>
+                            <Text style={{...styles.label, marginTop:20}}>Categoria</Text>
+                            <TouchableOpacity style={styles.input} onPress={() => navigation.navigate('Categories', { categories })}>
+                                <Text style={styles.selectCategoryText}>
+                                    { route.params ? `Categoria: ${route.params.name}` : 'Selecione uma categoria...' }
+                                </Text>
+                            </TouchableOpacity>
+                        </View>
 
                         <TouchableOpacity style={styles.loginButton} onPress={handleSubmit}>
-                            <Text style={styles.textLoginButton}>Enviar</Text>
+                            <Text style={styles.textLoginButton}>Anunciar!</Text>
                         </TouchableOpacity>
                     </View>
                 </ScrollView>
