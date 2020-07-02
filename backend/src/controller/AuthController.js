@@ -5,7 +5,7 @@ require('dotenv/config')
 
 async function gerarToken(params = {}) {
     return jwt.sign(params, process.env.JWT_SECRET, {
-        expiresIn: 86400
+        expiresIn:0
     })
 }
 
