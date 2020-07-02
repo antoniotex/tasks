@@ -9,7 +9,7 @@ export const PosterProvider = ({ children }) => {
     const [posters, setPosters] = useState([]);
     const [categories, setCategories] = useState([])
     const [loading, setLoading] = useState(true);
-    const [posterEditId, setPosterEditId] = useState(null)
+    const [posterEditId, setPosterEditId] = useState()
 
     useEffect(() => {
         async function loadStorageData() {

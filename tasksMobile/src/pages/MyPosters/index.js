@@ -28,7 +28,7 @@ export default function MyPosters() {
 
     useEffect(() => {
         if (posterEditId)
-            navigation.navigate('NewPoster')
+            navigation.navigate('NewPosterRoutes')
     }, [posterEditId])
 
     useEffect(() => {

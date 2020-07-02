@@ -21,10 +21,11 @@ export default function NewPoster() {
     const [city, setCity] = useState('')
     const [neighborhood, setNeighborhood] = useState('')
     const [category, setCategory] = useState(null)
-    const [imagesUpload, setImagesUpload] = useState([])
     const [imageIndex, setImageIndex] = useState(0)
+    const [editId, setEditId] = useState(null)
     const imageDefault = 'https://assets.zoom.us/images/en-us/desktop/generic/video-not-working.PNG'
-
+    
+    const [imagesUpload, setImagesUpload] = useState([])
     const { signed, register } = useContext(AuthContext);
     const { categories, loadCategories, posterEditId, loading, setLoading, changePosterMode } = useContext(PosterContext)
 
@@ -44,6 +45,10 @@ export default function NewPoster() {
             return unsubscribe
         }, [navigation])
 
+        useEffect(() => {
+            setEditId(posterEditId)
+        }, [])
+
     async function handleSubmit() {
         const images = new FormData()
         for (let i = 0; i < imagesUpload.length; i++) {
@@ -58,14 +63,14 @@ export default function NewPoster() {
         images.append('state', state)
         images.append('city', city)
         images.append('neighborhood', neighborhood)
-        images.append('category_id', route.params.id)
+        images.append('category_id', category.id)
 
         const storageToken = await AsyncStorage.getItem('@RNAuth:token');
         const storageUser = await AsyncStorage.getItem('@RNAuth:user');
 
         try {
-            if (posterEditId) {
-                const response = await api.post(`/posters/${posterEditId}`, images, {
+            if (editId) {
+                const response = await api.post(`/posters/${editId}`, images, {
                     headers: {
                         'Content-Type': 'multipart/form-data;boundary=----WebKitFormBoundaryyrV7KO0BoCBuDbTL',
                         'Authorization': `Bearer ${storageToken}`
@@ -88,7 +93,7 @@ export default function NewPoster() {
 
     async function handlePicker() {
         const options = {
-            type: 'image/*'
+            type: DocumentPicker.types.images
         }
         try {
             const fileSelected = await DocumentPicker.pickMultiple(options)
@@ -129,9 +134,10 @@ export default function NewPoster() {
 
     async function editInputs() {
         const response = await api.get(`/posters/${posterEditId}`)
+        console.log('entrei editinputs', response.data)
         changePosterMode(null)
         setTitle(response.data.title)
-        await setCategory(response.data.category_id)
+        await setCategory({id: response.data.category_id, name:response.data.category.name})
         setCep(response.data.cep)
         setDescription(response.data.description)
         setState(response.data.state)
@@ -149,6 +155,7 @@ export default function NewPoster() {
     }
 
     const { width } = Dimensions.get('window')
+    const height = width * .7
 
     if (loading)
         return (
@@ -162,13 +169,13 @@ export default function NewPoster() {
             <KeyboardAvoidingView style={{ height: '100%'}} behavior={Platform.Os == "ios" ? "padding" : "height"} enabled>
                 <ScrollView contentContainerStyle={styles.container}>
                     <Text style={styles.NewPosterTitle}> Novo Anúncio</Text>
-                    {/* <Text style={{ textAlign: 'center' }}>Adicione até 4 imagens</Text>
 
-                    <View style={{ width, height, alignSelf: 'flex-start' }}>
+                    { imagesUpload.length > 0 && <View style={{ width, height, alignSelf: 'flex-start' }}>
                         <ScrollView
                             pagingEnabled
                             horizontal
                             ref={(ref) => scrollView = ref}
+                            showsHorizontalScrollIndicator={false}
                             onContentSizeChange={() => {
                                 if (imagesUpload.length == 0) {
                                     scrollView.scrollToEnd({ animated: true })
@@ -198,9 +205,6 @@ export default function NewPoster() {
                                     </View>
                                 ))
                             }
-                            <TouchableOpacity style={styles.addFile} onPress={handlePicker}>
-                                <Icon name="addfile" size={70} color="#E02041" />
-                            </TouchableOpacity>
                         </ScrollView>
                         {imageIndex <= imagesUpload.length && <View style={{
                             width: 50,
@@ -210,7 +214,11 @@ export default function NewPoster() {
                         }}>
                             <Text style={{ textAlign: 'center', color: '#ffffff', fontSize: 16 }}>{imageIndex}/{imagesUpload.length}</Text>
                         </View>}
-                    </View> */}
+                    </View>}
+                    <TouchableOpacity style={styles.addFile} onPress={handlePicker} disabled={imagesUpload.length > 3}>
+                        <Icon name="addfile" size={25} color="#E02041" />
+                        <Text style={styles.addFileText}>Adicionar imagens {imagesUpload.length}/4</Text>
+                    </TouchableOpacity>
 
                     <View style={styles.login}>
                         <View style={styles.inputBox}>
@@ -252,7 +260,7 @@ export default function NewPoster() {
                                 style={styles.input}
                                 value={state}
                                 placeholder="Ex.: SP"
-                                autoCapitalize="words"
+                                autoCapitalize="sentences"
                                 placeholderTextColor="#ccc"
                                 onChangeText={value => setState(value)} />
                         </View>
@@ -281,7 +289,8 @@ export default function NewPoster() {
                             <Text style={{...styles.label, marginTop:20}}>Categoria</Text>
                             <TouchableOpacity style={styles.input} onPress={() => navigation.navigate('Categories', { categories })}>
                                 <Text style={styles.selectCategoryText}>
-                                    { route.params ? `Categoria: ${route.params.name}` : 'Selecione uma categoria...' }
+                                    { route.params ? `Categoria: ${route.params.name}` :
+                                    category?.name ? `Categoria: ${category.name}` : 'Selecione uma categoria...' }
                                 </Text>
                             </TouchableOpacity>
                         </View>

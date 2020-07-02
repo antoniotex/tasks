@@ -51,6 +51,21 @@ const styles = StyleSheet.create({
     selectCategoryText:{
         fontSize: 18,
         textAlign:'center'
+    },
+    addFile:{
+        borderWidth:.7,
+        borderColor:'#f73859',
+        flexDirection:'row',
+        justifyContent:'center',
+        alignItems:'center',
+        marginVertical:5,
+        marginHorizontal:50,
+        borderRadius:10,
+        paddingVertical:5
+    },
+    addFileText:{
+        fontSize:15,
+        marginHorizontal:5
     }
 })
 
