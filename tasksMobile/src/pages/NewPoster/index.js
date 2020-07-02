@@ -1,8 +1,6 @@
 import React, { useContext, useState, useEffect, createRef } from 'react';
 import { Dimensions, View, Text, TouchableOpacity, TextInput, Image, KeyboardAvoidingView, Platform, ScrollView, ActivityIndicator, SafeAreaView, ClippingRectangle } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
-import { PickerIOS } from '@react-native-community/picker'
-import RNPickerSelect from 'react-native-picker-select';
 
 import Icon from 'react-native-vector-icons/AntDesign'
 import DocumentPicker from 'react-native-document-picker';
@@ -56,19 +54,20 @@ export default function NewPoster() {
                 await images.append(`images`, imagesUpload[i])
             }
         }
-
+        debugger
         images.append('title', title)
         images.append('description', description)
         images.append('cep', cep)
         images.append('state', state)
         images.append('city', city)
         images.append('neighborhood', neighborhood)
-        images.append('category_id', category.id)
+        images.append('category_id', route.params.id)
 
         const storageToken = await AsyncStorage.getItem('@RNAuth:token');
         const storageUser = await AsyncStorage.getItem('@RNAuth:user');
 
         try {
+            debugger
             if (editId) {
                 const response = await api.post(`/posters/${editId}`, images, {
                     headers: {
