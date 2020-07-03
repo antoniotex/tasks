@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { View, SafeAreaView, Dimensions, Text, TouchableOpacity, TextInput, Image, KeyboardAvoidingView } from 'react-native';
+import { View, SafeAreaView, Dimensions, Text, TouchableOpacity, TextInput, Image, KeyboardAvoidingView, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/AntDesign'
 
@@ -11,7 +11,7 @@ import styles from './styles';
 export default function SignIn() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const { signed, signIn } = useContext(AuthContext);
+    const { signed, signIn, loading } = useContext(AuthContext);
     const navigation = useNavigation();
 
     function handleSignIn() {
@@ -45,8 +45,9 @@ export default function SignIn() {
                         autoCapitalize="none"
                         onChangeText={value => setPassword(value)} />
                 </View>
-                <TouchableOpacity style={styles.loginButton} onPress={handleSignIn} >
-                    <Text style={styles.textLoginButton}>Entrar</Text>
+                <TouchableOpacity style={styles.loginButton} onPress={handleSignIn} disabled={loading}>
+                    {loading && <ActivityIndicator style={styles.textLoginButton} size='small' />}
+                    {!loading && <Text style={styles.textLoginButton}>Entrar</Text> }
                 </TouchableOpacity>
                 <Text style={styles.defaultText}>Ou utilize sua rede social</Text>
                 <View style={styles.socialNetwork}>

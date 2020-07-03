@@ -41,11 +41,12 @@ const styles = StyleSheet.create({
         marginVertical:30,
         width:'90%',
         marginHorizontal:20,
+        height:60,
+        justifyContent:'center'
     },
     textLoginButton:{
         fontSize:25,
         color:'#fff',
-        paddingVertical:20,
         textAlign:'center'
     },
     socialNetwork:{

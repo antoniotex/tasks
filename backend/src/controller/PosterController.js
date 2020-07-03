@@ -14,7 +14,7 @@ module.exports = {
                 include: [
                     { association: 'images', attributes: ['id', 'location'] },
                     { model: Category, as: 'category', attributes: ['name'] },
-                    { model: User, as: 'user', attributes: ['id', 'name'] }
+                    { model: User, as: 'user', attributes: ['id', 'name', 'email'] }
                 ]
             })
             return res.json(posters)

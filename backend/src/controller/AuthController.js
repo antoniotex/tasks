@@ -5,7 +5,7 @@ require('dotenv/config')
 
 async function gerarToken(params = {}) {
     return jwt.sign(params, process.env.JWT_SECRET, {
-        expiresIn:0
+        expiresIn:86400
     })
 }
 
@@ -34,7 +34,7 @@ module.exports = {
 
         if (!user) return res.status(400).json({ error: 'Usuário não encontrado' })
 
-        if (!await bcrypt.compare(password, user.password)) return res.status(400).json({ error: 'Senha inválida' })
+        if (!await bcrypt.compare(password, user.password)) return res.status(400).json({ error: 'Usuário ou senha incorretos' })
 
         user.password = undefined
 
