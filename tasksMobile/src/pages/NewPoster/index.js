@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect, createRef } from 'react';
 import { Dimensions, View, Text, TouchableOpacity, TextInput, Image, KeyboardAvoidingView, Platform, ScrollView, ActivityIndicator, SafeAreaView, ClippingRectangle } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
+import Toast from 'react-native-tiny-toast'
 
 import Icon from 'react-native-vector-icons/AntDesign'
 import DocumentPicker from 'react-native-document-picker';
@@ -48,13 +49,18 @@ export default function NewPoster() {
         }, [])
 
     async function handleSubmit() {
+        if(!title || !description || !cep || !state || !city || !neighborhood || !route.params.id){
+            Toast.show('Todos os campos são obrigatórios')
+            return
+        }
+
         const images = new FormData()
         for (let i = 0; i < imagesUpload.length; i++) {
             if (imagesUpload[i].id === undefined) {
                 await images.append(`images`, imagesUpload[i])
             }
         }
-        debugger
+
         images.append('title', title)
         images.append('description', description)
         images.append('cep', cep)
@@ -67,7 +73,6 @@ export default function NewPoster() {
         const storageUser = await AsyncStorage.getItem('@RNAuth:user');
 
         try {
-            debugger
             if (editId) {
                 const response = await api.post(`/posters/${editId}`, images, {
                     headers: {
@@ -156,150 +161,150 @@ export default function NewPoster() {
     const { width } = Dimensions.get('window')
     const height = width * .7
 
-    if (loading)
-        return (
-            <View style={{ flex: 1, justifyContent: 'center', alignItem: 'center' }}>
-                <ActivityIndicator size='large' />
-            </View>
-        )
-    else
-        return (
-            <SafeAreaView style={{backgroundColor:'#fff'}}>
-            <KeyboardAvoidingView style={{ height: '100%'}} behavior={Platform.Os == "ios" ? "padding" : "height"} enabled>
-                <ScrollView contentContainerStyle={styles.container}>
-                    <Text style={styles.NewPosterTitle}> Novo Anúncio</Text>
+    return (
+        <SafeAreaView style={{backgroundColor:'#fff'}}>
+        <KeyboardAvoidingView style={{ height: '100%'}} behavior={Platform.Os == "ios" ? "padding" : "height"} enabled>
+            <ScrollView contentContainerStyle={styles.container}>
+                <Text style={styles.NewPosterTitle}> Novo Anúncio</Text>
 
-                    { imagesUpload.length > 0 && <View style={{ width, height, alignSelf: 'flex-start' }}>
-                        <ScrollView
-                            pagingEnabled
-                            horizontal
-                            ref={(ref) => scrollView = ref}
-                            showsHorizontalScrollIndicator={false}
-                            onContentSizeChange={() => {
-                                if (imagesUpload.length == 0) {
-                                    scrollView.scrollToEnd({ animated: true })
-                                }
-                            }}
-                            onScroll={changeImage}
-                            style={{ width, height }}>
-                            {
-                                imagesUpload.map((image, index) => (
-                                    <View key={index} style={{ width, height }}>
-                                        <TouchableOpacity onPress={() => deleteImage(index)} style={{
-                                            position: 'absolute',
-                                            zIndex: 9999, right: 10, top: 10,
-                                            backgroundColor: '#E02041',
-                                            borderRadius: 20,
-                                            width: 40,
-                                            height: 40,
-                                            justifyContent: 'center',
-                                            alignItems: 'center'
-                                        }}>
-                                            <Icon name="delete" size={30} color="#fff" />
-                                        </TouchableOpacity>
-                                        <Image
-                                            source={{ uri: image.uri }}
-                                            style={{ width, height, resizeMode: 'cover' }}
-                                        />
-                                    </View>
-                                ))
+                { imagesUpload.length > 0 && <View style={{ width, height, alignSelf: 'flex-start' }}>
+                    <ScrollView
+                        pagingEnabled
+                        horizontal
+                        ref={(ref) => scrollView = ref}
+                        showsHorizontalScrollIndicator={false}
+                        onContentSizeChange={() => {
+                            if (imagesUpload.length == 0) {
+                                scrollView.scrollToEnd({ animated: true })
                             }
-                        </ScrollView>
-                        {imageIndex <= imagesUpload.length && <View style={{
-                            width: 50,
-                            backgroundColor: '#E02041',
-                            position: 'absolute', bottom: 5, left: width * 0.5 - 25,
-                            padding: 10, borderRadius: 20
-                        }}>
-                            <Text style={{ textAlign: 'center', color: '#ffffff', fontSize: 16 }}>{imageIndex}/{imagesUpload.length}</Text>
-                        </View>}
+                        }}
+                        onScroll={changeImage}
+                        style={{ width, height }}>
+                        {
+                            imagesUpload.map((image, index) => (
+                                <View key={index} style={{ width, height }}>
+                                    <TouchableOpacity onPress={() => deleteImage(index)} style={{
+                                        position: 'absolute',
+                                        zIndex: 9999, right: 10, top: 10,
+                                        backgroundColor: '#E02041',
+                                        borderRadius: 20,
+                                        width: 40,
+                                        height: 40,
+                                        justifyContent: 'center',
+                                        alignItems: 'center'
+                                    }}>
+                                        <Icon name="delete" size={30} color="#fff" />
+                                    </TouchableOpacity>
+                                    <Image
+                                        source={{ uri: image.uri }}
+                                        style={{ width, height, resizeMode: 'cover' }}
+                                    />
+                                </View>
+                            ))
+                        }
+                    </ScrollView>
+                    {imageIndex <= imagesUpload.length && <View style={{
+                        width: 50,
+                        backgroundColor: '#E02041',
+                        position: 'absolute', bottom: 5, left: width * 0.5 - 25,
+                        padding: 10, borderRadius: 20
+                    }}>
+                        <Text style={{ textAlign: 'center', color: '#ffffff', fontSize: 16 }}>{imageIndex}/{imagesUpload.length}</Text>
                     </View>}
-                    <TouchableOpacity style={styles.addFile} onPress={handlePicker} disabled={imagesUpload.length > 3}>
-                        <Icon name="addfile" size={25} color="#E02041" />
-                        <Text style={styles.addFileText}>Adicionar imagens {imagesUpload.length}/4</Text>
-                    </TouchableOpacity>
+                </View>}
+                <TouchableOpacity style={styles.addFile} onPress={handlePicker} disabled={imagesUpload.length > 3}>
+                    <Icon name="addfile" size={25} color="#E02041" />
+                    <Text style={styles.addFileText}>Adicionar imagens {imagesUpload.length}/4</Text>
+                </TouchableOpacity>
 
-                    <View style={styles.login}>
-                        <View style={styles.inputBox}>
-                            <Text style={styles.label}>Título</Text>
-                            <TextInput
-                                style={styles.input}
-                                placeholder="Ex.: Tesoureiro Sênior" value={title}
-                                placeholderTextColor="#ccc"
-                                autoCapitalize="sentences"
-                                onChangeText={value => setTitle(value)}
-                                maxLength={60} />
-                        </View>
+                <View style={styles.login}>
+                    <View style={styles.inputBox}>
+                        <Text style={styles.label}>Título</Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Ex.: Tesoureiro Sênior" value={title}
+                            placeholderTextColor="#ccc"
+                            autoCapitalize="sentences"
+                            onChangeText={value => setTitle(value)}
+                            maxLength={60} />
+                    </View>
 
-                        <View style={styles.inputBox}>
-                            <Text style={styles.label}>Descrição</Text>
-                            <TextInput
-                                style={{ ...styles.input, textAlignVertical:'top', minHeight:100 }}
-                                placeholder="Ex.: Ofereço meus serviços de tesouraria, tenho experiência em grandes empresas. Tenho ótimo raciocínio analítico na resolução de problemas" value={description}
-                                autoCapitalize="sentences"
-                                multiline={true}
-                                numberOfLines={4}
-                                placeholderTextColor="#ccc"
-                                onChangeText={value => setDescription(value)} />
-                        </View>
+                    <View style={styles.inputBox}>
+                        <Text style={styles.label}>Descrição</Text>
+                        <TextInput
+                            style={{ ...styles.input, textAlignVertical:'top', minHeight:100 }}
+                            placeholder="Ex.: Ofereço meus serviços de tesouraria, tenho experiência em grandes empresas. Tenho ótimo raciocínio analítico na resolução de problemas" value={description}
+                            autoCapitalize="sentences"
+                            multiline={true}
+                            numberOfLines={4}
+                            placeholderTextColor="#ccc"
+                            onChangeText={value => setDescription(value)} />
+                    </View>
+                    <View style={{...styles.inputBox, marginTop: -3, alignItems:'flex-end'}}>
+                        <Text style={{fontSize:15, color: 3000 - description.length < 0 ? 'red' : 'green'}}>
+                            Caracteres restates: {3000 - description.length}
+                        </Text>
+                    </View>
 
-                        <View style={styles.inputBox}>
-                            <Text style={styles.label}>CEP</Text>
-                            <TextInput
-                                style={styles.input}
-                                placeholder="Ex.: 04858-570" value={cep} textContentType="postalCode"
-                                keyboardType="number-pad"
-                                placeholderTextColor="#ccc"
-                                onChangeText={value => setCep(value)} />
-                        </View>
+                    <View style={styles.inputBox}>
+                        <Text style={styles.label}>CEP</Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="Ex.: 04858-570" value={cep} textContentType="postalCode"
+                            keyboardType="number-pad"
+                            placeholderTextColor="#ccc"
+                            onChangeText={value => setCep(value)} />
+                    </View>
 
-                        <View style={styles.inputBox}>
-                            <Text style={styles.label}>Estado</Text>
-                            <TextInput
-                                style={styles.input}
-                                value={state}
-                                placeholder="Ex.: SP"
-                                autoCapitalize="sentences"
-                                placeholderTextColor="#ccc"
-                                onChangeText={value => setState(value)} />
-                        </View>
+                    <View style={styles.inputBox}>
+                        <Text style={styles.label}>Estado</Text>
+                        <TextInput
+                            style={styles.input}
+                            value={state}
+                            placeholder="Ex.: SP"
+                            autoCapitalize='characters'
+                            placeholderTextColor="#ccc"
+                            maxLength={2}
+                            onChangeText={value => setState(value)} />
+                    </View>
 
-                        <View style={styles.inputBox}>
-                            <Text style={styles.label}>Cidade</Text>
-                            <TextInput
-                                style={styles.input}
-                                value={city}
-                                placeholder="Ex.: São Paulo"
-                                placeholderTextColor="#ccc"
-                                onChangeText={value => setCity(value)} />
-                        </View>
+                    <View style={styles.inputBox}>
+                        <Text style={styles.label}>Cidade</Text>
+                        <TextInput
+                            style={styles.input}
+                            value={city}
+                            placeholder="Ex.: São Paulo"
+                            placeholderTextColor="#ccc"
+                            onChangeText={value => setCity(value)} />
+                    </View>
 
-                        <View style={styles.inputBox}>
-                            <Text style={styles.label}>Bairro</Text>
-                            <TextInput
-                                style={styles.input}
-                                value={neighborhood}
-                                placeholder="Ex.: Grajaú"
-                                placeholderTextColor="#ccc"
-                                onChangeText={value => setNeighborhood(value)} />
-                        </View>
-                        
-                        <View style={styles.inputBox}>
-                            <Text style={{...styles.label, marginTop:20}}>Categoria</Text>
-                            <TouchableOpacity style={styles.input} onPress={() => navigation.navigate('Categories', { categories })}>
-                                <Text style={styles.selectCategoryText}>
-                                    { route.params ? `Categoria: ${route.params.name}` :
-                                    category?.name ? `Categoria: ${category.name}` : 'Selecione uma categoria...' }
-                                </Text>
-                            </TouchableOpacity>
-                        </View>
-
-                        <TouchableOpacity style={styles.loginButton} onPress={handleSubmit}>
-                            <Text style={styles.textLoginButton}>Anunciar!</Text>
+                    <View style={styles.inputBox}>
+                        <Text style={styles.label}>Bairro</Text>
+                        <TextInput
+                            style={styles.input}
+                            value={neighborhood}
+                            placeholder="Ex.: Grajaú"
+                            placeholderTextColor="#ccc"
+                            onChangeText={value => setNeighborhood(value)} />
+                    </View>
+                    
+                    <View style={styles.inputBox}>
+                        <Text style={{...styles.label, marginTop:20}}>Categoria</Text>
+                        <TouchableOpacity style={styles.input} onPress={() => navigation.navigate('Categories', { categories })}>
+                            <Text style={styles.selectCategoryText}>
+                                { route.params ? `Categoria: ${route.params.name}` :
+                                category?.name ? `Categoria: ${category.name}` : 'Selecione uma categoria...' }
+                            </Text>
                         </TouchableOpacity>
                     </View>
-                </ScrollView>
-            </KeyboardAvoidingView>
-            </SafeAreaView>
-        )
+
+                    <TouchableOpacity style={styles.loginButton} onPress={handleSubmit}>
+                        {loading && <ActivityIndicator style={styles.textLoginButton} size='small' color='#ccc' />}
+                        {!loading && <Text style={styles.textLoginButton}>Anunciar</Text> }
+                    </TouchableOpacity>
+                </View>
+            </ScrollView>
+        </KeyboardAvoidingView>
+        </SafeAreaView>
+    )
 }

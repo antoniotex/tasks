@@ -48,7 +48,7 @@ export default function SignIn() {
                         onChangeText={value => setPassword(value)} />
                 </View>
                 <TouchableOpacity style={styles.loginButton} onPress={handleSignIn} disabled={loading}>
-                    {loading && <ActivityIndicator style={styles.textLoginButton} size='small' />}
+                    {loading && <ActivityIndicator style={styles.textLoginButton} size='small' color='#ccc' />}
                     {!loading && <Text style={styles.textLoginButton}>Entrar</Text> }
                 </TouchableOpacity>
                 <Text style={styles.defaultText}>Ou utilize sua rede social</Text>
