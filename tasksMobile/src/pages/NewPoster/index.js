@@ -2,6 +2,8 @@ import React, { useContext, useState, useEffect, createRef } from 'react';
 import { Dimensions, View, Text, TouchableOpacity, TextInput, Image, KeyboardAvoidingView, Platform, ScrollView, ActivityIndicator, SafeAreaView, ClippingRectangle } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import Toast from 'react-native-tiny-toast'
+import { TextInputMask, MaskService } from 'react-native-masked-text'
+import axios from 'axios'
 
 import Icon from 'react-native-vector-icons/AntDesign'
 import DocumentPicker from 'react-native-document-picker';
@@ -15,7 +17,7 @@ import api from '../../services/api';
 export default function NewPoster() {
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
-    const [cep, setCep] = useState(null)
+    const [cep, setCep] = useState('')
     const [state, setState] = useState('')
     const [city, setCity] = useState('')
     const [neighborhood, setNeighborhood] = useState('')
@@ -23,6 +25,7 @@ export default function NewPoster() {
     const [imageIndex, setImageIndex] = useState(0)
     const [editId, setEditId] = useState(null)
     const imageDefault = 'https://assets.zoom.us/images/en-us/desktop/generic/video-not-working.PNG'
+    const [cepLoading, setCepLoading] = useState(false)
     
     const [imagesUpload, setImagesUpload] = useState([])
     const { signed, register } = useContext(AuthContext);
@@ -47,6 +50,12 @@ export default function NewPoster() {
         useEffect(() => {
             setEditId(posterEditId)
         }, [])
+
+        useEffect(() => {
+            if(cep.length >= 8){
+                loadAddress()
+            }
+        }, [cep])
 
     async function handleSubmit() {
         if(!title || !description || !cep || !state || !city || !neighborhood || !route.params.id){
@@ -158,6 +167,27 @@ export default function NewPoster() {
         setLoading(false)
     }
 
+    async function loadAddress(){
+        try {
+            setCepLoading(true)
+            const address = await axios.get(`https://viacep.com.br/ws/${cep}/json/`)
+            setCepLoading(false)
+
+            if(address.data.erro){
+                Toast.show('CEP não encontrado')
+                return
+            }
+
+            setState(address.data.uf)
+            setCity(address.data.localidade)
+            setNeighborhood(address.data.bairro)            
+        } catch (error) {
+            setCepLoading(false)
+            Toast.show('Ocorreu um erro, por favor digite o restante do endereço')
+            console.log(error)
+        }
+    }
+
     const { width } = Dimensions.get('window')
     const height = width * .7
 
@@ -240,33 +270,40 @@ export default function NewPoster() {
                             placeholderTextColor="#ccc"
                             onChangeText={value => setDescription(value)} />
                     </View>
+                    
                     <View style={{...styles.inputBox, marginTop: -3, alignItems:'flex-end'}}>
                         <Text style={{fontSize:15, color: 3000 - description.length < 0 ? 'red' : 'green'}}>
-                            Caracteres restates: {3000 - description.length}
+                            Caracteres restantes: {3000 - description.length}
                         </Text>
                     </View>
 
-                    <View style={styles.inputBox}>
-                        <Text style={styles.label}>CEP</Text>
-                        <TextInput
-                            style={styles.input}
-                            placeholder="Ex.: 04858-570" value={cep} textContentType="postalCode"
-                            keyboardType="number-pad"
-                            placeholderTextColor="#ccc"
-                            onChangeText={value => setCep(value)} />
+                    <View style={styles.cepUfBox}>
+                        <View style={{...styles.inputBox, flex:2}}>
+                            <Text style={styles.label}>CEP</Text>
+                            <TextInputMask
+                                type={'zip-code'}
+                                style={styles.input}
+                                placeholder="Ex.: 04858-570"
+                                placeholderTextColor="#ccc"
+                                value={cep}
+                                onChangeText={value => setCep(value.replace(/-/, ''))}
+                            />
+                            { cepLoading && <ActivityIndicator style={{alignSelf:'center', position:'absolute', top:25}} size='large' color='#ccc' />}
+                        </View>
+
+                        <View style={{...styles.inputBox, flex:1}}>
+                            <Text style={styles.label}>Estado</Text>
+                            <TextInput
+                                style={styles.input}
+                                value={state}
+                                placeholder="Ex.: SP"
+                                autoCapitalize='characters'
+                                placeholderTextColor="#ccc"
+                                maxLength={2}
+                                onChangeText={value => setState(value)} />
+                        </View>
                     </View>
 
-                    <View style={styles.inputBox}>
-                        <Text style={styles.label}>Estado</Text>
-                        <TextInput
-                            style={styles.input}
-                            value={state}
-                            placeholder="Ex.: SP"
-                            autoCapitalize='characters'
-                            placeholderTextColor="#ccc"
-                            maxLength={2}
-                            onChangeText={value => setState(value)} />
-                    </View>
 
                     <View style={styles.inputBox}>
                         <Text style={styles.label}>Cidade</Text>

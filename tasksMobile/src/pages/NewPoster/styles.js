@@ -66,6 +66,9 @@ const styles = StyleSheet.create({
     addFileText:{
         fontSize:15,
         marginHorizontal:5
+    },
+    cepUfBox:{
+        flexDirection:'row'
     }
 })
 
