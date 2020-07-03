@@ -27,9 +27,9 @@ export const AuthProvider = ({ children }) => {
     }, [])
 
     async function register(register) {
-        const emailValidate = await emailValidation(login.email)
+        const emailValidate = await emailValidation(register.email)
         if(!emailValidate){
-            Toast.show('Digite um e-mail válido')
+            Toast.show('Digite um endereço de e-mail válido')
             return
         }
 

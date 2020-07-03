@@ -22,7 +22,6 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         marginHorizontal:20,
         marginVertical:10,
-        paddingVertical:10,
         paddingLeft:5,
         borderRadius:10,
         alignItems:'center'
@@ -32,7 +31,9 @@ const styles = StyleSheet.create({
         width:'90%',
         fontSize:18,
         padding:0,
-        paddingLeft:5
+        paddingLeft:5,
+        marginVertical:15,
+        height:'100%'
     },
     loginButton:{
         alignSelf:'center',

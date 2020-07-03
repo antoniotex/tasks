@@ -26,22 +26,24 @@ export default function SignIn() {
                 <Image source={logoImg} style={{width: width*.9, height:width*.5, alignSelf:'center'}} />
                 <Text style={styles.defaultText}>Entre com sua conta</Text>
                 <View style={styles.inputBox}>
-                    <Icon name="mail" size={30} color="#7ac7c4" />
+                    <Icon name="mail" size={30} color="#ccc" />
                     <TextInput
+                        underlineColorAndroid='transparent'
                         style={styles.input}
                         placeholder="E-mail" value={email} textContentType="emailAddress"
-                        placeholderTextColor="#c4edde"
+                        placeholderTextColor="#ccc"
                         keyboardType="email-address"
                         autoCapitalize="none"
                         onChangeText={value => setEmail(value)} />
                 </View>
                 <View style={styles.inputBox}>
-                    <Icon name="lock1" size={30} color="#7ac7c4" />
+                    <Icon name="lock1" size={30} color="#ccc" />
                     <TextInput
+                        underlineColorAndroid='transparent'
                         style={styles.input}
                         value={password}
                         placeholder="Senha" secureTextEntry
-                        placeholderTextColor="#c4edde"
+                        placeholderTextColor="#ccc"
                         autoCapitalize="none"
                         onChangeText={value => setPassword(value)} />
                 </View>
