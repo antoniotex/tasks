@@ -1,8 +1,8 @@
 import React, { useContext, useState, useEffect, createRef } from 'react';
-import { Dimensions, View, Text, TouchableOpacity, TextInput, Image, KeyboardAvoidingView, Platform, ScrollView, ActivityIndicator, SafeAreaView, ClippingRectangle } from 'react-native';
+import { Dimensions, Keyboard, View, Text, TouchableOpacity, TextInput, Image, KeyboardAvoidingView, Platform, ScrollView, ActivityIndicator, SafeAreaView, ClippingRectangle } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import Toast from 'react-native-tiny-toast'
-import { TextInputMask, MaskService } from 'react-native-masked-text'
+import { TextInputMask } from 'react-native-masked-text'
 import axios from 'axios'
 
 import Icon from 'react-native-vector-icons/AntDesign'
@@ -36,26 +36,26 @@ export default function NewPoster() {
 
     let scrollView = createRef < typeof ScrollView >
 
-        useEffect(() => {
-            const unsubscribe = navigation.addListener('focus', async () => {
-                if (posterEditId) {
-                    editInputs()
-                }
-
-                loadCategories()
-            })
-            return unsubscribe
-        }, [navigation])
-
-        useEffect(() => {
-            setEditId(posterEditId)
-        }, [])
-
-        useEffect(() => {
-            if(cep.length >= 8){
-                loadAddress()
+    useEffect(() => {
+        const unsubscribe = navigation.addListener('focus', async () => {
+            if (posterEditId) {
+                editInputs()
             }
-        }, [cep])
+
+            loadCategories()
+        })
+        return unsubscribe
+    }, [navigation])
+
+    useEffect(() => {
+        setEditId(posterEditId)
+    }, [])
+
+    useEffect(() => {
+        if(cep.length > 8){
+            loadAddress()
+        }
+    }, [cep])
 
     async function handleSubmit() {
         if(!title || !description || !cep || !state || !city || !neighborhood || !route.params.id){
@@ -170,19 +170,24 @@ export default function NewPoster() {
     async function loadAddress(){
         try {
             setCepLoading(true)
-            const address = await axios.get(`https://viacep.com.br/ws/${cep}/json/`)
+            const address = await axios.get(`https://viacep.com.br/ws/${cep.replace(/-/, '')}/json/`, {
+                timeout: 5000
+            })
             setCepLoading(false)
 
             if(address.data.erro){
                 Toast.show('CEP não encontrado')
                 return
             }
-
+            Keyboard.dismiss()
             setState(address.data.uf)
             setCity(address.data.localidade)
             setNeighborhood(address.data.bairro)            
         } catch (error) {
             setCepLoading(false)
+            setState('')
+            setCity('')
+            setNeighborhood('')
             Toast.show('Ocorreu um erro, por favor digite o restante do endereço')
             console.log(error)
         }
@@ -256,7 +261,7 @@ export default function NewPoster() {
                             placeholderTextColor="#ccc"
                             autoCapitalize="sentences"
                             onChangeText={value => setTitle(value)}
-                            maxLength={60} />
+                            maxLength={85} />
                     </View>
 
                     <View style={styles.inputBox}>
@@ -272,7 +277,7 @@ export default function NewPoster() {
                     </View>
                     
                     <View style={{...styles.inputBox, marginTop: -3, alignItems:'flex-end'}}>
-                        <Text style={{fontSize:15, color: 3000 - description.length < 0 ? 'red' : 'green'}}>
+                        <Text style={{fontSize:13, color: 3000 - description.length < 0 ? 'red' : 'green'}}>
                             Caracteres restantes: {3000 - description.length}
                         </Text>
                     </View>
@@ -286,7 +291,7 @@ export default function NewPoster() {
                                 placeholder="Ex.: 04858-570"
                                 placeholderTextColor="#ccc"
                                 value={cep}
-                                onChangeText={value => setCep(value.replace(/-/, ''))}
+                                onChangeText={value => setCep(value)}
                             />
                             { cepLoading && <ActivityIndicator style={{alignSelf:'center', position:'absolute', top:25}} size='large' color='#ccc' />}
                         </View>
