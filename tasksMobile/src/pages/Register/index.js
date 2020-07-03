@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { View, SafeAreaView, Text, TouchableOpacity, TextInput, Image, KeyboardAvoidingView, ScrollView } from 'react-native';
+import { View, SafeAreaView, Text, TouchableOpacity, TextInput, KeyboardAvoidingView, ScrollView, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/AntDesign'
 import { TextInputMask } from 'react-native-masked-text'
@@ -12,7 +12,7 @@ import styles from './styles';
 export default function Register() {
     const [name, setName] = useState('')
     const [username, setUsername] = useState('')
-    const [phoneNumber, setPhoneNumber] = useState(null)
+    const [phone_number, setPhoneNumber] = useState(null)
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
@@ -20,12 +20,12 @@ export default function Register() {
     const navigation = useNavigation();
 
     function handleRegister() {
-        if(!name || !username || !phoneNumber || !email || !password){
+        if(!name || !username || !phone_number || !email || !password){
             Toast.show('Todos os campos são obrigatórios')
             return
         }
 
-        register({ name, username, phoneNumber, email, password });
+        register({ name, username, phone_number, email, password });
     }
 
     return (
@@ -60,7 +60,7 @@ export default function Register() {
                         style={styles.input}
                         placeholderTextColor='#ccc'
                         type={'cel-phone'}
-                        value={phoneNumber}
+                        value={phone_number}
                         options={{
                             maskType: 'BRL',
                             withDDD: true,

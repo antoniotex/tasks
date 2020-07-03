@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { View, Text, Image, ScrollView, Dimensions } from 'react-native'
 import { useRoute } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/AntDesign'
+import { MaskService } from 'react-native-masked-text'
 
 import moment from 'moment';
 import 'moment/locale/pt-br';
@@ -70,9 +71,12 @@ export default function Poster() {
                 <View style={styles.sectionBox}>
                     <Text style={styles.sectionTitle}>Contato</Text>
                 </View>
+                {console.log(poster.user)}
                 <Text style={styles.defaultText}>Anunciante: {poster.user.name}</Text>
-                <Text style={styles.defaultText}>Telefone: (11)99679-6217</Text>
-                <Text style={styles.defaultText}>E-mail: ronaldo@gmail.com</Text>
+                <Text style={styles.defaultText}>
+                    Telefone: {MaskService.toMask('cel-phone', poster.user.phone_number)}
+                </Text>
+                <Text style={styles.defaultText}>E-mail: {poster.user.email}</Text>
             </View>
         </ScrollView>
     )
