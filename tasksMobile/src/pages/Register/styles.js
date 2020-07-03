@@ -2,15 +2,16 @@ import { StyleSheet } from 'react-native';
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 1,
+        backgroundColor:'#fff'
     },
     signupTitle:{
         fontSize:35,
         textAlign:'center',
         color: '#f73859',
         fontWeight:'bold',
-        marginTop:40,
-        marginBottom:40
+        marginTop:10,
+        marginBottom:20
     },
     inputBox:{
         borderWidth:.7,
@@ -48,7 +49,7 @@ const styles = StyleSheet.create({
     signupText:{
         fontSize:17,
         textAlign:'center',
-        marginTop:40,
+        marginTop:0,
         color:'#f73859'
     },
 })

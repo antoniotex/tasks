@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { View, SafeAreaView, Text, TouchableOpacity, TextInput, Image, KeyboardAvoidingView } from 'react-native';
+import { View, SafeAreaView, Text, TouchableOpacity, TextInput, Image, KeyboardAvoidingView, ScrollView } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/AntDesign'
 import { TextInputMask } from 'react-native-masked-text'
@@ -30,6 +30,7 @@ export default function Register() {
 
     return (
         <SafeAreaView style={styles.container}>
+            <ScrollView>
             <KeyboardAvoidingView style={styles.login}>
                 <Text style={styles.signupTitle}>Crie sua conta</Text>
                 <View style={styles.inputBox}>
@@ -100,6 +101,7 @@ export default function Register() {
                     <Text style={styles.signupText}>Já tem uma conta?  Clique para entrar!</Text>
                 </TouchableOpacity>
                 </KeyboardAvoidingView>
+                </ScrollView>
         </SafeAreaView>
     )
 }

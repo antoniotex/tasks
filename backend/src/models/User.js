@@ -8,7 +8,8 @@ class User extends Model {
             name: DataTypes.STRING,
             username: DataTypes.STRING,
             email: DataTypes.STRING,
-            password: DataTypes.STRING
+            password: DataTypes.STRING,
+            phoneNumber: DataTypes.STRING
         }, {
             sequelize,
             hooks: {
