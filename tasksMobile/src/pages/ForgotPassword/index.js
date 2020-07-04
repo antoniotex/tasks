@@ -78,7 +78,7 @@ export default function ForgotPassword(){
                     placeholderTextColor='#ccc'
                     onChangeText={(value) => setPassword(value)}
                     secureTextEntry
-                    maxLength={6}
+                    maxLength={20}
                     
                 />
                 <TouchableOpacity 

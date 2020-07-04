@@ -24,7 +24,13 @@ export default function Register() {
             Toast.show('Todos os campos são obrigatórios')
             return
         }
-        register({ name, username, phone_number, email, password });
+
+        register({
+            name,
+            username,
+            phone_number: phone_number.replace(/[^\w\s]/gi, '').replace(' ', ''),
+            email,
+            password });
     }
 
     return (
@@ -60,10 +66,11 @@ export default function Register() {
                         placeholderTextColor='#ccc'
                         type={'cel-phone'}
                         value={phone_number}
+                        textContentType='telephoneNumber'
                         options={{
                             maskType: 'BRL',
                             withDDD: true,
-                            dddMask: '(99) '
+                            dddMask: '(99)'
                           }}
                         onChangeText={value => setPhoneNumber(value)}
                         placeholder='Telefone'
@@ -88,6 +95,7 @@ export default function Register() {
                         style={styles.input}
                         value={password}
                         placeholder="Senha" secureTextEntry
+                        maxLength={20}
                         placeholderTextColor="#ccc"
                         autoCapitalize="none"
                         onChangeText={value => setPassword(value)} />

@@ -43,6 +43,7 @@ export default function SignIn() {
                         style={styles.input}
                         value={password}
                         placeholder="Senha" secureTextEntry
+                        maxLength={20}
                         placeholderTextColor="#ccc"
                         autoCapitalize="none"
                         onChangeText={value => setPassword(value)} />
