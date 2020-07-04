@@ -9,7 +9,9 @@ class User extends Model {
             username: DataTypes.STRING,
             email: DataTypes.STRING,
             password: DataTypes.STRING,
-            phoneNumber: DataTypes.STRING
+            phoneNumber: DataTypes.STRING,
+            password_reset_token: DataTypes.STRING,
+            password_reset_expires: DataTypes.DATE
         }, {
             sequelize,
             hooks: {

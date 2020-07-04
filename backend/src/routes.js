@@ -11,6 +11,8 @@ const routes = express.Router()
 
 routes.put('/users/:user_id', authMiddleware, UserController.update)
 routes.delete('/users/:user_id', authMiddleware, UserController.delete)
+routes.post('/users/forgot_password', AuthController.forgotPassword)
+routes.post('/users/reset_password', AuthController.resetPassword)
 
 routes.post('/register', AuthController.register)
 routes.post('/authenticate', AuthController.authenticate)
