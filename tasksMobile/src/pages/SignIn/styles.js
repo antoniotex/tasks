@@ -54,6 +54,10 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         justifyContent:'center',
         marginVertical:20
+    },
+    forgotText:{
+        color:'#777',
+        fontSize:15
     }
 })
 

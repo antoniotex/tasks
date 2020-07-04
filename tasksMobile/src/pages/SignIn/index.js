@@ -47,6 +47,13 @@ export default function SignIn() {
                         autoCapitalize="none"
                         onChangeText={value => setPassword(value)} />
                 </View>
+                <View style={{...styles.inputBox, justifyContent:'flex-end', marginTop:0, borderWidth:0}}>
+                    <Text
+                        onPress={() => navigation.navigate('ForgotPassword')}
+                        style={styles.forgotText}>
+                            Esqueceu sua senha?
+                    </Text>
+                </View>
                 <TouchableOpacity style={styles.loginButton} onPress={handleSignIn} disabled={loading}>
                     {loading && <ActivityIndicator style={styles.textLoginButton} size='small' color='#ccc' />}
                     {!loading && <Text style={styles.textLoginButton}>Entrar</Text> }

@@ -11,6 +11,15 @@ async function gerarToken(params = {}) {
         expiresIn:86400
     })
 }
+async function getNumberId() {
+    let result           = '';
+    const characters       = '0123456789';
+    const charactersLength = characters.length;
+    for ( var i = 0; i < 6; i++ ) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result
+}
 
 module.exports = {
     async register(req, res) {
@@ -37,7 +46,6 @@ module.exports = {
 
         if (!user) return res.status(400).json({ error: 'Usuário não encontrado' })
 
-        console.log({password, nova:user.password})
         if (!await bcrypt.compare(password, user.password)) 
             return res.status(400).json({ error: 'Usuário ou senha incorretos' })
 
@@ -55,7 +63,7 @@ module.exports = {
             if(!user)
                 return res.status(400).send({error: 'Usuário não encontrado'})
 
-            const emailToken = crypto.randomBytes(20).toString('hex')
+            const emailToken = await getNumberId()
 
             const now = new Date()
             now.setHours(now.getHours() + 1)
@@ -67,11 +75,11 @@ module.exports = {
                 to: email,
                 from: {
                     email: 'antoniotx.dev@gmail.com',
-                    name: 'Antonio Carlos'
+                    name: 'iPerto'
                 },
                 subject: 'iPerto - Redefinição de senha',
                 text: 'Clique no link abaixo para redefinir sua senha',
-                html: `<a href=${emailToken}>${emailToken}</a>`,
+                html: `<p>O código para redefinir sua senha é: <b>${emailToken}</b></p>`,
             };
 
             await sgMail.send(msg);

@@ -24,8 +24,6 @@ export default function Register() {
             Toast.show('Todos os campos são obrigatórios')
             return
         }
-        console.log(phone_number)
-        return
         register({ name, username, phone_number, email, password });
     }
 

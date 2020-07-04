@@ -6,6 +6,7 @@ import SignIn from '../pages/SignIn'
 import Home from '../pages/Home'
 import Register from '../pages/Register'
 import Poster from '../pages/Poster'
+import ForgotPassword from '../pages/ForgotPassword'
 
 const AuthDrawer = createDrawerNavigator()
 const PosterStack = createStackNavigator()
@@ -19,6 +20,9 @@ const LoginRoutes = () => {
             }} />
             <AuthDrawer.Screen name="Register" component={Register} options={{
                 title: 'Nova conta',
+            }} />
+            <AuthDrawer.Screen name="ForgotPassword" component={ForgotPassword} options={{
+                title: 'Redefinição de senha',
             }} />
         </PosterStack.Navigator>
     )
