@@ -1,5 +1,5 @@
-import React, { useContext, useState, useEffect, createRef } from 'react';
-import { Dimensions, Keyboard, View, Text, TouchableOpacity, TextInput, Image, KeyboardAvoidingView, Platform, ScrollView, ActivityIndicator, SafeAreaView, ClippingRectangle } from 'react-native';
+import React, { useContext, useState, useEffect } from 'react';
+import { Dimensions, Keyboard, View, FlatList,Text, TouchableOpacity, TextInput, Image, KeyboardAvoidingView, Platform, ScrollView, ActivityIndicator, SafeAreaView, ClippingRectangle } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import Toast from 'react-native-tiny-toast'
 import { TextInputMask } from 'react-native-masked-text'
@@ -33,8 +33,6 @@ export default function NewPoster() {
 
     const navigation = useNavigation();
     const route = useRoute()
-
-    let scrollView = createRef < typeof ScrollView >
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', async () => {
@@ -111,6 +109,11 @@ export default function NewPoster() {
         try {
             const fileSelected = await DocumentPicker.pickMultiple(options)
 
+            if((fileSelected.length + imagesUpload.length) > 6){
+                Toast.show('É permitido no máximo 6 imagens')
+                return
+            }
+
             if (fileSelected.type == 'cancel') return
 
             if (imagesUpload.length == 0) {
@@ -127,22 +130,13 @@ export default function NewPoster() {
         }
     }
 
-    const changeImage = ({ nativeEvent }) => {
-        const slide = Math.ceil(nativeEvent.contentOffset.x / nativeEvent.layoutMeasurement.width)
-        setImageIndex(slide + 1)
-    }
-
     async function deleteImage(index) {
         if (imagesUpload[index].id !== undefined) {
             await api.delete(`/posters/image/${imagesUpload[index].id}`)
         }
-        let auxImages = imagesUpload
-        auxImages.splice(index, 1)
-        setImagesUpload(auxImages)
-        if (index > 1) {
 
-        }
-        scrollView.scrollTo({ x: 0, y: 0, animated: true })
+        const filteredImages = await imagesUpload.filter(item => item !== imagesUpload[index])
+        await setImagesUpload(filteredImages)
     }
 
     async function editInputs() {
@@ -202,54 +196,35 @@ export default function NewPoster() {
             <ScrollView contentContainerStyle={styles.container}>
                 <Text style={styles.NewPosterTitle}> Novo Anúncio</Text>
 
-                { imagesUpload.length > 0 && <View style={{ width, height, alignSelf: 'flex-start' }}>
-                    <ScrollView
-                        pagingEnabled
-                        horizontal
-                        ref={(ref) => scrollView = ref}
-                        showsHorizontalScrollIndicator={false}
-                        onContentSizeChange={() => {
-                            if (imagesUpload.length == 0) {
-                                scrollView.scrollToEnd({ animated: true })
-                            }
-                        }}
-                        onScroll={changeImage}
-                        style={{ width, height }}>
-                        {
-                            imagesUpload.map((image, index) => (
-                                <View key={index} style={{ width, height }}>
-                                    <TouchableOpacity onPress={() => deleteImage(index)} style={{
-                                        position: 'absolute',
-                                        zIndex: 9999, right: 10, top: 10,
-                                        backgroundColor: '#E02041',
-                                        borderRadius: 20,
-                                        width: 40,
-                                        height: 40,
-                                        justifyContent: 'center',
-                                        alignItems: 'center'
-                                    }}>
-                                        <Icon name="delete" size={30} color="#fff" />
-                                    </TouchableOpacity>
-                                    <Image
-                                        source={{ uri: image.uri }}
-                                        style={{ width, height, resizeMode: 'cover' }}
-                                    />
-                                </View>
-                            ))
-                        }
-                    </ScrollView>
-                    {imageIndex <= imagesUpload.length && <View style={{
-                        width: 50,
-                        backgroundColor: '#E02041',
-                        position: 'absolute', bottom: 5, left: width * 0.5 - 25,
-                        padding: 10, borderRadius: 20
-                    }}>
-                        <Text style={{ textAlign: 'center', color: '#ffffff', fontSize: 16 }}>{imageIndex}/{imagesUpload.length}</Text>
-                    </View>}
-                </View>}
+                <FlatList
+                    data={imagesUpload}
+                    horizontal
+                    renderItem={({ item, index }) => (
+                        <View key={item.id} style={{...styles.imageBoxItem}}>
+                        <TouchableOpacity onPress={() => deleteImage(index)} style={{
+                            position: 'absolute',
+                            zIndex: 9999, right: 4, top: 4,
+                            backgroundColor: '#f73859',
+                            borderRadius: 15,
+                            width: 30,
+                            height: 30,
+                            justifyContent: 'center',
+                            alignItems: 'center'
+                            }}>
+                            <Icon name="delete" size={20} color="#fff" />
+                        </TouchableOpacity>
+                        <Image
+                            source={{ uri: item.uri }}
+                            style={styles.posterImage}
+                        />
+                    </View>
+                    )}
+                    keyExtractor={item => item.id}
+                />
+
                 <TouchableOpacity style={styles.addFile} onPress={handlePicker} disabled={imagesUpload.length > 3}>
                     <Icon name="addfile" size={25} color="#E02041" />
-                    <Text style={styles.addFileText}>Adicionar imagens {imagesUpload.length}/4</Text>
+                    <Text style={styles.addFileText}>Adicionar imagens {imagesUpload.length}/6</Text>
                 </TouchableOpacity>
 
                 <View style={styles.login}>
@@ -332,7 +307,7 @@ export default function NewPoster() {
                     
                     <View style={styles.inputBox}>
                         <Text style={{...styles.label, marginTop:20}}>Categoria</Text>
-                        <TouchableOpacity style={styles.input} onPress={() => navigation.navigate('Categories', { categories })}>
+                        <TouchableOpacity style={{...styles.input, paddingVertical:10}} onPress={() => navigation.navigate('Categories', { categories })}>
                             <Text style={styles.selectCategoryText}>
                                 { route.params ? `Categoria: ${route.params.name}` :
                                 category?.name ? `Categoria: ${category.name}` : 'Selecione uma categoria...' }

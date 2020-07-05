@@ -59,7 +59,8 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         alignItems:'center',
         marginVertical:5,
-        marginHorizontal:50,
+        marginHorizontal:80,
+        borderStyle: 'dashed',
         borderRadius:10,
         paddingVertical:5
     },
@@ -69,6 +70,16 @@ const styles = StyleSheet.create({
     },
     cepUfBox:{
         flexDirection:'row'
+    },
+    posterImage:{
+        width: 120,
+        height:120,
+        resizeMode: 'cover',
+        borderRadius:60,
+        borderWidth:1,
+        borderColor: '#f73859',
+        marginHorizontal:2,
+        marginBottom:10
     }
 })
 
