@@ -41,7 +41,10 @@ const PosterRoutes = () => {
 
 const AuthRoutes = () => {
     return (
-        <AuthDrawer.Navigator initialRouteName="PosterRoutes">
+        <AuthDrawer.Navigator drawerContentOptions={{
+            activeTintColor: '#f73859',
+            itemStyle: { marginVertical: 10 },
+        }}>
             <AuthDrawer.Screen name="PosterRoutes" component={PosterRoutes} options={{
                 title: 'Início'
             }} />

@@ -41,7 +41,10 @@ const NewPosterRoutes = () => {
 
 const AppRoutes = () => {
     return (
-        <AppStack.Navigator>
+        <AppStack.Navigator drawerContentOptions={{
+            activeTintColor: '#f73859',
+            itemStyle: { marginVertical: 10 },
+        }}>
             <AppStack.Screen name="PosterRoutes" component={PosterRoutes} options={{
                 title: 'Início'
             }} />
