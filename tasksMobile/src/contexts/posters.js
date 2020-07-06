@@ -1,6 +1,7 @@
 import React, { createContext, useState, useEffect } from 'react';
-// import { AsyncStorage } from 'react-native';
+import { Alert, Platform } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage';
+import Geolocation from '@react-native-community/geolocation';
 import api from '../services/api';
 
 const PosterContext = createContext({ posters: [] });
@@ -10,6 +11,7 @@ export const PosterProvider = ({ children }) => {
     const [categories, setCategories] = useState([])
     const [loading, setLoading] = useState(true);
     const [posterEditId, setPosterEditId] = useState()
+    const [initialPosition, setInitialPosition] = useState(null)
 
     useEffect(() => {
         async function loadStorageData() {
@@ -24,6 +26,23 @@ export const PosterProvider = ({ children }) => {
             }
         }
 
+        async function getLocation(){
+            await Geolocation.getCurrentPosition(
+                position => {
+                  const initialPosition = position
+                  setInitialPosition(initialPosition);
+                },
+                error => {
+                    if(Platform.OS === 'ios'){
+                        Alert.alert('Error IOS ', JSON.stringify(error), {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000})
+                    }else{
+                        Alert.alert('Error ANDROID ', JSON.stringify(error), {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000})
+                    }
+                }
+              );
+        }
+
+        getLocation()
         loadStorageData()
     }, [])
 
@@ -32,8 +51,16 @@ export const PosterProvider = ({ children }) => {
     }
 
     async function loadPosters(query) {
+        let { latitude, longitude } = initialPosition?.coords
+
+        if(Platform.OS === 'ios' && initialPosition){
+            latitude = '-23.7709365'
+            longitude = '-46.7137812'
+        }
+
         const search = query ? `search?query=${query}` : ''
-        const response = await api.get(`/posters/${search}`)
+        const response = await api.get(`/posters${search ? '/search' : ''}/${latitude}/${longitude}`)
+
         await setPosters(response.data)
         setLoading(false)
     }

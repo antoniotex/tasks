@@ -1,12 +1,43 @@
 const { Op, QueryTypes } = require('sequelize')
+const axios = require('axios')
 const Poster = require('../models/Poster')
 const User = require('../models/User')
 const Image = require('../models/Image')
 const Category = require('../models/Category')
 require('dotenv/config')
 
+async function getDistance(latitude, longitude, ceps){
+    const apiGoogle = `https://maps.googleapis.com/maps/api/distancematrix/json?`
+    const keyApiGoogle = `AIzaSyCQzbAc7DC4aYWGWoyxcO5HMM4wtmQB03Q`
+
+    console.log(latitude)
+    console.log(longitude)
+    console.log(ceps)
+    const response = await axios.get(
+        `${apiGoogle}origins=${latitude},${longitude}&destinations=${ceps}&key=${keyApiGoogle}`, 
+    )
+    return response.data.rows[0].elements
+}
+
+async function getCeps(posters){
+    let map={"â":"a","Â":"A","à":"a","À":"A","á":"a","Á":"A","ã":"a","Ã":"A","ê":"e","Ê":"E","è":"e","È":"E","é":"e","É":"E","î":"i","Î":"I","ì":"i","Ì":"I","í":"i","Í":"I","õ":"o","Õ":"O","ô":"o","Ô":"O","ò":"o","Ò":"O","ó":"o","Ó":"O","ü":"u","Ü":"U","û":"u","Û":"U","ú":"u","Ú":"U","ù":"u","Ù":"U","ç":"c","Ç":"C"};
+    let ceps = ''
+    
+    for (let i = 0; i < posters.length; i++) {
+        const neighborhood = posters[i].neighborhood.replace(/[\W\[\] ]/g,function(a){return map[a]||a})
+        const city = posters[i].city.replace(/[\W\[\] ]/g,function(a){return map[a]||a})
+        if(i === 0)
+            ceps += `${posters[i].cep},${neighborhood.replace(/\s/g, '+')},${city.replace(/\s/g, '+')}`
+        else
+            ceps += `|${posters[i].cep},${neighborhood.replace(/\s/g, '+')},${city.replace(/\s/g, '+')}`
+    }
+    return ceps
+}
+
 module.exports = {
     async index(req, res) {
+        const { latitude, longitude } = req.params
+        
         try {
             const posters = await Poster.findAll({
                 attributes: { exclude: ['category_id', 'user_id', 'updatedAt'] },
@@ -17,6 +48,16 @@ module.exports = {
                     { model: User, as: 'user', attributes: ['id', 'name', 'email', 'phone_number'] }
                 ]
             })
+
+            const ceps = await getCeps(posters)
+            const distance = await getDistance(latitude, longitude, ceps)
+
+            await posters.map((poster, index) => {
+                poster.dataValues.distance = distance[index]
+                if(index == 1)
+                    console.log(poster.dataValues.distance)
+            })
+            
             return res.json(posters)
         } catch (error) {
             return res.status(400).json({ error: error })

@@ -17,7 +17,7 @@ routes.post('/users/reset_password', AuthController.resetPassword)
 routes.post('/register', AuthController.register)
 routes.post('/authenticate', AuthController.authenticate)
 
-routes.get('/posters', PosterController.index)
+routes.get('/posters/:latitude/:longitude', PosterController.index)
 routes.get('/posters/search', PosterController.search)
 routes.get('/posters/:id', PosterController.indexById)
 

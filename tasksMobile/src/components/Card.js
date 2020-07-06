@@ -18,7 +18,9 @@ export default function Card({ poster }) {
             <View style={styles.posterInfo}>
                 <Text style={styles.posterTitle}>{poster.title}</Text>
                 <Text style={styles.posterCategory}>Categoria: {poster.category.name}</Text>
-                <Text style={styles.posterData}>{moment(poster.createdAt).fromNow()} - {poster.city}, {poster.state}</Text>
+                <Text style={styles.posterData}>
+                    {moment(poster.createdAt).fromNow()} - {poster.city.substr(0, 18)}{poster.city.length > 17 ? '...' : ''}, {poster.state} - {poster.distance.status === 'OK' ? poster.distance.distance.text : ''}
+                </Text>
             </View>
         </TouchableOpacity>
     )

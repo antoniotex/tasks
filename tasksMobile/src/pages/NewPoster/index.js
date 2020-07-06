@@ -49,6 +49,10 @@ export default function NewPoster() {
         setEditId(posterEditId)
     }, [])
 
+    // useEffect(() => {
+    //     setCategory({id: route.params.id, name:route.params.name})
+    // }, [route.params])
+
     useEffect(() => {
         if(cep.length > 8){
             loadAddress()
@@ -56,7 +60,7 @@ export default function NewPoster() {
     }, [cep])
 
     async function handleSubmit() {
-        if(!title || !description || !cep || !state || !city || !neighborhood || !route.params.id){
+        if(!title || !description || !cep || !state || !city || !neighborhood || !category.id){
             Toast.show('Todos os campos são obrigatórios')
             return
         }
@@ -74,7 +78,7 @@ export default function NewPoster() {
         images.append('state', state)
         images.append('city', city)
         images.append('neighborhood', neighborhood)
-        images.append('category_id', route.params.id)
+        images.append('category_id', category.id)
 
         const storageToken = await AsyncStorage.getItem('@RNAuth:token');
         const storageUser = await AsyncStorage.getItem('@RNAuth:user');
@@ -141,7 +145,6 @@ export default function NewPoster() {
 
     async function editInputs() {
         const response = await api.get(`/posters/${posterEditId}`)
-        console.log('entrei editinputs', response.data)
         changePosterMode(null)
         setTitle(response.data.title)
         await setCategory({id: response.data.category_id, name:response.data.category.name})
@@ -309,7 +312,7 @@ export default function NewPoster() {
                         <Text style={{...styles.label, marginTop:20}}>Categoria</Text>
                         <TouchableOpacity style={{...styles.input, paddingVertical:10}} onPress={() => navigation.navigate('Categories', { categories })}>
                             <Text style={styles.selectCategoryText}>
-                                { route.params ? `Categoria: ${route.params.name}` :
+                                { route?.params ? `Categoria: ${route.params.name}` :
                                 category?.name ? `Categoria: ${category.name}` : 'Selecione uma categoria...' }
                             </Text>
                         </TouchableOpacity>

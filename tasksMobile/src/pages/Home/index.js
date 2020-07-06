@@ -43,7 +43,7 @@ export default function Home() {
                     renderItem={({ item }) => <Card poster={item} />}
                     refreshing={false}
                     onRefresh={loadPosters}
-                    ListHeaderComponent={<Text style={styles.listTitle}>Anúncios Recentes</Text>}
+                    ListHeaderComponent={<Text style={styles.listTitle}>Anúncios Recentess</Text>}
                 />
             </View>
         )

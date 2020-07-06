@@ -4,13 +4,14 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "cross-env NODE_ENV=production node src/server.js --prefix backend",
+    "start": "cross-env NODE_ENV=production nodemon src/server.js --prefix backend",
     "dev": "cross-env NODE_ENV=development nodemon src/server.js",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false"
   },
   "dependencies": {
     "@sendgrid/mail": "^7.2.1",
     "aws-sdk": "^2.693.0",
+    "axios": "^0.19.2",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
