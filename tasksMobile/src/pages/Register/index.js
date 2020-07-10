@@ -6,7 +6,6 @@ import { TextInputMask } from 'react-native-masked-text'
 import Toast from 'react-native-tiny-toast'
 
 import AuthContext from '../../contexts/auth';
-import logoImg from '../../assets/logo.png'
 import styles from './styles';
 
 export default function Register() {
@@ -30,7 +29,7 @@ export default function Register() {
             username,
             phone_number: phone_number.replace(/[^\w\s]/gi, '').replace(' ', ''),
             email,
-            password });
+            password })
     }
 
     return (

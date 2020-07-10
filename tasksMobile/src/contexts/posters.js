@@ -56,11 +56,6 @@ export const PosterProvider = ({ children }) => {
             if(initialPosition){
 
                 let { latitude, longitude } = initialPosition?.coords
-                
-                if(Platform.OS === 'ios' && !initialPosition){
-                    latitude = '-23.7709365'
-                    longitude = '-46.7137812'
-                }
         
                 const search = query ? `search?query=${query}` : ''
                 const response = await api.get(`/posters${search ? '/search' : ''}/${latitude}/${longitude}`)

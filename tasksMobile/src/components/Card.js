@@ -19,7 +19,7 @@ export default function Card({ poster }) {
                 <Text style={styles.posterTitle}>{poster.title}</Text>
                 <Text style={styles.posterCategory}>Categoria: {poster.category.name}</Text>
                 <Text style={styles.posterData}>
-                    {moment(poster.createdAt).fromNow()} - {poster.city.substr(0, 18)}{poster.city.length > 17 ? '...' : ''}, {poster.state} - {poster.distance ? `${Number.parseFloat(poster.distance/1000).toFixed(0)}km` : ''}
+                    {moment(poster.createdAt).fromNow()} - {poster.city.substr(0, 18)}{poster.city.length > 17 ? '...' : ''}, {poster.state} - {poster.distance ? `${Number.parseFloat(poster.distance/1000).toFixed(poster.distance/1000 < 1 ? 1 : 0)}km` : ''}
                 </Text>
             </View>
         </TouchableOpacity>

@@ -6,12 +6,31 @@ const Image = require('../models/Image')
 const Category = require('../models/Category')
 require('dotenv/config')
 
-async function getGeoCode(address){
-    const apiGoogle = 'https://maps.googleapis.com/maps/api/geocode/json?'
-    const response = await axios.get(
-        `${apiGoogle}address=${address.cep}+${address.neighborhood}+${address.city}&key=${process.env.API_KEY_GOOGLE}`, 
-    )
-    return response.data.results[0].geometry.location
+async function getGeoCode(addressess){
+    const address = await formatAddress(addressess)
+    try {
+        const apiGoogle = 'https://maps.googleapis.com/maps/api/geocode/json?'
+        const response = await axios.get(
+            `${apiGoogle}address=${address}&key=${process.env.API_KEY_GOOGLE}`, 
+        )
+        console.log('result', response.data.results[0].geometry)
+        return response.data.results[0].geometry.location
+        
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+async function formatAddress(posters){
+    let map={"â":"a","Â":"A","à":"a","À":"A","á":"a","Á":"A","ã":"a","Ã":"A","ê":"e","Ê":"E","è":"e","È":"E","é":"e","É":"E","î":"i","Î":"I","ì":"i","Ì":"I","í":"i","Í":"I","õ":"o","Õ":"O","ô":"o","Ô":"O","ò":"o","Ò":"O","ó":"o","Ó":"O","ü":"u","Ü":"U","û":"u","Û":"U","ú":"u","Ú":"U","ù":"u","Ù":"U","ç":"c","Ç":"C"};
+    let ceps = ''
+
+    const neighborhood = posters.neighborhood.replace(/[\W\[\] ]/g,function(a){return map[a]||a})
+    const city = posters.city.replace(/[\W\[\] ]/g,function(a){return map[a]||a})
+    ceps += `${posters.cep},${neighborhood.replace(/\s/g, '+')},${city.replace(/\s/g, '+')}`
+
+    console.log(ceps)
+    return ceps
 }
 
 function getDistance(origin, destination) {
@@ -135,7 +154,7 @@ module.exports = {
 
         
         try {
-            const geoCode = await getGeoCode(cep, neighborhood, city)
+            const geoCode = await getGeoCode({cep, neighborhood, city})
 
             req.body.latitude = geoCode.lat
             req.body.longitude = geoCode.lng

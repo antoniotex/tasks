@@ -49,9 +49,11 @@ export default function NewPoster() {
         setEditId(posterEditId)
     }, [])
 
-    // useEffect(() => {
-    //     setCategory({id: route.params.id, name:route.params.name})
-    // }, [route.params])
+    useEffect(() => {
+        if(route.params){
+            setCategory({id: route.params.id, name:route.params.name})
+        }
+    }, [route.params])
 
     useEffect(() => {
         if(cep.length > 8){
@@ -60,6 +62,7 @@ export default function NewPoster() {
     }, [cep])
 
     async function handleSubmit() {
+        setLoading(true)
         if(!title || !description || !cep || !state || !city || !neighborhood || !category.id){
             Toast.show('Todos os campos são obrigatórios')
             return
@@ -84,6 +87,7 @@ export default function NewPoster() {
         const storageUser = await AsyncStorage.getItem('@RNAuth:user');
 
         try {
+            console.log('chueguei submit: ', images)
             if (editId) {
                 const response = await api.post(`/posters/${editId}`, images, {
                     headers: {
@@ -189,9 +193,6 @@ export default function NewPoster() {
             console.log(error)
         }
     }
-
-    const { width } = Dimensions.get('window')
-    const height = width * .7
 
     return (
         <SafeAreaView style={{backgroundColor:'#fff'}}>

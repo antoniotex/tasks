@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useContext } from 'react'
-import { View, Text, SafeAreaView, TouchableOpacity, ScrollView } from 'react-native'
-import { useNavigation, useRoute, useFocusEffect } from '@react-navigation/native';
+import React from 'react'
+import { Text, SafeAreaView, TouchableOpacity, ScrollView } from 'react-native'
+import { useNavigation, useRoute } from '@react-navigation/native';
 
 import styles from './styles';
 
