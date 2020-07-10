@@ -35,7 +35,6 @@ export default function Home() {
         return (
             <View style={styles.container}>
                 <Header />
-                {posters.length == 0 && <Text>Nenhum anúncio encontrado para esta pesquisa</Text>}
                 <FlatList
                     style={styles.list}
                     data={posters}

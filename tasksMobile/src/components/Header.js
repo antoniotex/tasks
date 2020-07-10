@@ -5,7 +5,7 @@ import PosterContext from '../contexts/posters';
 import { useNavigation } from '@react-navigation/native';
 
 export default function Header() {
-    const { loadPosters, setLoading } = useContext(PosterContext);
+    const { loadPosters, setLoading, getLocation } = useContext(PosterContext);
 
     const navigation = useNavigation();
 

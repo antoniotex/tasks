@@ -26,23 +26,6 @@ export const PosterProvider = ({ children }) => {
             }
         }
 
-        async function getLocation(){
-            await Geolocation.getCurrentPosition(
-                position => {
-                  const initialPosition = position
-                  setInitialPosition(initialPosition);
-                },
-                error => {
-                    if(Platform.OS === 'ios'){
-                        Alert.alert('Error IOS ', JSON.stringify(error), {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000})
-                    }else{
-                        Alert.alert('Error ANDROID ', JSON.stringify(error), {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000})
-                    }
-                }
-              );
-        }
-
-        getLocation()
         loadStorageData()
     }, [])
 
@@ -50,18 +33,42 @@ export const PosterProvider = ({ children }) => {
         await setPosterEditId(id)
     }
 
+    async function getLocation(){
+        await Geolocation.getCurrentPosition(
+            async position => {
+              const initialPosition = position
+              await setInitialPosition(initialPosition);
+            },
+            error => {
+                if(Platform.OS === 'ios'){
+                    Alert.alert('Error IOS ', JSON.stringify(error), {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000})
+                }else{
+                    Alert.alert('Error ANDROID ', JSON.stringify(error), {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000})
+                }
+            }
+          );
+    }
+
     async function loadPosters(query) {
-        let { latitude, longitude } = initialPosition?.coords
+        Promise.all([
+            await getLocation()
+        ]).then(async result => {
+            if(initialPosition){
 
-        if(Platform.OS === 'ios' && initialPosition){
-            latitude = '-23.7709365'
-            longitude = '-46.7137812'
-        }
+                let { latitude, longitude } = initialPosition?.coords
+                
+                if(Platform.OS === 'ios' && !initialPosition){
+                    latitude = '-23.7709365'
+                    longitude = '-46.7137812'
+                }
+        
+                const search = query ? `search?query=${query}` : ''
+                const response = await api.get(`/posters${search ? '/search' : ''}/${latitude}/${longitude}`)
+        
+                await setPosters(response.data)
+            }
+        })
 
-        const search = query ? `search?query=${query}` : ''
-        const response = await api.get(`/posters${search ? '/search' : ''}/${latitude}/${longitude}`)
-
-        await setPosters(response.data)
         setLoading(false)
     }
 
@@ -75,7 +82,8 @@ export const PosterProvider = ({ children }) => {
             posters, loadPosters,
             categories, loadCategories,
             posterEditId, changePosterMode,
-            loading, setLoading
+            loading, setLoading,
+            getLocation
         }} >
             {children}
         </PosterContext.Provider>

@@ -11,7 +11,9 @@ class Poster extends Model {
             cep: DataTypes.STRING,
             state: DataTypes.STRING,
             city: DataTypes.STRING,
-            neighborhood: DataTypes.STRING
+            neighborhood: DataTypes.STRING,
+            latitude: DataTypes.STRING,
+            longitude: DataTypes.STRING
         }, {
             sequelize
         })
