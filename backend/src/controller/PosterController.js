@@ -29,7 +29,6 @@ async function formatAddress(posters){
     const city = posters.city.replace(/[\W\[\] ]/g,function(a){return map[a]||a})
     ceps += `${posters.cep},${neighborhood.replace(/\s/g, '+')},${city.replace(/\s/g, '+')}`
 
-    console.log(ceps)
     return ceps
 }
 

@@ -6,12 +6,14 @@ import AsyncStorage from '@react-native-community/async-storage';
 import { ScrollView } from 'react-native-gesture-handler';
 import Icon from 'react-native-vector-icons/AntDesign'
 import PosterContext from '../../contexts/posters';
+import AuthContext from '../../contexts/auth';
 import { useNavigation } from '@react-navigation/native';
 import styles from './styles'
 import moment from 'moment'
 import 'moment/locale/pt-br'
 
 export default function MyPosters() {
+    const { signOut } = useContext(AuthContext)
     const { loadPosters, changePosterMode, posterEditId, setLoading, loading } = useContext(PosterContext);
 
     const [posters, setPosters] = useState([])
@@ -49,6 +51,9 @@ export default function MyPosters() {
             setPosters(response.data)
             setLoading(false)
         } catch (error) {
+            if(error.response.status == 401)
+                signOut()
+                
             Toast.show(error.response.data.error)
         }
     }

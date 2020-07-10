@@ -105,6 +105,8 @@ export default function NewPoster() {
             navigation.navigate('MyPosters')
 
         } catch (error) {
+            if(error.response.status == 401)
+                signOut()
             console.log(error.response.data.error)
         }
     }
