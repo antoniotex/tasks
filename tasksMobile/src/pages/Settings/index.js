@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
-import { View, Text, Button, Alert } from 'react-native'
+import { Text, Alert, TouchableOpacity } from 'react-native'
+import Icon from 'react-native-vector-icons/AntDesign'
 
 import AuthContext from '../../contexts/auth';
 
@@ -18,8 +19,14 @@ export default function Settings() {
 
     return (
         <SafeAreaView style={styles.container}>
-            <Text>Configurações</Text>
-            <Button title="Sair" color="#E02041" onPress={handleSignout} />
+            <Text style={styles.pageTitle}>Configurações</Text>
+            <TouchableOpacity style={styles.setOption}>
+                <Text style={styles.setOptionText}>Dados pessoais</Text>
+                <Icon name="right" size={30} color="#f73859" />
+            </TouchableOpacity>
+            <TouchableOpacity onPress={handleSignout} style={styles.defaultButton}>
+                <Text style={styles.textDefaultButton}>Desconectar</Text>
+            </TouchableOpacity>
         </SafeAreaView>
     )
 }

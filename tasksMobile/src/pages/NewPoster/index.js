@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { Dimensions, Keyboard, View, FlatList,Text, TouchableOpacity, TextInput, Image, KeyboardAvoidingView, Platform, ScrollView, ActivityIndicator, SafeAreaView, ClippingRectangle } from 'react-native';
+import { Keyboard, View, FlatList,Text, TouchableOpacity, TextInput, Image, KeyboardAvoidingView, Platform, ScrollView, ActivityIndicator, SafeAreaView, ClippingRectangle } from 'react-native';
 import { useNavigation, useRoute } from '@react-navigation/native';
 import Toast from 'react-native-tiny-toast'
 import { TextInputMask } from 'react-native-masked-text'
@@ -87,7 +87,6 @@ export default function NewPoster() {
         const storageUser = await AsyncStorage.getItem('@RNAuth:user');
 
         try {
-            console.log('chueguei submit: ', images)
             if (editId) {
                 const response = await api.post(`/posters/${editId}`, images, {
                     headers: {

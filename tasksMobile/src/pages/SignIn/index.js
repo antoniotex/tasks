@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import { View, SafeAreaView, Dimensions, Text, TouchableOpacity, TextInput, Image, KeyboardAvoidingView, ActivityIndicator } from 'react-native';
+import { View, SafeAreaView, ScrollView, Dimensions, Text, TouchableOpacity, TextInput, Image, KeyboardAvoidingView, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/AntDesign'
 
@@ -21,7 +21,7 @@ export default function SignIn() {
     const { width } = Dimensions.get('window')
 
     return (
-        <SafeAreaView style={styles.container}>
+        <ScrollView style={styles.container}>
             <KeyboardAvoidingView style={styles.login}>
                 <Image source={logoImg} style={{width: width*.9, height:width*.5, alignSelf:'center'}} />
                 <Text style={styles.defaultText}>Entre com sua conta</Text>
@@ -69,6 +69,6 @@ export default function SignIn() {
             <TouchableOpacity style={styles.signup} onPress={() => navigation.navigate('Register')}>
                 <Text style={styles.signupText}>Não tem uma conta?  Clique para criar!</Text>
             </TouchableOpacity>
-        </SafeAreaView>
+        </ScrollView>
     );
 }

@@ -71,7 +71,6 @@ export default function Poster() {
                 <View style={styles.sectionBox}>
                     <Text style={styles.sectionTitle}>Contato</Text>
                 </View>
-                {console.log(poster.user)}
                 <Text style={styles.defaultText}>Anunciante: {poster.user.name}</Text>
                 <Text style={styles.defaultText}>
                     Telefone: {MaskService.toMask('cel-phone', poster.user.phone_number)}
