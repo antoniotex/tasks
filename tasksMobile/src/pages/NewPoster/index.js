@@ -15,6 +15,9 @@ import PosterContext from '../../contexts/posters';
 import api from '../../services/api';
 
 export default function NewPoster() {
+    const navigation = useNavigation();
+    const route = useRoute()
+
     const [title, setTitle] = useState('')
     const [description, setDescription] = useState('')
     const [cep, setCep] = useState('')
@@ -28,11 +31,8 @@ export default function NewPoster() {
     const [cepLoading, setCepLoading] = useState(false)
     
     const [imagesUpload, setImagesUpload] = useState([])
-    const { signed, register } = useContext(AuthContext);
     const { categories, loadCategories, posterEditId, loading, setLoading, changePosterMode } = useContext(PosterContext)
 
-    const navigation = useNavigation();
-    const route = useRoute()
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', async () => {
@@ -48,12 +48,6 @@ export default function NewPoster() {
     useEffect(() => {
         setEditId(posterEditId)
     }, [])
-
-    useEffect(() => {
-        if(route.params){
-            setCategory({id: route.params.id, name:route.params.name})
-        }
-    }, [route.params])
 
     useEffect(() => {
         if(cep.length > 8){
@@ -81,7 +75,7 @@ export default function NewPoster() {
         images.append('state', state)
         images.append('city', city)
         images.append('neighborhood', neighborhood)
-        images.append('category_id', category.id)
+        images.append('category_id', route.params ? route.params.id : category.id)
 
         const storageToken = await AsyncStorage.getItem('@RNAuth:token');
         const storageUser = await AsyncStorage.getItem('@RNAuth:user');
@@ -149,6 +143,7 @@ export default function NewPoster() {
     }
 
     async function editInputs() {
+        console.log('chamando de novo')
         const response = await api.get(`/posters/${posterEditId}`)
         changePosterMode(null)
         setTitle(response.data.title)

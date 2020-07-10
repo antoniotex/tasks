@@ -5,12 +5,13 @@ const styles = StyleSheet.create({
         flex: 1
     },
     counter: {
-        fontSize: 25,
-        marginVertical: 10,
-        textAlign:'center'
+        fontSize:35,
+        textAlign:'center',
+        color: '#f73859',
+        fontWeight:'bold',
+        marginBottom:20
     },
     list: {
-        borderTopWidth: .7,
         paddingVertical: 10,
     },
     card: {
