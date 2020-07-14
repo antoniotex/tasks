@@ -27,7 +27,6 @@ export default function NewPoster() {
     const [category, setCategory] = useState(null)
     const [imageIndex, setImageIndex] = useState(0)
     const [editId, setEditId] = useState(null)
-    const imageDefault = 'https://assets.zoom.us/images/en-us/desktop/generic/video-not-working.PNG'
     const [cepLoading, setCepLoading] = useState(false)
     
     const [imagesUpload, setImagesUpload] = useState([])
@@ -57,7 +56,7 @@ export default function NewPoster() {
 
     async function handleSubmit() {
         setLoading(true)
-        if(!title || !description || !cep || !state || !city || !neighborhood || !category.id){
+        if(!title || !description || !cep || !state || !city || !neighborhood || (!category && !route.params)){
             Toast.show('Todos os campos são obrigatórios')
             return
         }
@@ -68,6 +67,7 @@ export default function NewPoster() {
                 await images.append(`images`, imagesUpload[i])
             }
         }
+
 
         images.append('title', title)
         images.append('description', description)
@@ -96,11 +96,15 @@ export default function NewPoster() {
                     }
                 })
             }
+            setLoading(false)
             navigation.navigate('MyPosters')
 
         } catch (error) {
+            setLoading(false)
+            Toast.show('Ocorreu um erro, tente novamente mais tarde')
             if(error.response.status == 401)
                 signOut()
+
             console.log(error.response.data.error)
         }
     }
@@ -143,7 +147,6 @@ export default function NewPoster() {
     }
 
     async function editInputs() {
-        console.log('chamando de novo')
         const response = await api.get(`/posters/${posterEditId}`)
         changePosterMode(null)
         setTitle(response.data.title)
@@ -200,29 +203,29 @@ export default function NewPoster() {
                     data={imagesUpload}
                     horizontal
                     renderItem={({ item, index }) => (
-                        <View key={item.id} style={{...styles.imageBoxItem}}>
-                        <TouchableOpacity onPress={() => deleteImage(index)} style={{
-                            position: 'absolute',
-                            zIndex: 9999, right: 4, top: 4,
-                            backgroundColor: '#f73859',
-                            borderRadius: 15,
-                            width: 30,
-                            height: 30,
-                            justifyContent: 'center',
-                            alignItems: 'center'
-                            }}>
-                            <Icon name="delete" size={20} color="#fff" />
-                        </TouchableOpacity>
-                        <Image
-                            source={{ uri: item.uri }}
-                            style={styles.posterImage}
-                        />
+                        <View key={index} style={{...styles.imageBoxItem}}>
+                            <TouchableOpacity onPress={() => deleteImage(index)} style={{
+                                position: 'absolute',
+                                zIndex: 9999, right: 4, top: 4,
+                                backgroundColor: '#f73859',
+                                borderRadius: 15,
+                                width: 30,
+                                height: 30,
+                                justifyContent: 'center',
+                                alignItems: 'center'
+                                }}>
+                                <Icon name="delete" size={20} color="#fff" />
+                            </TouchableOpacity>
+                            <Image
+                                source={{ uri: item.uri }}
+                                style={styles.posterImage}
+                            />
                     </View>
                     )}
                     keyExtractor={item => item.id}
                 />
 
-                <TouchableOpacity style={styles.addFile} onPress={handlePicker} disabled={imagesUpload.length > 3}>
+                <TouchableOpacity style={styles.addFile} onPress={handlePicker} disabled={imagesUpload.length > 5}>
                     <Icon name="addfile" size={25} color="#E02041" />
                     <Text style={styles.addFileText}>Adicionar imagens {imagesUpload.length}/6</Text>
                 </TouchableOpacity>

@@ -12,11 +12,6 @@ export default function Home() {
     const { signOut, signed } = useContext(AuthContext)
     const navigation = useNavigation();
 
-    useEffect(() => {
-        setLoading(true)
-        loadPoster()
-    }, [])
-
     function handleSignout() {
         signOut();
     }
@@ -42,7 +37,7 @@ export default function Home() {
                     renderItem={({ item }) => <Card poster={item} />}
                     refreshing={false}
                     onRefresh={loadPosters}
-                    ListHeaderComponent={<Text style={styles.listTitle}>Anúncios Recentess</Text>}
+                    ListHeaderComponent={<Text style={styles.listTitle}>Anúncios Recentes</Text>}
                 />
             </View>
         )

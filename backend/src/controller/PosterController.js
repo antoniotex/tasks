@@ -13,7 +13,6 @@ async function getGeoCode(addressess){
         const response = await axios.get(
             `${apiGoogle}address=${address}&key=${process.env.API_KEY_GOOGLE}`, 
         )
-        console.log('result', response.data.results[0].geometry)
         return response.data.results[0].geometry.location
         
     } catch (error) {
@@ -47,7 +46,7 @@ function getDistance(origin, destination) {
 
 module.exports = {
     async index(req, res) {
-        const { latitude, longitude } = req.params
+        const { latitude, longitude } = req.query
         
         try {
             const posters = await Poster.findAll({
@@ -60,14 +59,15 @@ module.exports = {
                 ]
             })
 
-            await posters.map(async poster => {
-                const distance = await getDistance(
-                    { lat: latitude, lng: longitude },
-                    { lat: poster.latitude, lng: poster.longitude }
-                )
-                poster.dataValues.distance = distance
-            })
-
+            if(latitude && longitude){
+                await posters.map(async poster => {
+                    const distance = await getDistance(
+                        { lat: latitude, lng: longitude },
+                        { lat: poster.latitude, lng: poster.longitude }
+                    )
+                    poster.dataValues.distance = distance
+                })
+            }
 
             return res.json(posters)
         } catch (error) {
@@ -76,7 +76,7 @@ module.exports = {
     },
 
     async search(req, res) {
-        const { query } = req.query
+        const { query, latitude, longitude } = req.query
         const arrQuery = []
 
         for (let i = 0; i < query.split(' ').length; i++) {
@@ -90,7 +90,7 @@ module.exports = {
             )
         }
 
-        const poster = await Poster.findAll({
+        const posters = await Poster.findAll({
             attributes: { exclude: ['category_id', 'user_id', 'updatedAt'] },
             where: {
                 [Op.and]: arrQuery
@@ -103,7 +103,17 @@ module.exports = {
             ]
         })
 
-        return res.json(poster)
+        if(latitude && longitude){
+            await posters.map(async poster => {
+                const distance = await getDistance(
+                    { lat: latitude, lng: longitude },
+                    { lat: poster.latitude, lng: poster.longitude }
+                )
+                poster.dataValues.distance = distance
+            })
+        }
+
+        return res.json(posters)
     },
 
     async indexById(req, res) {
@@ -122,7 +132,7 @@ module.exports = {
 
             return res.json(poster)
         } catch (error) {
-            return res.status(400).json({ success: false })
+            return res.status(400).json({ success: false, route: 'IndexById' })
         }
     },
 

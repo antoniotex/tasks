@@ -42,7 +42,7 @@ export default function MyPosters() {
         const storageUser = await AsyncStorage.getItem('@RNAuth:user');
 
         try {
-            const response = await api.get(`/posters/user/${JSON.parse(storageUser).id}`, {
+            const response = await api.get(`/users/posters/${JSON.parse(storageUser).id}`, {
                 headers: {
                     'Content-Type': 'multipart/form-data;boundary=----WebKitFormBoundaryyrV7KO0BoCBuDbTL',
                     'Authorization': `Bearer ${storageToken}`

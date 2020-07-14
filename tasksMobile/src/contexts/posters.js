@@ -1,7 +1,8 @@
 import React, { createContext, useState, useEffect } from 'react';
-import { Alert, Platform } from 'react-native'
+import { Alert, Platform, PermissionsAndroid, ios } from 'react-native'
 import AsyncStorage from '@react-native-community/async-storage';
 import Geolocation from '@react-native-community/geolocation';
+import {check, PERMISSIONS, request, RESULTS} from 'react-native-permissions';
 import api from '../services/api';
 
 const PosterContext = createContext({ posters: [] });
@@ -11,7 +12,60 @@ export const PosterProvider = ({ children }) => {
     const [categories, setCategories] = useState([])
     const [loading, setLoading] = useState(true);
     const [posterEditId, setPosterEditId] = useState()
+    const [hasLocationPermission, setHasLocationPermission] = useState(null)
+    const [userPosition, setUserPosition] = useState(false)
     const [initialPosition, setInitialPosition] = useState(null)
+
+    async function getlocation(){
+        return new Promise((resolve, reject) => {
+            Geolocation.getCurrentPosition(
+                async position => {
+                    setUserPosition({
+                        latitude: position.coords.latitude,
+                        longitude: position.coords.longitude
+                    })
+                    resolve({ latitude: position.coords.latitude, longitude: position.coords.longitude })
+                },
+                error => {
+                    reject({success: false, errorCode: error.code, errorMessage: error.message})
+                }
+            )
+        })
+    }
+
+    async function checkGPSPermission(){
+        if(Platform.OS === 'ios'){
+            return new Promise((resolve, reject) => {
+                check(PERMISSIONS.IOS.LOCATION_WHEN_IN_USE)
+                  .then(async result => {
+                    if(result === 'blocked'){
+                        setHasLocationPermission(false)
+                        resolve({ success: false, permission:false })
+                    }else if(result === 'denied'){
+                        setHasLocationPermission(result != 'blocked')
+                        resolve({ success: true, permission: result != 'blocked' })
+                    }else{
+                        setHasLocationPermission(true)
+                        resolve({ success: true, permission:true })
+                    }
+                })
+            })
+        }else{
+            return new Promise((resolve, reject) => {
+                check(PERMISSIONS.ANDROID.ACCESS_FINE_LOCATION)
+                  .then(async result => {
+                    if(result === 'blocked'){
+                        setHasLocationPermission(false)
+                        resolve({ success: false, permission:false })
+                    }else if(result === 'denied'){
+                            resolve({ success: true, permission: result != 'blocked' })
+                    }else{
+                        resolve({ success: true, permission:true })
+                    }
+                })
+            })
+        }
+    }
 
     useEffect(() => {
         async function loadStorageData() {
@@ -26,6 +80,7 @@ export const PosterProvider = ({ children }) => {
             }
         }
 
+        loadPosters()
         loadStorageData()
     }, [])
 
@@ -33,38 +88,28 @@ export const PosterProvider = ({ children }) => {
         await setPosterEditId(id)
     }
 
-    async function getLocation(){
-        await Geolocation.getCurrentPosition(
-            async position => {
-              const initialPosition = position
-              await setInitialPosition(initialPosition);
-            },
-            error => {
-                if(Platform.OS === 'ios'){
-                    Alert.alert('Error IOS ', JSON.stringify(error), {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000})
-                }else{
-                    Alert.alert('Error ANDROID ', JSON.stringify(error), {enableHighAccuracy: true, timeout: 20000, maximumAge: 1000})
-                }
-            }
-          );
-    }
-
     async function loadPosters(query) {
-        Promise.all([
-            await getLocation()
-        ]).then(async result => {
-            if(initialPosition){
+        let latitude
+        let longitude
 
-                let { latitude, longitude } = initialPosition?.coords
-        
-                const search = query ? `search?query=${query}` : ''
-                const response = await api.get(`/posters${search ? '/search' : ''}/${latitude}/${longitude}`)
-        
-                await setPosters(response.data)
+        try {
+            const permission = await checkGPSPermission()
+            const location = await getlocation()
+    
+            if(permission.permission){
+                latitude = userPosition ? userPosition.latitude : location.latitude
+                longitude = userPosition ? userPosition.longitude : location.longitude
             }
-        })
+    
+        } catch (error) {
+            console.log('error', error)
+        }
+        const search = query ? `/search?query=${query}` : ''
+        const response = await api.get(`/posters${search ? search : '?'}${latitude ? `latitude=${latitude}&longitude=${longitude}` : ''}`)
+        
 
-        setLoading(false)
+        await setPosters(response.data)
+        setLoading(false) 
     }
 
     async function loadCategories() {
@@ -77,8 +122,7 @@ export const PosterProvider = ({ children }) => {
             posters, loadPosters,
             categories, loadCategories,
             posterEditId, changePosterMode,
-            loading, setLoading,
-            getLocation
+            loading, setLoading
         }} >
             {children}
         </PosterContext.Provider>

@@ -30,6 +30,18 @@
 	<string/>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string/>
+	
+	<key>NSCameraUsageDescription</key>
+	<string>TASK_CAMERA</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>TASK_ALWAYS_INUSE</string>
+	<key>NSLocationAlwaysUsageDescription</key>
+	<string>TASK_ALWAYS</string>
+	<key>NSLocationWhenInUseUsageDescription</key>
+	<string>TASK_INUSE</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>TASK_LIBRARY</string>
+
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSAllowsArbitraryLoads</key>
