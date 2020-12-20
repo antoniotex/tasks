@@ -16,7 +16,7 @@ var s3 = new aws.S3()
 const uploadS3 = multer({
   storage: multers3({
     s3: s3,
-    bucket: process.env.AWS_BUCKET || 'tasks-pornase',
+    bucket: process.env.AWS_BUCKET || 'iperto',
     acl: 'public-read',
     fileFilter: this.fileFilter,
     metadata: function (res, res, cb) {

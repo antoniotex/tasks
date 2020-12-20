@@ -9,7 +9,6 @@ import Icon from 'react-native-vector-icons/AntDesign'
 import DocumentPicker from 'react-native-document-picker';
 import AsyncStorage from '@react-native-community/async-storage';
 
-import AuthContext from '../../contexts/auth';
 import styles from './styles';
 import PosterContext from '../../contexts/posters';
 import api from '../../services/api';
@@ -68,7 +67,6 @@ export default function NewPoster() {
             }
         }
 
-
         images.append('title', title)
         images.append('description', description)
         images.append('cep', cep)
@@ -82,17 +80,17 @@ export default function NewPoster() {
 
         try {
             if (editId) {
-                const response = await api.post(`/posters/${editId}`, images, {
+                const response = await api.put(`/posters/${editId}`, images, {
                     headers: {
                         'Content-Type': 'multipart/form-data;boundary=----WebKitFormBoundaryyrV7KO0BoCBuDbTL',
-                        'Authorization': `Bearer ${storageToken}`
+                        // 'Authorization': `Bearer ${storageToken}`,
                     }
                 })
             } else {
-                const response = await api.post(`/${JSON.parse(storageUser).id}/posters`, images, {
+                const response = await api.post(`/posters/${JSON.parse(storageUser).id}`, images, {
                     headers: {
                         'Content-Type': 'multipart/form-data;boundary=----WebKitFormBoundaryyrV7KO0BoCBuDbTL',
-                        'Authorization': `Bearer ${storageToken}`
+                        // 'Authorization': `Bearer ${storageToken}`,
                     }
                 })
             }

@@ -49,12 +49,12 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
-    async function signIn(login) {
-        const emailValidate = await emailValidation(login.email)
-        if(!emailValidate){
-            Toast.show('Digite um e-mail válido')
-            return
-        }
+  async function signIn(login) {
+    const emailValidate = await emailValidation(login.email)
+    if(!emailValidate){
+      Toast.show('Digite um e-mail válido')
+      return
+    }
 
         if(!login.password){
             Toast.show('Você esqueceu de digitar sua senha')
@@ -78,9 +78,9 @@ export const AuthProvider = ({ children }) => {
         }
     }
 
-    function signOut() {
+    function signOut(msg = 'Você foi desconectado') {
         AsyncStorage.clear().then(() => {
-            Toast.show(`Você foi desconectado`)
+            Toast.show(msg)
             setUser(null);
         });
     }

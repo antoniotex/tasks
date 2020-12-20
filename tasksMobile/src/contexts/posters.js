@@ -105,7 +105,7 @@ export const PosterProvider = ({ children }) => {
             console.log('error', error)
         }
         const search = query ? `/search?query=${query}` : ''
-        const response = await api.get(`/posters${search ? search : '?'}${latitude ? `latitude=${latitude}&longitude=${longitude}` : ''}`)
+        const response = await api.get(`/posters${search ? search : '?'}${latitude ? `&latitude=${latitude}&longitude=${longitude}` : ''}`)
         
 
         await setPosters(response.data)

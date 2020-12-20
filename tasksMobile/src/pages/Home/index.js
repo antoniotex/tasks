@@ -30,6 +30,9 @@ export default function Home() {
         return (
             <View style={styles.container}>
                 <Header />
+                {!posters.length && <View style={styles.noPosters}>
+                    <Text style={styles.noPostersText}>Nenhum anúncio foi encontrado</Text>
+                </View>}
                 <FlatList
                     style={styles.list}
                     data={posters}
@@ -37,7 +40,11 @@ export default function Home() {
                     renderItem={({ item }) => <Card poster={item} />}
                     refreshing={false}
                     onRefresh={loadPosters}
-                    ListHeaderComponent={<Text style={styles.listTitle}>Anúncios Recentes</Text>}
+                    ListHeaderComponent={
+                        posters.length > 0 ?
+                        <Text style={styles.listTitle}>Anúncios Recentes</Text>
+                        : <Text></Text>
+                    }
                 />
             </View>
         )

@@ -5,9 +5,10 @@ const sgMail = require('@sendgrid/mail');
 
 require('dotenv/config')
 
-async function gerarToken(params = {}) {
+async function getToken(params = {}) {
     return jwt.sign(params, process.env.JWT_SECRET, {
-        expiresIn:86400
+        // expiresIn:86400
+        expiresIn:10
     })
 }
 async function getNumberId() {
@@ -31,7 +32,7 @@ module.exports = {
             const user = await User.create(req.body)
             user.password = undefined
 
-            return res.json({ user, token: await gerarToken({ id: user.id }) })
+            return res.json({ user, token: await getToken({ id: user.id }) })
 
         } catch (error) {
             return res.status(400).send({ error: 'Falha no registro' })
@@ -50,7 +51,7 @@ module.exports = {
 
         user.password = undefined
 
-        return res.json({ user, token: await gerarToken({ id: user.id }) })
+        return res.json({ user, token: await getToken({ id: user.id }) })
     },
     async forgotPassword(req, res){
         const { email } = req.body

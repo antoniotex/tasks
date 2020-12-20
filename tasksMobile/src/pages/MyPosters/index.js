@@ -22,7 +22,7 @@ export default function MyPosters() {
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', () => {
-            setLoading(true)
+            // setLoading(true)
             loadPostersByUser()
         })
         return unsubscribe
@@ -51,10 +51,9 @@ export default function MyPosters() {
             setPosters(response.data)
             setLoading(false)
         } catch (error) {
-            if(error.response.status == 401)
-                signOut()
-                
-            Toast.show(error.response.data.error)
+            if(error.response.status == 401){
+                signOut('Faça login novamente')
+            }
         }
     }
 

@@ -26,8 +26,8 @@ routes.get('/posters', PosterController.index)
 routes.get('/posters/search', PosterController.search)
 routes.get('/posters/:id', PosterController.indexById)
 
-routes.post('/posters/:user_id', uploads3.array('images', 4), PosterController.store)
-routes.put('/posters/:id', uploads3.array('images', 4), PosterController.update)
+routes.post('/posters/:user_id', uploads3.array('images', 6), PosterController.store)
+routes.put('/posters/:id', uploads3.array('images', 6), PosterController.update)
 
 routes.delete('/posters/:id', PosterController.delete)
 routes.delete('/posters/image/:image_id', PosterController.deleteImageById)

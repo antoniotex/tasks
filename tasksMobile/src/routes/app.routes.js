@@ -8,6 +8,7 @@ import Poster from '../pages/Poster'
 import MyPosters from '../pages/MyPosters'
 import Settings from '../pages/Settings';
 import Categories from '../pages/Categories';
+import Register from '../pages/Register';
 
 const AppStack = createDrawerNavigator();
 const PosterStack = createStackNavigator()
@@ -39,6 +40,20 @@ const NewPosterRoutes = () => {
     )
 }
 
+const SettingsRoutes = () => {
+    return (
+        <PosterStack.Navigator initialRouteName="Settings">
+            <AppStack.Screen name="Settings" component={Settings} options={{
+                title: 'Configurações',
+                headerShown:false
+            }} />
+            <AppStack.Screen name="Register" component={Register} options={{
+                title: 'Editar conta',
+            }} />
+        </PosterStack.Navigator>        
+    )
+}
+
 const AppRoutes = () => {
     return (
         <AppStack.Navigator drawerContentOptions={{
@@ -55,8 +70,9 @@ const AppRoutes = () => {
             <AppStack.Screen name="MyPosters" component={MyPosters} options={{
                 title: 'Meus anúncios'
             }} />
-            <AppStack.Screen name="Settings" component={Settings} options={{
+            <AppStack.Screen name="SettingsRoutes" component={SettingsRoutes} options={{
                 title: 'Configurações',
+                headerShown:false
             }} />
         </AppStack.Navigator>
     )

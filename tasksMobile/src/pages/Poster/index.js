@@ -25,7 +25,7 @@ export default function Poster() {
     return (
         <ScrollView>
             <View>
-                <ScrollView
+                { poster.images.length > 0 && <ScrollView
                     pagingEnabled
                     horizontal
                     onScroll={changeImage}
@@ -37,7 +37,7 @@ export default function Poster() {
                         ))
                     }
 
-                </ScrollView>
+                </ScrollView>}
                 <View style={{
                     flexDirection: 'row', justifyContent: 'center', width,
                     position: 'absolute', bottom: -15
